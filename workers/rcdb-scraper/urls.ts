@@ -32,5 +32,5 @@ export const getIdFromUrl = (url: string) => {
   if (match) {
     return parseInt(match[0]);
   }
-  return undefined;
+  return -1;
 };

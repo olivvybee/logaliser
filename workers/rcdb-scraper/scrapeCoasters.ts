@@ -3,12 +3,15 @@ import { fetchUrl } from './fetchUrl';
 import { scrapePaginatedItems } from './pagination';
 import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { toCamelCase } from './toCamelCase';
+import { findChangedItems } from './hashing';
 
 export const scrapeCoasters = async (filter?: Filter) => {
   const url = getUrl(Entity.Coaster, filter);
   const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
 
-  console.log(JSON.stringify(coasters, null, 2));
+  const changedCoasterIds = findChangedItems(coasters, Entity.Coaster);
+
+  // TODO: Shove them into a database
 };
 
 const scrapeCoasterPage = async (url: string) => {
