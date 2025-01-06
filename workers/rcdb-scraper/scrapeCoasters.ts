@@ -6,8 +6,10 @@ import { toCamelCase } from './toCamelCase';
 import { findChangedItems } from './hashing';
 
 export const scrapeCoasters = async (filter?: Filter) => {
-  const url = getUrl(Entity.Coaster, filter);
+  const url = getUrl(Entity.Coaster, filter) + `&ol=26088`;
   const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
+
+  console.log(JSON.stringify(coasters, null, 2));
 
   const changedCoasterIds = findChangedItems(coasters, Entity.Coaster);
 
