@@ -37,7 +37,7 @@ export const scrapePaginatedItems = async <T>(
 
   const items: T[] = [];
 
-  for (let page = 1; page <= 1; page++) {
+  for (let page = 1; page <= pageCount; page++) {
     const pageUrl = `${url}&page=${page}`;
     const pageHtml = await fetchUrl(pageUrl);
     const itemUrls = getItemUrlsForPage(pageHtml);

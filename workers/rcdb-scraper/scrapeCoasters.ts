@@ -4,6 +4,7 @@ import { scrapePaginatedItems } from './pagination';
 import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { toCamelCase } from './toCamelCase';
 import { findChangedItems } from './hashing';
+import { getLocation } from './getLocation';
 
 export const scrapeCoasters = async (filter?: Filter) => {
   const url = getUrl(Entity.Coaster, filter) + `&ol=26088`;
@@ -47,20 +48,6 @@ const scrapeCoasterPage = async (url: string) => {
     ).text(),
     location: getLocation($),
     ...getCoasterStats($),
-  };
-};
-
-const getLocation = ($: CheerioAPI) => {
-  const mapLink =
-    $('.map-tpl a[href^="https://www.google.com/maps/place"]').attr('href') ||
-    '';
-  const splitMapLink = mapLink.split('/');
-  const placeIndex = splitMapLink.indexOf('place');
-  const coords = splitMapLink[placeIndex + 1];
-  const [lat, lng] = coords.split(',');
-  return {
-    latitude: parseFloat(lat),
-    longitude: parseFloat(lng),
   };
 };
 
