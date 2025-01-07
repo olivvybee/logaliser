@@ -3,18 +3,25 @@ import { fetchUrl } from './fetchUrl';
 import { scrapePaginatedItems } from './pagination';
 import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { toCamelCase } from './toCamelCase';
-import { findChangedItems } from './hashing';
+import { exportHashes, findChangedItems } from './hashing';
 import { getLocation } from './getLocation';
 
 export const scrapeCoasters = async (filter?: Filter) => {
+  console.log('Scraping coasters...');
+
   const url = getUrl(Entity.Coaster, filter) + `&ol=26088`;
   const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
 
+  console.log(`Found data for ${coasters.length} coasters.`);
   console.log(JSON.stringify(coasters, null, 2));
 
-  const changedCoasterIds = findChangedItems(coasters, Entity.Coaster);
+  const { changedIds, hashes } = findChangedItems(coasters, Entity.Coaster);
+
+  console.log(`${changedIds.length} coasters need updating.`);
 
   // TODO: Shove them into a database
+
+  exportHashes(hashes, Entity.Coaster);
 };
 
 const scrapeCoasterPage = async (url: string) => {
@@ -46,7 +53,7 @@ const scrapeCoasterPage = async (url: string) => {
     design: $(
       '#feature ul:nth-of-type(1) > li:nth-of-type(3) a:nth-of-type(1)'
     ).text(),
-    location: getLocation($),
+    ...getLocation($),
     ...getCoasterStats($),
   };
 };

@@ -8,8 +8,10 @@ export const getLocation = ($: CheerioAPI) => {
   const placeIndex = splitMapLink.indexOf('place');
   const coords = splitMapLink[placeIndex + 1];
   const [lat, lng] = coords.split(',');
+  const latitude = parseFloat(lat);
+  const longitude = parseFloat(lng);
   return {
-    latitude: parseFloat(lat),
-    longitude: parseFloat(lng),
+    latitude: Number.isNaN(latitude) ? undefined : latitude,
+    longitude: Number.isNaN(longitude) ? undefined : longitude,
   };
 };

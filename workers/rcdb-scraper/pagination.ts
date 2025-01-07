@@ -33,6 +33,7 @@ export const scrapePaginatedItems = async <T>(
   const lastPageLink = $('#rfoot a:nth-of-type(3)');
   const pageCount = parseInt(lastPageLink.text());
 
+  const startTime = Date.now();
   progressBar.start(totalItemCount, 0);
 
   const items: T[] = [];
@@ -51,6 +52,12 @@ export const scrapePaginatedItems = async <T>(
   }
 
   progressBar.stop();
+  const endTime = Date.now();
+
+  const timeTakenMs = endTime - startTime;
+  const minutes = Math.floor(timeTakenMs / 60_000);
+  const seconds = Math.round((timeTakenMs % 60_000) / 1000);
+  console.log(`Scraping took ${minutes}m ${seconds}s.`);
 
   return items;
 };

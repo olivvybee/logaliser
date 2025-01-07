@@ -3,16 +3,27 @@ import { fetchUrl } from './fetchUrl';
 import { scrapePaginatedItems } from './pagination';
 import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { getLocation } from './getLocation';
-import { findChangedItems } from './hashing';
+import { exportHashes, findChangedItems } from './hashing';
+import { uploadData } from './uploadData';
 
 export const scrapeParks = async (filter?: Filter) => {
+  console.log('Scraping theme parks...');
+
   const url = getUrl(Entity.Park, filter);
   const parks = await scrapePaginatedItems(url, scrapeParkPage);
 
-  console.log(JSON.stringify(parks, null, 2));
-  console.log(parks.length);
+  console.log(`Found data for ${parks.length} parks.`);
 
-  const changedParkIds = findChangedItems(parks, Entity.Park);
+  const { changedIds, hashes } = findChangedItems(parks, Entity.Park);
+
+  console.log(`${changedIds.length} parks need updating.`);
+
+  const parksToUpload = parks.filter((park) => changedIds.includes(park.id));
+  if (parksToUpload.length > 0) {
+    await uploadData(Entity.Park, parksToUpload);
+  }
+
+  exportHashes(hashes, Entity.Park);
 };
 
 const scrapeParkPage = async (url: string) => {
@@ -23,6 +34,6 @@ const scrapeParkPage = async (url: string) => {
     id: getIdFromUrl(url),
     name: $('#feature h1').text(),
     country: $('#feature > div > a:last-of-type').text(),
-    location: getLocation($),
+    ...getLocation($),
   };
 };

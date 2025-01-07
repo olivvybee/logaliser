@@ -1,8 +1,17 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { config as loadEnv } from 'dotenv';
+
 import { Filter } from './urls';
 import { scrapeCoasters } from './scrapeCoasters';
 import { scrapeParks } from './scrapeParks';
+
+loadEnv();
+
+if (!process.env.LOGALISE_DB_API) {
+  console.error('LOGALISE_DB_API environment variable is missing');
+  process.exit(1);
+}
 
 const argv = yargs(hideBin(process.argv))
   .option('entity', {

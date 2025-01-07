@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { Entity } from './urls';
 
-interface Hashable {
+export interface Hashable {
   id: number;
 }
 
@@ -23,17 +23,16 @@ export const findChangedItems = <T extends Hashable>(
     {}
   );
 
-  exportHashes(
-    {
-      ...existingHashes,
-      ...newHashes,
-    },
-    entity
-  );
+  const hashes = {
+    ...existingHashes,
+    ...newHashes,
+  };
 
-  return Object.keys(newHashes)
+  const changedIds = Object.keys(newHashes)
     .map((id) => parseInt(id))
     .filter((id) => existingHashes[id] !== newHashes[id]);
+
+  return { changedIds, hashes };
 };
 
 const getExportPath = (entity: Entity) =>
@@ -54,7 +53,7 @@ const loadHashes = (entity: Entity): Hashes => {
   return {};
 };
 
-const exportHashes = (hashes: Hashes, entity: Entity) => {
+export const exportHashes = (hashes: Hashes, entity: Entity) => {
   const exportPath = getExportPath(entity);
   fs.writeFileSync(exportPath, JSON.stringify(hashes, null, 2));
 };
