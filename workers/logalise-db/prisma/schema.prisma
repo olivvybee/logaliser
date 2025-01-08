@@ -24,11 +24,13 @@ model ThemePark {
 model Coaster {
   id         Int     @id @unique
   name       String
-  opened     String
+  opened     String?
   latitude   Float?
   longitude  Float?
   make       String?
   model      String?
+  type       String?
+  design     String?
   length     Float?
   height     Float?
   speed      Float?
