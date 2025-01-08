@@ -10,7 +10,7 @@ import { uploadData } from './uploadData';
 export const scrapeCoasters = async (filter?: Filter) => {
   console.log('Scraping coasters...');
 
-  const url = getUrl(Entity.Coaster, filter) + `&ol=26088`;
+  const url = getUrl(Entity.Coaster, filter);
   const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
 
   console.log(`Found data for ${coasters.length} coasters.`);
