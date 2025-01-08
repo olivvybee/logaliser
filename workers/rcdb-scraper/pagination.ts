@@ -31,7 +31,8 @@ export const scrapePaginatedItems = async <T>(
     parseInt($('table.t-list tr:nth-child(2) td:nth-child(2)').text());
 
   const lastPageLink = $('#rfoot a:nth-of-type(3)');
-  const pageCount = parseInt(lastPageLink.text());
+  const lastPageNumber = parseInt(lastPageLink.text());
+  const pageCount = isNaN(lastPageNumber) ? 1 : lastPageNumber;
 
   const startTime = Date.now();
   progressBar.start(totalItemCount, 0);

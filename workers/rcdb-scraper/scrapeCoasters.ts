@@ -5,6 +5,7 @@ import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { toCamelCase } from './toCamelCase';
 import { exportHashes, findChangedItems } from './hashing';
 import { getLocation } from './getLocation';
+import { uploadData } from './uploadData';
 
 export const scrapeCoasters = async (filter?: Filter) => {
   console.log('Scraping coasters...');
@@ -13,13 +14,17 @@ export const scrapeCoasters = async (filter?: Filter) => {
   const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
 
   console.log(`Found data for ${coasters.length} coasters.`);
-  console.log(JSON.stringify(coasters, null, 2));
 
   const { changedIds, hashes } = findChangedItems(coasters, Entity.Coaster);
 
   console.log(`${changedIds.length} coasters need updating.`);
 
-  // TODO: Shove them into a database
+  const coastersToUpload = coasters.filter((coaster) =>
+    changedIds.includes(coaster.id)
+  );
+  if (coastersToUpload.length > 0) {
+    await uploadData(Entity.Coaster, coastersToUpload);
+  }
 
   exportHashes(hashes, Entity.Coaster);
 };
@@ -31,10 +36,9 @@ const scrapeCoasterPage = async (url: string) => {
   const status = $('#feature time[datetime]').prev().text();
   const previousStatuses = getPreviousStatuses($);
 
-  const opened =
-    status === 'Operating'
-      ? $('#feature time[datetime]').prop('datetime')
-      : getEarliestOperatedDate(previousStatuses || []);
+  const opened = ['Operating', 'Under Construction'].includes(status)
+    ? $('#feature time[datetime]').prop('datetime')
+    : getEarliestOperatedDate(previousStatuses || []);
 
   return {
     id: getIdFromUrl(url),
@@ -153,6 +157,15 @@ const getPreviousStatuses = ($: CheerioAPI) => {
     }
   });
 
+  if (statuses.length === 0 && status.from) {
+    if (status.from && !status.to) {
+      status.during = status.from;
+      status.from = undefined;
+    }
+
+    statuses.push(status);
+  }
+
   return statuses;
 };
 
@@ -160,6 +173,9 @@ const getEarliestOperatedDate = (previousStatuses: Status[]) => {
   const operatedStatuses = previousStatuses.filter(
     (status) => status.status === 'Operated'
   );
+  if (!operatedStatuses.length) {
+    return undefined;
+  }
   operatedStatuses.sort((a, b) =>
     (a.from || a.during || '') < (b.from || b.during || '') ? -1 : 1
   );
