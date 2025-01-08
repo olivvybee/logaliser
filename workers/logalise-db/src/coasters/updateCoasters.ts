@@ -27,23 +27,32 @@ export const updateCoasters = async (
   input: UpdateCoastersInput,
   db: PrismaClient
 ) => {
-  const updatedRecords = [];
+  const successfulUpdates = [];
+  const failedUpdates = [];
 
   for (let coaster of input) {
-    const result = await db.coaster.upsert({
-      where: {
-        id: coaster.id,
-      },
-      update: {
-        ...coaster,
-      },
-      create: {
-        ...coaster,
-      },
-    });
+    try {
+      const result = await db.coaster.upsert({
+        where: {
+          id: coaster.id,
+        },
+        update: {
+          ...coaster,
+        },
+        create: {
+          ...coaster,
+        },
+      });
 
-    updatedRecords.push(result);
+      successfulUpdates.push(result);
+    } catch (err) {
+      const error = err as Error;
+      failedUpdates.push({ data: coaster, error });
+    }
   }
 
-  return updatedRecords;
+  return {
+    successfulUpdates,
+    failedUpdates,
+  };
 };

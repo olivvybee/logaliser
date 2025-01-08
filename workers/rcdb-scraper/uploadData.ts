@@ -1,6 +1,11 @@
 import { Hashable } from './hashing';
 import { Entity } from './urls';
 
+interface UploadResponse {
+  successfulUpdates: Hashable[];
+  failedUpdates: Array<{ data: Hashable; error: Error }>;
+}
+
 export const uploadData = async (entity: Entity, items: Hashable[]) => {
   const path = entity === Entity.Park ? 'theme-parks' : 'coasters';
   const url = `${process.env.LOGALISE_DB_API}/${path}/update`;
@@ -15,10 +20,15 @@ export const uploadData = async (entity: Entity, items: Hashable[]) => {
   });
 
   if (!response.ok) {
-    const error = await response.json();
+    const error = await response.text();
     console.error(error);
     process.exit(1);
   }
 
-  console.log('Successfully uploaded data!');
+  const result = (await response.json()) as UploadResponse;
+  console.log(`Successful updates: ${result.successfulUpdates.length}`);
+  console.log(`Failed updates: ${result.failedUpdates.length}`);
+  result.failedUpdates.forEach((failedUpdate) => {
+    console.error(JSON.stringify(failedUpdate, null, 2));
+  });
 };

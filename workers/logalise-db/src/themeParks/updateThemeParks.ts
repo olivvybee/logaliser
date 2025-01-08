@@ -17,23 +17,32 @@ export const updateThemeParks = async (
   input: UpdateThemeParksInput,
   db: PrismaClient
 ) => {
-  const updatedRecords = [];
+  const successfulUpdates = [];
+  const failedUpdates = [];
 
   for (let park of input) {
-    const result = await db.themePark.upsert({
-      where: {
-        id: park.id,
-      },
-      update: {
-        ...park,
-      },
-      create: {
-        ...park,
-      },
-    });
+    try {
+      const result = await db.themePark.upsert({
+        where: {
+          id: park.id,
+        },
+        update: {
+          ...park,
+        },
+        create: {
+          ...park,
+        },
+      });
 
-    updatedRecords.push(result);
+      successfulUpdates.push(result);
+    } catch (err) {
+      const error = err as Error;
+      failedUpdates.push({ park, error });
+    }
   }
 
-  return updatedRecords;
+  return {
+    successfulUpdates,
+    failedUpdates,
+  };
 };
