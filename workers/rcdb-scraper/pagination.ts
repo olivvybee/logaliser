@@ -19,7 +19,8 @@ const getItemUrlsForPage = (html: string) => {
 
 export const scrapePaginatedItems = async <T>(
   url: string,
-  scrapeItem: (url: string) => Promise<T>
+  scrapeItem: (url: string) => Promise<T>,
+  limit?: number
 ) => {
   const progressBar = new SingleBar({}, Presets.shades_classic);
 
@@ -35,7 +36,7 @@ export const scrapePaginatedItems = async <T>(
   const pageCount = isNaN(lastPageNumber) ? 1 : lastPageNumber;
 
   const startTime = Date.now();
-  progressBar.start(totalItemCount, 0);
+  progressBar.start(limit || totalItemCount, 0);
 
   const items: T[] = [];
 
@@ -49,6 +50,10 @@ export const scrapePaginatedItems = async <T>(
       const item = await scrapeItem(url);
       items.push(item);
       progressBar.increment();
+    }
+
+    if (limit && items.length >= limit) {
+      break;
     }
   }
 

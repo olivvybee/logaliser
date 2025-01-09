@@ -6,11 +6,11 @@ import { getLocation } from './getLocation';
 import { exportHashes, findChangedItems } from './hashing';
 import { uploadData } from './uploadData';
 
-export const scrapeParks = async (filter?: Filter) => {
+export const scrapeParks = async (filter?: Filter, limit?: number) => {
   console.log('Scraping theme parks...');
 
   const url = getUrl(Entity.Park, filter);
-  const parks = await scrapePaginatedItems(url, scrapeParkPage);
+  const parks = await scrapePaginatedItems(url, scrapeParkPage, limit);
 
   console.log(`Found data for ${parks.length} parks.`);
 

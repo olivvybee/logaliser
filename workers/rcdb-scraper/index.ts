@@ -28,6 +28,9 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false,
   })
+  .option('limit', {
+    type: 'number',
+  })
   .parseSync();
 
 const filter = argv.onlyExisting
@@ -37,7 +40,7 @@ const filter = argv.onlyExisting
   : undefined;
 
 if (argv.entity === 'park') {
-  scrapeParks(filter);
+  scrapeParks(filter, argv.limit);
 } else {
-  scrapeCoasters(filter);
+  scrapeCoasters(filter, argv.limit);
 }

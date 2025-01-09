@@ -7,11 +7,11 @@ import { exportHashes, findChangedItems } from './hashing';
 import { getLocation } from './getLocation';
 import { uploadData } from './uploadData';
 
-export const scrapeCoasters = async (filter?: Filter) => {
+export const scrapeCoasters = async (filter?: Filter, limit?: number) => {
   console.log('Scraping coasters...');
 
   const url = getUrl(Entity.Coaster, filter);
-  const coasters = await scrapePaginatedItems(url, scrapeCoasterPage);
+  const coasters = await scrapePaginatedItems(url, scrapeCoasterPage, limit);
 
   console.log(`Found data for ${coasters.length} coasters.`);
 
