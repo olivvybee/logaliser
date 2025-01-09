@@ -62,7 +62,14 @@ const scrapeCoasterPage = async (url: string) => {
   };
 };
 
-const NUMERIC_STATS = ['Length', 'Height', 'Speed', 'Inversions'];
+const NUMERIC_STATS = [
+  'Length',
+  'Height',
+  'Speed',
+  'Inversions',
+  'Vertical angle',
+  'Drop',
+];
 const TIME_STATS = ['Duration'];
 const IGNORE_STATS = ['Former status'];
 
