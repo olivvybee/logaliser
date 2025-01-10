@@ -6,7 +6,17 @@ import { getLocation } from './getLocation';
 import { exportHashes, findChangedItems } from './hashing';
 import { uploadData } from './uploadData';
 
-export const scrapeParks = async (filter?: Filter, limit?: number) => {
+interface ScrapeParksArgs {
+  filter?: Filter;
+  limit?: number;
+  forceUpload?: boolean;
+}
+
+export const scrapeParks = async ({
+  filter,
+  limit,
+  forceUpload,
+}: ScrapeParksArgs) => {
   console.log('Scraping theme parks...');
 
   const url = getUrl(Entity.Park, filter);
@@ -21,6 +31,8 @@ export const scrapeParks = async (filter?: Filter, limit?: number) => {
   const parksToUpload = parks.filter((park) => changedIds.includes(park.id));
   if (parksToUpload.length > 0) {
     await uploadData(Entity.Park, parksToUpload);
+  } else if (forceUpload) {
+    await uploadData(Entity.Park, parks);
   }
 
   exportHashes(hashes, Entity.Park);

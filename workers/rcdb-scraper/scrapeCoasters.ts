@@ -7,7 +7,17 @@ import { exportHashes, findChangedItems } from './hashing';
 import { getLocation } from './getLocation';
 import { uploadData } from './uploadData';
 
-export const scrapeCoasters = async (filter?: Filter, limit?: number) => {
+interface ScrapeCoastersArgs {
+  filter?: Filter;
+  limit?: number;
+  forceUpload?: boolean;
+}
+
+export const scrapeCoasters = async ({
+  filter,
+  limit,
+  forceUpload,
+}: ScrapeCoastersArgs) => {
   console.log('Scraping coasters...');
 
   const url = getUrl(Entity.Coaster, filter);
@@ -24,6 +34,8 @@ export const scrapeCoasters = async (filter?: Filter, limit?: number) => {
   );
   if (coastersToUpload.length > 0) {
     await uploadData(Entity.Coaster, coastersToUpload);
+  } else if (forceUpload) {
+    await uploadData(Entity.Coaster, coasters);
   }
 
   exportHashes(hashes, Entity.Coaster);

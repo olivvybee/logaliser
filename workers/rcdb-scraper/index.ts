@@ -31,6 +31,10 @@ const argv = yargs(hideBin(process.argv))
   .option('limit', {
     type: 'number',
   })
+  .option('forceUpload', {
+    type: 'boolean',
+    default: false,
+  })
   .parseSync();
 
 const filter = argv.onlyExisting
@@ -39,8 +43,10 @@ const filter = argv.onlyExisting
   ? Filter.Defunct
   : undefined;
 
+const { limit, forceUpload } = argv;
+
 if (argv.entity === 'park') {
-  scrapeParks(filter, argv.limit);
+  scrapeParks({ filter, limit, forceUpload });
 } else {
-  scrapeCoasters(filter, argv.limit);
+  scrapeCoasters({ filter, limit, forceUpload });
 }
