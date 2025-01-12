@@ -17,6 +17,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.7
         version: 1.13.7(hono@4.6.16)
+      '@prisma/client':
+        specifier: 6.2.1
+        version: 6.2.1(prisma@6.1.0)
       hono:
         specifier: ^4.6.16
         version: 4.6.16
@@ -24,6 +27,9 @@ importers:
       '@types/node':
         specifier: ^20.17.10
         version: 20.17.10
+      prisma:
+        specifier: ^6.1.0
+        version: 6.1.0
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -55,6 +61,65 @@ importers:
       typescript:
         specifier: ^5
         version: 5.7.2
+
+  scripts/logalise-db:
+    dependencies:
+      '@hono/zod-validator':
+        specifier: ^0.4.2
+        version: 0.4.2(hono@4.6.16)(zod@3.24.1)
+      '@prisma/adapter-d1':
+        specifier: ^6.1.0
+        version: 6.1.0
+      '@prisma/client':
+        specifier: ^6.1.0
+        version: 6.1.0(prisma@6.1.0)
+      hono:
+        specifier: ^4.6.16
+        version: 4.6.16
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241230.0
+        version: 4.20241230.0
+      prisma:
+        specifier: ^6.1.0
+        version: 6.1.0
+      typescript:
+        specifier: ^5.5.2
+        version: 5.7.2
+      wrangler:
+        specifier: ^3.60.3
+        version: 3.99.0(@cloudflare/workers-types@4.20241230.0)
+
+  scripts/rcdb-scraper:
+    dependencies:
+      cheerio:
+        specifier: ^1.0.0
+        version: 1.0.0
+      cli-progress:
+        specifier: ^3.12.0
+        version: 3.12.0
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
+      yargs:
+        specifier: ^17.7.2
+        version: 17.7.2
+    devDependencies:
+      '@types/cli-progress':
+        specifier: ^3.11.6
+        version: 3.11.6
+      '@types/node':
+        specifier: ^20.17.10
+        version: 20.17.10
+      '@types/yargs':
+        specifier: ^17.0.33
+        version: 17.0.33
 
   workers/logalise-db:
     dependencies:
@@ -905,6 +970,19 @@ packages:
 
   /@prisma/client@6.1.0(prisma@6.1.0):
     resolution: {integrity: sha512-AbQYc5+EJKm1Ydfq3KxwcGiy7wIbm4/QbjCKWWoNROtvy7d6a3gmAGkKjK0iUCzh+rHV8xDhD5Cge8ke/kiy5Q==}
+    engines: {node: '>=18.18'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      prisma: 6.1.0
+    dev: false
+
+  /@prisma/client@6.2.1(prisma@6.1.0):
+    resolution: {integrity: sha512-msKY2iRLISN8t5X0Tj7hU0UWet1u0KuxSPHWuf3IRkB4J95mCvGpyQBfQ6ufcmvKNOMQSq90O2iUmJEN2e5fiA==}
     engines: {node: '>=18.18'}
     requiresBuild: true
     peerDependencies:

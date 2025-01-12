@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ThemePark {
+  id        Int    @id @unique
+  name      String
+  country   String
+  latitude  Float?
+  longitude Float?
+
+  coasters Coaster[]
+}
+
+model Coaster {
+  id            Int     @id @unique
+  name          String
+  opened        String?
+  latitude      Float?
+  longitude     Float?
+  make          String?
+  model         String?
+  type          String?
+  design        String?
+  length        Float?
+  height        Float?
+  drop          Float?
+  speed         Float?
+  verticalAngle Float?
+  inversions    Int?
+  duration      Int?
+
+  park   ThemePark @relation(fields: [parkId], references: [id])
+  parkId Int
+}
