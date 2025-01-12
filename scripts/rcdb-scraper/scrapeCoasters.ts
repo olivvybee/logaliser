@@ -79,7 +79,7 @@ const NUMERIC_STATS = [
   'Height',
   'Speed',
   'Inversions',
-  'Vertical angle',
+  'Vertical Angle',
   'Drop',
 ];
 const TIME_STATS = ['Duration'];
