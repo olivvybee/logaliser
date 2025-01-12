@@ -1,0 +1,19 @@
+{
+  "name": "@logaliser/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch ./index.ts",
+    "start": "tsx ./index.ts",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "hono": "^4.6.16"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}
