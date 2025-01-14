@@ -1,18 +1,18 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import { createActivity, createActivitySchema } from './createActivity';
-import { dbMiddleware } from '@/src/middleware/dbMiddleware';
+
+import { getDB } from '@/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { createActivity, createActivitySchema } from './createActivity';
 
 export const activitiesHandler = new Hono();
 
 activitiesHandler.post(
   '/',
   zValidator('json', createActivitySchema),
-  dbMiddleware,
   async (ctx) => {
     try {
-      const db = ctx.get('db');
+      const db = getDB();
       const result = await createActivity(ctx.req.valid('json'), db);
       return ctx.json(result);
     } catch (err) {
