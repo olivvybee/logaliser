@@ -4,8 +4,11 @@ import { Hono } from 'hono';
 import { getDB } from '@/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { createActivity, createActivitySchema } from './createActivity';
+import { coasterActivityHandler } from './coaster';
 
 export const activitiesHandler = new Hono();
+
+activitiesHandler.route('/coaster', coasterActivityHandler);
 
 activitiesHandler.post(
   '/',
