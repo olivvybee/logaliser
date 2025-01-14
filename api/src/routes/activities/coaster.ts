@@ -11,13 +11,14 @@ export const coasterActivityHandler = new Hono();
 const coasterActivitySchema = z.object({
   coasterId: z.number().int(),
   timestamp: z.string().datetime({ local: true }),
+  firstRide: z.boolean().optional(),
 });
 
 coasterActivityHandler.post(
   '/',
   zValidator('json', coasterActivitySchema),
   async (ctx) => {
-    const { coasterId, timestamp } = ctx.req.valid('json');
+    const { coasterId, timestamp, firstRide } = ctx.req.valid('json');
     const db = getDB();
 
     const coaster = await db.coaster.findUnique({ where: { id: coasterId } });
@@ -34,7 +35,9 @@ coasterActivityHandler.post(
         item: coasterId,
         startDate,
         endDate,
-        metadata: {},
+        metadata: {
+          firstRide,
+        },
       },
     });
 
