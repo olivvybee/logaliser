@@ -54,7 +54,7 @@ const scrapeCoasterPage = async (url: string) => {
 
   return {
     id: getIdFromUrl(url),
-    name: $('#feature h1').text(),
+    name: $('#feature h1').text().split(' / ')[0],
     parkId: getIdFromUrl(
       $('#feature > div > a:nth-of-type(1)').prop('href') || ''
     ),

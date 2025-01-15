@@ -44,7 +44,7 @@ const scrapeParkPage = async (url: string) => {
 
   return {
     id: getIdFromUrl(url),
-    name: $('#feature h1').text(),
+    name: $('#feature h1').text().split(' / ')[0],
     country: $('#feature > div > a:last-of-type').text(),
     ...getLocation($),
   };
