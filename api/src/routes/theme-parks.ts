@@ -6,21 +6,22 @@ import { getDB } from '@/db';
 
 export const themeParksHandler = new Hono();
 
+const searchSchema = z.object({
+  query: z.string(),
+  country: z.string().optional(),
+});
+
 themeParksHandler.get(
   '/search',
-  zValidator(
-    'query',
-    z.object({
-      query: z.string(),
-    })
-  ),
+  zValidator('query', searchSchema),
   async (ctx) => {
     const db = getDB();
-    const { query } = ctx.req.valid('query');
+    const { query, country } = ctx.req.valid('query');
 
     const parks = await db.themePark.findMany({
       where: {
         name: { contains: query },
+        country: { equals: country },
       },
       orderBy: { name: 'asc' },
       include: { coasters: true },
@@ -29,6 +30,20 @@ themeParksHandler.get(
     return ctx.json(parks);
   }
 );
+
+themeParksHandler.get('/countries', async (ctx) => {
+  const db = getDB();
+
+  const countryObjects = await db.themePark.findMany({
+    distinct: ['country'],
+    select: { country: true },
+    orderBy: { country: 'asc' },
+  });
+
+  const countries = countryObjects.map((obj) => obj.country);
+
+  return ctx.json(countries);
+});
 
 export const themeParkSchema = z.object({
   id: z.number().int(),

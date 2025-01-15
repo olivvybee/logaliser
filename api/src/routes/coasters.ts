@@ -68,21 +68,24 @@ coastersHandler.get(
   }
 );
 
+const searchSchema = z.object({
+  query: z.string(),
+  country: z.string().optional(),
+});
+
 coastersHandler.get(
   '/search',
-  zValidator(
-    'query',
-    z.object({
-      query: z.string(),
-    })
-  ),
+  zValidator('query', searchSchema),
   async (ctx) => {
     const db = getDB();
-    const { query } = ctx.req.valid('query');
+    const { query, country } = ctx.req.valid('query');
 
     const coasters = await db.coaster.findMany({
       where: {
         name: { contains: query },
+        park: {
+          country: { equals: country },
+        },
       },
       orderBy: {
         name: 'asc',
