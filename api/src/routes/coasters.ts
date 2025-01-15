@@ -68,6 +68,38 @@ coastersHandler.get(
   }
 );
 
+coastersHandler.get(
+  '/search',
+  zValidator(
+    'query',
+    z.object({
+      query: z.string(),
+    })
+  ),
+  async (ctx) => {
+    const db = getDB();
+    const { query } = ctx.req.valid('query');
+
+    const coasters = await db.coaster.findMany({
+      where: {
+        name: { contains: query },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+      include: {
+        park: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    return ctx.json(coasters);
+  }
+);
+
 const coasterSchema = z.object({
   id: z.number().int(),
   name: z.string(),

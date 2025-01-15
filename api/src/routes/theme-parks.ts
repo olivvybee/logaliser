@@ -6,6 +6,30 @@ import { getDB } from '@/db';
 
 export const themeParksHandler = new Hono();
 
+themeParksHandler.get(
+  '/search',
+  zValidator(
+    'query',
+    z.object({
+      query: z.string(),
+    })
+  ),
+  async (ctx) => {
+    const db = getDB();
+    const { query } = ctx.req.valid('query');
+
+    const parks = await db.themePark.findMany({
+      where: {
+        name: { contains: query },
+      },
+      orderBy: { name: 'asc' },
+      include: { coasters: true },
+    });
+
+    return ctx.json(parks);
+  }
+);
+
 export const themeParkSchema = z.object({
   id: z.number().int(),
   name: z.string(),
