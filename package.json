@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev --parallel",
-    "tsc": "turbo tsc"
+    "dev": "turbo dev --parallel"
   },
   "packageManager": "pnpm@8.15.7",
   "devDependencies": {
