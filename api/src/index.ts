@@ -7,6 +7,7 @@ import { config as loadEnv } from 'dotenv';
 import { themeParksHandler } from './routes/theme-parks';
 import { coastersHandler } from './routes/coasters';
 import { activitiesHandler } from './routes/activities';
+import { authMiddleware } from './middleware/authMiddleware';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -15,6 +16,7 @@ const app = new Hono();
 
 app.use(logger());
 app.use(prettyJSON());
+app.use(authMiddleware);
 
 app.route('/activities', activitiesHandler);
 app.route('/coasters', coastersHandler);
