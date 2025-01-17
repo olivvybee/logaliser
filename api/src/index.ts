@@ -22,6 +22,10 @@ app.route('/activities', activitiesHandler);
 app.route('/coasters', coastersHandler);
 app.route('/theme-parks', themeParksHandler);
 
+app.get('/auth', async (ctx) => {
+  return ctx.json({ valid: true });
+});
+
 serve(
   {
     ...app,
