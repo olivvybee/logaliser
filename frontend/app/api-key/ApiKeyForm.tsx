@@ -5,10 +5,16 @@ import { setCookie } from './setCookie';
 
 export const ApiKeyForm = () => {
   const [value, setValue] = useState('');
+  const [invalid, setInvalid] = useState(false);
 
   const onSave = async () => {
-    await setCookie(value);
-    window.location.pathname = '/';
+    setInvalid(false);
+    const success = await setCookie(value);
+    if (success) {
+      window.location.pathname = '/';
+    } else {
+      setInvalid(true);
+    }
   };
 
   return (
@@ -19,6 +25,8 @@ export const ApiKeyForm = () => {
         onChange={(e) => setValue(e.target.value)}
         placeholder="API key"
       />
+
+      {invalid && <div>Nope that's wrong</div>}
 
       <button type="submit">Save</button>
     </form>

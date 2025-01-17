@@ -1,5 +1,5 @@
 import { MiddlewareConfig, NextRequest, NextResponse } from 'next/server';
-import { LOGALISER_API_KEY_COOKIE_NAME } from './app/constants';
+import { LOGALISER_API_KEY_COOKIE_NAME } from './constants';
 
 export const middleware = (request: NextRequest) => {
   const cookie = request.cookies.get(LOGALISER_API_KEY_COOKIE_NAME);
