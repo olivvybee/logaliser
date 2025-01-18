@@ -1,34 +1,50 @@
 'use client';
 
 import { getNearbyCoasters } from '@/lib/logaliser-api/coasters';
-import { makeRequest } from '@/lib/logaliser-api/makeRequest';
-import { useMockGeolocation } from '@/utils/useMockGeolocation';
+import { Coaster } from '@/lib/logaliser-api/types';
 import { useQuery } from '@tanstack/react-query';
-import { useGeolocation } from '@uidotdev/usehooks';
+import { useGeolocation } from '@/hooks/useGeolocation';
 
-interface NearbyCoastersResultItem {
-  id: number;
-  name: string;
-  park: {
-    name: string;
-  };
+interface NearbyCoastersProps {
+  onSelectCoaster: (coaster: Coaster) => void;
 }
 
-export const NearbyCoasters = () => {
-  const { loading, error, latitude, longitude } = useMockGeolocation();
+export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
+  const {
+    loading: geolocationLoading,
+    error: geolocationError,
+    latitude,
+    longitude,
+  } = useGeolocation();
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading: coastersLoading,
+    error: coastersError,
+  } = useQuery({
     queryKey: ['nearby-coasters'],
     queryFn: () => getNearbyCoasters(latitude || -1, longitude || -1),
     enabled: !!latitude && !!longitude,
   });
 
-  if (loading) {
+  if (geolocationLoading) {
     return <div>Loading location...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.code}</div>;
+  if (geolocationError) {
+    return <div>Error: {geolocationError.code}</div>;
+  }
+
+  if (coastersLoading) {
+    return <div>Loading coasters...</div>;
+  }
+
+  if (!data || coastersError) {
+    return (
+      <div>
+        Error loading coasters: {JSON.stringify(coastersError, null, 2)}
+      </div>
+    );
   }
 
   return (
@@ -37,11 +53,13 @@ export const NearbyCoasters = () => {
         Latitude: {latitude}, Longitude: {longitude}
       </div>
 
-      {isLoading ? (
-        <div>Loading coasters...</div>
-      ) : (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      )}
+      {data.map((coaster) => (
+        <div key={coaster.id}>
+          <button onClick={() => onSelectCoaster(coaster)}>
+            {coaster.name} ({coaster.park.name})
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
