@@ -2,12 +2,14 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
+import { cors } from 'hono/cors';
 import { config as loadEnv } from 'dotenv';
 
 import { themeParksHandler } from './routes/theme-parks';
 import { coastersHandler } from './routes/coasters';
 import { activitiesHandler } from './routes/activities';
 import { authMiddleware } from './middleware/authMiddleware';
+import { checkCorsOrigin } from './utils/checkCorsOrigin';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -16,6 +18,11 @@ const app = new Hono();
 
 app.use(logger());
 app.use(prettyJSON());
+app.use(
+  cors({
+    origin: checkCorsOrigin,
+  })
+);
 app.use(authMiddleware);
 
 app.route('/activities', activitiesHandler);
