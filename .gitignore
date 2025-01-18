@@ -2,3 +2,5 @@
 node_modules
 hashes-*.json
 .env
+.DS_Store
+*.log
