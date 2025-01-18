@@ -8,11 +8,14 @@ interface UploadResponse {
 
 export const uploadData = async (entity: Entity, items: Hashable[]) => {
   const path = entity === Entity.Park ? 'theme-parks' : 'coasters';
-  const url = `${process.env.LOGALISE_DB_API}/${path}/import`;
+  const url = `${process.env.LOGALISER_API_URL}/${path}/import`;
+
+  const apiKey = process.env.LOGALISER_API_KEY;
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },

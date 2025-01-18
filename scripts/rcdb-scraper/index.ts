@@ -8,8 +8,13 @@ import { scrapeParks } from './scrapeParks';
 
 loadEnv();
 
-if (!process.env.LOGALISE_DB_API) {
-  console.error('LOGALISE_DB_API environment variable is missing');
+if (!process.env.LOGALISER_API_URL) {
+  console.error('LOGALISER_API_URL environment variable is missing');
+  process.exit(1);
+}
+
+if (!process.env.LOGALISER_API_KEY) {
+  console.error('LOGALISER_API_KEY environment variable is missing');
   process.exit(1);
 }
 
