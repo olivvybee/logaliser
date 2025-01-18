@@ -7,14 +7,17 @@ export class RequestError extends Error {
   }
 }
 
-export const makeRequest = async (path: string, apiKey: string) => {
-  const baseUrl = process.env.LOGALISER_API_URL;
+export const makeRequest = async <TData>(
+  path: string,
+  apiKey: string | undefined
+) => {
+  const baseUrl = process.env.NEXT_PUBLIC_LOGALISER_API_URL;
   const normalisedPath = path.startsWith('/') ? path : `/${path}`;
   const url = `${baseUrl}${normalisedPath}`;
 
   const response = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey || 'not-set'}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
@@ -26,5 +29,5 @@ export const makeRequest = async (path: string, apiKey: string) => {
   }
 
   const json = await response.json();
-  return json;
+  return json as TData;
 };
