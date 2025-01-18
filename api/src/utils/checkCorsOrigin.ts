@@ -3,10 +3,5 @@ export const checkCorsOrigin = (origin: string) => {
     return origin;
   }
 
-  const allowedOrigins = process.env.CORS_ORIGINS?.split(';') || [];
-  if (allowedOrigins.includes(origin)) {
-    return origin;
-  }
-
   return '';
 };

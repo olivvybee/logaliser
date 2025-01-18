@@ -13,6 +13,7 @@ import { checkCorsOrigin } from './utils/checkCorsOrigin';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
+const CORS_ORIGINS = process.env.CORS_ORIGINS?.split(';');
 
 const app = new Hono();
 
@@ -20,7 +21,7 @@ app.use(logger());
 app.use(prettyJSON());
 app.use(
   cors({
-    origin: checkCorsOrigin,
+    origin: CORS_ORIGINS || checkCorsOrigin,
   })
 );
 app.use(authMiddleware);
