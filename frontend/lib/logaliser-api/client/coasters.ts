@@ -1,8 +1,8 @@
 'use client';
 
-import { makeRequest } from './makeRequest';
-import { Coaster } from './types';
-import { getClientSideCookie } from './cookie/getClientSideCookie';
+import { makeRequest } from '../makeRequest';
+import { Coaster } from '../types';
+import { getClientSideCookie } from './getClientSideCookie';
 
 export const getNearbyCoasters = async (
   latitude: number,
