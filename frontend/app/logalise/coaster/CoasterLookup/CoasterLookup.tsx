@@ -3,6 +3,7 @@
 import { Coaster } from '@/lib/logaliser-api/types';
 import { NearbyCoasters } from './NearbyCoasters';
 import { useState } from 'react';
+import { CoasterSearch } from './CoasterSearch';
 
 interface CoasterLookupProps {
   countries: string[];
@@ -21,8 +22,11 @@ export const CoasterLookup = ({ countries }: CoasterLookupProps) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <NearbyCoasters onSelectCoaster={setSelectedCoaster} />;
-      <pre>{JSON.stringify(countries, null, 2)}</pre>
+      <NearbyCoasters onSelectCoaster={setSelectedCoaster} />
+      <CoasterSearch
+        onSelectCoaster={setSelectedCoaster}
+        countries={countries}
+      />
     </div>
   );
 };

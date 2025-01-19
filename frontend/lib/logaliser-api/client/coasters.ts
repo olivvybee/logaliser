@@ -14,7 +14,23 @@ export const getNearbyCoasters = async (
     lat: latitude.toString(),
     lng: longitude.toString(),
   });
+
   const path = `/coasters/nearby?${params.toString()}`;
+
+  return makeRequest<Coaster[]>(path, apiKey);
+};
+
+export const searchForCoasters = async (query: string, country?: string) => {
+  const apiKey = getClientSideCookie();
+
+  const params = new URLSearchParams({
+    query,
+  });
+  if (country) {
+    params.set('country', country);
+  }
+
+  const path = `/coasters/search?${params.toString()}`;
 
   return makeRequest<Coaster[]>(path, apiKey);
 };
