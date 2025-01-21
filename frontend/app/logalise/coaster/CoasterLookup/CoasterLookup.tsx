@@ -1,32 +1,18 @@
-'use client';
-
 import { Coaster } from '@/lib/logaliser-api/types';
 import { NearbyCoasters } from './NearbyCoasters';
-import { useState } from 'react';
 import { CoasterSearch } from './CoasterSearch';
 
 interface CoasterLookupProps {
-  countries: string[];
+  onSelectCoaster: (coaster: Coaster) => void;
 }
 
-export const CoasterLookup = ({ countries }: CoasterLookupProps) => {
-  const [selectedCoaster, setSelectedCoaster] = useState<Coaster>();
-
-  if (selectedCoaster) {
-    return (
-      <div>
-        Selected {selectedCoaster.name} at {selectedCoaster.park.name}
-      </div>
-    );
-  }
-
+export const CoasterLookup = ({
+  onSelectCoaster: selectCoaster,
+}: CoasterLookupProps) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <NearbyCoasters onSelectCoaster={setSelectedCoaster} />
-      <CoasterSearch
-        onSelectCoaster={setSelectedCoaster}
-        countries={countries}
-      />
+      <NearbyCoasters onSelectCoaster={selectCoaster} />
+      <CoasterSearch onSelectCoaster={selectCoaster} />
     </div>
   );
 };

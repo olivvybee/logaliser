@@ -1,8 +1,22 @@
 'use client';
 
 import { makeRequest } from '../makeRequest';
-import { Coaster } from '../types';
+import { Coaster, CoasterActivity } from '../types';
 import { getClientSideCookie } from './getClientSideCookie';
+
+export const createCoasterActivity = async (
+  coasterId: number,
+  firstRide: boolean
+) => {
+  const apiKey = getClientSideCookie();
+
+  const body = {
+    coasterId,
+    firstRide,
+  };
+
+  await makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
+};
 
 export const getNearbyCoasters = async (
   latitude: number,
@@ -18,6 +32,12 @@ export const getNearbyCoasters = async (
   const path = `/coasters/nearby?${params.toString()}`;
 
   return makeRequest<Coaster[]>(path, apiKey);
+};
+
+export const getCountryList = async () => {
+  const apiKey = getClientSideCookie();
+
+  return makeRequest<string[]>('/theme-parks/countries', apiKey);
 };
 
 export const searchForCoasters = async (query: string, country?: string) => {

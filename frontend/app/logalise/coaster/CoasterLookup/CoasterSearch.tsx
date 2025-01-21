@@ -1,21 +1,25 @@
 'use client';
 
-import { searchForCoasters } from '@/lib/logaliser-api/client/coasters';
+import {
+  getCountryList,
+  searchForCoasters,
+} from '@/lib/logaliser-api/client/coasters';
 import { Coaster } from '@/lib/logaliser-api/types';
 import { useQuery } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 
 interface CoasterSearchProps {
-  countries: string[];
   onSelectCoaster: (coaster: Coaster) => void;
 }
 
-export const CoasterSearch = ({
-  countries,
-  onSelectCoaster,
-}: CoasterSearchProps) => {
+export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
   const [country, setCountry] = useState<string>('');
   const [query, setQuery] = useState<string>('');
+
+  const { data: countriesData, isLoading: countriesLoading } = useQuery({
+    queryKey: ['coaster-countries'],
+    queryFn: () => getCountryList(),
+  });
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['coaster-search'],
@@ -28,6 +32,8 @@ export const CoasterSearch = ({
     refetch();
   };
 
+  const countries = countriesData || [];
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -36,7 +42,10 @@ export const CoasterSearch = ({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <select value={country} onChange={(e) => setCountry(e.target.value)}>
+        <select
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          disabled={countriesLoading}>
           <option value="">---</option>
           {countries.map((country) => (
             <option key={country} value={country}>

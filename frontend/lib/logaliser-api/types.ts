@@ -20,3 +20,25 @@ export interface Coaster {
     name: string;
   };
 }
+
+export enum ActivityType {
+  Coaster = 'Coaster',
+}
+
+interface BaseActivity {
+  id: number;
+  startDate: string;
+  endDate: string;
+  type: ActivityType;
+  item: number;
+  metadata: unknown;
+}
+
+export interface CoasterActivity extends BaseActivity {
+  type: ActivityType.Coaster;
+  metadata: {
+    firstRide?: boolean;
+  };
+}
+
+export type Activity = CoasterActivity;

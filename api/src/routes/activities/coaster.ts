@@ -10,7 +10,7 @@ export const coasterActivityHandler = new Hono();
 
 const coasterActivitySchema = z.object({
   coasterId: z.number().int(),
-  timestamp: z.string().datetime({ local: true }),
+  timestamp: z.string().datetime({ local: true }).optional(),
   firstRide: z.boolean().optional(),
 });
 
@@ -26,7 +26,7 @@ coasterActivityHandler.post(
       return ctx.json({ error: `Coaster with id ${coasterId} not found` }, 400);
     }
 
-    const endDate = new Date(timestamp);
+    const endDate = timestamp ? new Date(timestamp) : new Date();
     const startDate = subSeconds(endDate, coaster.duration || 0);
 
     const activity = await db.activity.create({
