@@ -7,6 +7,7 @@ import { CoasterLookup } from './CoasterLookup';
 import { useMutation } from '@tanstack/react-query';
 import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 import { Formik, Form, Field } from 'formik';
+import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
 
 interface LogaliseCoasterMutationVariables {
   coasterId: number;
@@ -16,29 +17,38 @@ interface LogaliseCoasterMutationVariables {
 const LogaliseCoasterPage = () => {
   const [selectedCoaster, setSelectedCoaster] = useState<Coaster>();
 
-  const { mutate, isPending } = useMutation({
+  const {
+    mutate: createActivity,
+    isPending: createActivityPending,
+    error: createActivityError,
+  } = useMutation({
     mutationFn: ({ coasterId, firstRide }: LogaliseCoasterMutationVariables) =>
       createCoasterActivity(coasterId, firstRide),
+  });
+
+  const {
+    mutate: markRidden,
+    isPending: markRiddenPending,
+    error: markRiddenError,
+  } = useMutation({
+    mutationFn: (coasterId: number) => markCoasterRidden(coasterId),
   });
 
   if (!selectedCoaster) {
     return <CoasterLookup onSelectCoaster={setSelectedCoaster} />;
   }
 
-  const onSubmit = (data: FormData) => {
-    console.log({
-      coasterId: selectedCoaster.id,
-      firstRide: data.get('firstRide'),
-    });
-  };
-
   return (
     <Formik
       initialValues={{ firstRide: false }}
-      onSubmit={({ firstRide }) =>
-        mutate({ coasterId: selectedCoaster.id, firstRide })
-      }>
-      <Form action={onSubmit}>
+      onSubmit={({ firstRide }) => {
+        createActivity({ coasterId: selectedCoaster.id, firstRide });
+        if (firstRide) {
+          // Disabled until roller-coaster-tracker uses rcdb ids
+          // markRidden(selectedCoaster.id);
+        }
+      }}>
+      <Form>
         <div>
           Selected {selectedCoaster.name} at {selectedCoaster.park.name}
         </div>
