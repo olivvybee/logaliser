@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/Button';
 import {
   getCountryList,
   searchForCoasters,
@@ -53,7 +54,7 @@ export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
             </option>
           ))}
         </select>
-        <button type="submit">Search</button>
+        <Button type="submit">Search</Button>
       </form>
 
       {isLoading && <div>Coasters loading...</div>}
@@ -62,9 +63,9 @@ export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
         <div>
           {data.map((coaster) => (
             <div key={coaster.id}>
-              <button onClick={() => onSelectCoaster(coaster)}>
+              <Button onClick={() => onSelectCoaster(coaster)}>
                 {coaster.name} ({coaster.park.name})
-              </button>
+              </Button>
             </div>
           ))}
         </div>

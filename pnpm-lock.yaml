@@ -57,6 +57,9 @@ importers:
       '@uidotdev/usehooks':
         specifier: ^2.4.1
         version: 2.4.1(react-dom@19.0.0)(react@19.0.0)
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       formik:
         specifier: ^2.4.6
         version: 2.4.6(react@19.0.0)
@@ -767,6 +770,10 @@ packages:
       parse5-parser-stream: 7.1.2
       undici: 6.21.0
       whatwg-mimetype: 4.0.0
+    dev: false
+
+  /classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
     dev: false
 
   /cli-progress@3.12.0:
