@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './theme.css';
 
+import styles from './layout.module.css';
+
 import { Providers } from './Providers';
 
 export const metadata: Metadata = {
@@ -17,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <div className={styles.contentWrapper}>
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
