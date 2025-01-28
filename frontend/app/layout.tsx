@@ -6,6 +6,7 @@ import './theme.css';
 import styles from './layout.module.css';
 
 import { Providers } from './Providers';
+import { TabBar } from '@/components/TabBar/TabBar';
 
 export const metadata: Metadata = {
   title: 'Logaliser',
@@ -19,9 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className={styles.contentWrapper}>
-          <Providers>{children}</Providers>
-        </div>
+        <Providers>
+          <div className={styles.contentWrapper}>{children}</div>
+          <TabBar />
+        </Providers>
       </body>
     </html>
   );
