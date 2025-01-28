@@ -11,6 +11,9 @@ import { PropsWithChildren } from 'react';
 
 export const metadata: Metadata = {
   title: 'Logaliser',
+  appleWebApp: {
+    capable: true,
+  },
 };
 
 export const viewport: Viewport = {
