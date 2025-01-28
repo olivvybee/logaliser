@@ -1,5 +1,5 @@
 .contentWrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding-bottom: 112px;
+  padding-bottom: calc(88px + 4px + 16px + env(safe-area-inset-bottom));
 }
