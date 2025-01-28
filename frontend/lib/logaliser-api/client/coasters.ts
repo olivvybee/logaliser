@@ -18,6 +18,10 @@ export const createCoasterActivity = async (
   return makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
 };
 
+export const duplicateCoasterActivity = async (activity: CoasterActivity) => {
+  return createCoasterActivity(activity.item, false);
+};
+
 export const getNearbyCoasters = async (
   latitude: number,
   longitude: number
