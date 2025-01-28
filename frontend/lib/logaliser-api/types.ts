@@ -39,6 +39,7 @@ export interface CoasterActivity extends BaseActivity {
   metadata: {
     firstRide?: boolean;
   };
+  coaster: Coaster;
 }
 
 export type Activity = CoasterActivity;

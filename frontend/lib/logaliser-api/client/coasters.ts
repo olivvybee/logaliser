@@ -15,7 +15,7 @@ export const createCoasterActivity = async (
     firstRide,
   };
 
-  await makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
+  return makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
 };
 
 export const getNearbyCoasters = async (
