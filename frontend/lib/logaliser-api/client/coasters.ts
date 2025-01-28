@@ -2,13 +2,13 @@
 
 import { makeRequest } from '../makeRequest';
 import { Coaster, CoasterActivity } from '../types';
-import { getClientSideCookie } from './getClientSideCookie';
+import { getApiKey } from './getApiKey';
 
 export const createCoasterActivity = async (
   coasterId: number,
   firstRide: boolean
 ) => {
-  const apiKey = getClientSideCookie();
+  const apiKey = getApiKey();
 
   const body = {
     coasterId,
@@ -26,7 +26,7 @@ export const getNearbyCoasters = async (
   latitude: number,
   longitude: number
 ) => {
-  const apiKey = getClientSideCookie();
+  const apiKey = getApiKey();
 
   const params = new URLSearchParams({
     lat: latitude.toString(),
@@ -39,13 +39,13 @@ export const getNearbyCoasters = async (
 };
 
 export const getCountryList = async () => {
-  const apiKey = getClientSideCookie();
+  const apiKey = getApiKey();
 
   return makeRequest<string[]>('/theme-parks/countries', apiKey);
 };
 
 export const searchForCoasters = async (query: string, country?: string) => {
-  const apiKey = getClientSideCookie();
+  const apiKey = getApiKey();
 
   const params = new URLSearchParams({
     query,
