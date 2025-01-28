@@ -35,6 +35,14 @@
   }
 }
 
+.leftTab {
+  padding-right: 32px;
+}
+
+.rightTab {
+  padding-left: 32px;
+}
+
 .logaliseButton {
   background-color: var(--primary);
   width: 96px;
