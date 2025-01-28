@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { sub, startOfDay } from 'date-fns';
 import _groupBy from 'lodash/groupBy';
+import _sortBy from 'lodash/sortBy';
 
 import { getDB } from '@/db';
 import { extendActivities } from '@/db/extendActivities';
@@ -23,7 +24,10 @@ recentActivityHandler.get('/', async (ctx) => {
 
   const extendedActivities = await extendActivities(recentActivities);
 
-  const activitiesByDay = _groupBy(extendedActivities, (activity) =>
+  const sortedActivities = _sortBy(extendedActivities, ['endDate', 'asc']);
+  sortedActivities.reverse();
+
+  const activitiesByDay = _groupBy(sortedActivities, (activity) =>
     activity.endDate.toISOString().slice(0, 10)
   );
 
