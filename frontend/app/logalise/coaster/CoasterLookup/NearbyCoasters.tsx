@@ -13,8 +13,7 @@ export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
   const {
     loading: geolocationLoading,
     error: geolocationError,
-    latitude,
-    longitude,
+    geolocation,
   } = useGeolocation();
 
   const {
@@ -23,8 +22,12 @@ export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
     error: coastersError,
   } = useQuery({
     queryKey: ['nearby-coasters'],
-    queryFn: () => getNearbyCoasters(latitude || -1, longitude || -1),
-    enabled: !!latitude && !!longitude,
+    queryFn: () =>
+      getNearbyCoasters(
+        geolocation?.latitude || -1,
+        geolocation?.longitude || -1
+      ),
+    enabled: !!geolocation,
   });
 
   if (geolocationLoading) {
@@ -50,7 +53,7 @@ export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
   return (
     <div>
       <div>
-        Latitude: {latitude}, Longitude: {longitude}
+        <pre>{JSON.stringify(geolocation, null, 2)}</pre>
       </div>
 
       {data.map((coaster) => (
