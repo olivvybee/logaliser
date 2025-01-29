@@ -14,14 +14,29 @@
   min-width: 40px;
 }
 
-.button:hover {
-  background-color: var(--primary-hover);
-  color: #ffffff;
+.primary {
+  background-color: var(--primary);
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+
+  &:active {
+    background-color: var(--primary-active);
+  }
 }
 
-.button:active {
-  background-color: var(--primary-active);
-  color: #ffffff;
+.secondary {
+  background-color: var(--secondary);
+  border: 1px solid var(--primary);
+
+  &:hover {
+    background-color: var(--secondary-hover);
+  }
+
+  &:active {
+    background-color: var(--secondary-active);
+  }
 }
 
 .button:disabled,
@@ -29,7 +44,6 @@
 .button:active:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: var(--primary);
 }
 
 .contentWithIcon {

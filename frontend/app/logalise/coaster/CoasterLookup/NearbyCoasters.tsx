@@ -5,6 +5,10 @@ import { Coaster } from '@/lib/logaliser-api/types';
 import { useQuery } from '@tanstack/react-query';
 import { useGeolocation } from '@/hooks/useGeolocation';
 
+import { CoasterSelectionButton } from './CoasterSelectionButton';
+
+import styles from './NearbyCoasters.module.css';
+
 interface NearbyCoastersProps {
   onSelectCoaster: (coaster: Coaster) => void;
 }
@@ -52,17 +56,16 @@ export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
 
   return (
     <div>
-      <div>
-        <pre>{JSON.stringify(geolocation, null, 2)}</pre>
+      <h2>Nearby coasters</h2>
+      <div className={styles.coasterList}>
+        {data.map((coaster) => (
+          <CoasterSelectionButton
+            key={coaster.id}
+            coaster={coaster}
+            onClick={() => onSelectCoaster(coaster)}
+          />
+        ))}
       </div>
-
-      {data.map((coaster) => (
-        <div key={coaster.id}>
-          <button onClick={() => onSelectCoaster(coaster)}>
-            {coaster.name} ({coaster.park.name})
-          </button>
-        </div>
-      ))}
     </div>
   );
 };

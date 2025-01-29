@@ -10,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   small?: boolean;
+  theme?: 'primary' | 'secondary';
 }
 
 export const Button = ({
@@ -19,9 +20,10 @@ export const Button = ({
   disabled,
   type = 'button',
   small,
+  theme = 'primary',
 }: ButtonProps) => (
   <button
-    className={classNames(styles.button, className, {
+    className={classNames(styles.button, styles[theme], className, {
       [styles.smallButton]: small,
     })}
     onClick={onClick}
