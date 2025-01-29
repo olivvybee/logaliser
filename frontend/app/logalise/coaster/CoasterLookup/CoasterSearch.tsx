@@ -1,5 +1,7 @@
 'use client';
 
+import { FormEvent, useState } from 'react';
+
 import { Button } from '@/components/Button';
 import {
   getCountryList,
@@ -7,7 +9,10 @@ import {
 } from '@/lib/logaliser-api/client/coasters';
 import { Coaster } from '@/lib/logaliser-api/types';
 import { useQuery } from '@tanstack/react-query';
-import { FormEvent, useState } from 'react';
+
+import { CoasterSelectionButton } from './CoasterSelectionButton';
+
+import styles from './CoasterSearch.module.css';
 
 interface CoasterSearchProps {
   onSelectCoaster: (coaster: Coaster) => void;
@@ -60,13 +65,13 @@ export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
       {isLoading && <div>Coasters loading...</div>}
 
       {data && (
-        <div>
+        <div className={styles.coasterList}>
           {data.map((coaster) => (
-            <div key={coaster.id}>
-              <Button onClick={() => onSelectCoaster(coaster)}>
-                {coaster.name} ({coaster.park.name})
-              </Button>
-            </div>
+            <CoasterSelectionButton
+              key={coaster.id}
+              coaster={coaster}
+              onClick={() => onSelectCoaster(coaster)}
+            />
           ))}
         </div>
       )}
