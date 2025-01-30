@@ -1,13 +1,18 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-
-import { Coaster, CoasterActivity } from '@/lib/logaliser-api/types';
-import { CoasterLookup } from './CoasterLookup';
-import { useMutation } from '@tanstack/react-query';
-import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 import { Formik, Form, Field } from 'formik';
+import { useMutation } from '@tanstack/react-query';
+import { IconCircleX } from '@tabler/icons-react';
+
+import { Coaster } from '@/lib/logaliser-api/types';
+import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
+import { Button } from '@/components/Button';
+
+import { CoasterLookup } from './CoasterLookup';
+
+import styles from './page.module.css';
 
 interface LogaliseCoasterMutationVariables {
   coasterId: number;
@@ -35,32 +40,51 @@ const LogaliseCoasterPage = () => {
   });
 
   if (!selectedCoaster) {
-    return <CoasterLookup onSelectCoaster={setSelectedCoaster} />;
+    return (
+      <>
+        <h1>Logalise a coaster</h1>
+        <CoasterLookup onSelectCoaster={setSelectedCoaster} />
+      </>
+    );
   }
 
   return (
-    <Formik
-      initialValues={{ firstRide: false }}
-      onSubmit={({ firstRide }) => {
-        createActivity({ coasterId: selectedCoaster.id, firstRide });
-        if (firstRide) {
-          // Disabled until roller-coaster-tracker uses rcdb ids
-          // markRidden(selectedCoaster.id);
-        }
-      }}>
-      <Form>
-        <div>
-          Selected {selectedCoaster.name} at {selectedCoaster.park.name}
+    <>
+      <h1>Logalise a coaster</h1>
+
+      <div className={styles.selectedCoaster}>
+        <div className={styles.coasterDetails}>
+          <span className={styles.coasterName}>{selectedCoaster.name}</span>
+          <span className={styles.parkName}>{selectedCoaster.park.name}</span>
         </div>
 
-        <label>
-          <Field name="firstRide" type="checkbox" />
-          First ride
-        </label>
+        <Button
+          theme="ghost"
+          iconOnly={true}
+          onClick={() => setSelectedCoaster(undefined)}>
+          <IconCircleX />
+        </Button>
+      </div>
 
-        <button type="submit">Logalise</button>
-      </Form>
-    </Formik>
+      <Formik
+        initialValues={{ firstRide: false }}
+        onSubmit={({ firstRide }) => {
+          createActivity({ coasterId: selectedCoaster.id, firstRide });
+          if (firstRide) {
+            // Disabled until roller-coaster-tracker uses rcdb ids
+            // markRidden(selectedCoaster.id);
+          }
+        }}>
+        <Form className={styles.form}>
+          <label>
+            <Field name="firstRide" type="checkbox" />
+            First ride
+          </label>
+
+          <Button type="submit">Logalise</Button>
+        </Form>
+      </Formik>
+    </>
   );
 };
 

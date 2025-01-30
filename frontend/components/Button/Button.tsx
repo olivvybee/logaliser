@@ -10,7 +10,8 @@ interface ButtonProps {
   disabled?: boolean;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   small?: boolean;
-  theme?: 'primary' | 'secondary';
+  theme?: 'primary' | 'secondary' | 'ghost';
+  iconOnly?: boolean;
 }
 
 export const Button = ({
@@ -21,10 +22,12 @@ export const Button = ({
   type = 'button',
   small,
   theme = 'primary',
+  iconOnly,
 }: ButtonProps) => (
   <button
     className={classNames(styles.button, styles[theme], className, {
       [styles.smallButton]: small,
+      [styles.iconOnly]: iconOnly,
     })}
     onClick={onClick}
     disabled={disabled}

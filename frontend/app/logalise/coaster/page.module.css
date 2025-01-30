@@ -1,0 +1,31 @@
+.selectedCoaster {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--secondary-hover);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.coasterDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.coasterName {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.parkName {
+  font-size: 1.1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

@@ -12,6 +12,10 @@
   border-radius: 6px;
   line-height: 1.5;
   min-width: 40px;
+
+  & > svg {
+    vertical-align: middle;
+  }
 }
 
 .primary {
@@ -39,6 +43,19 @@
   }
 }
 
+.ghost {
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    background-color: var(--secondary-hover);
+  }
+
+  &:active {
+    background-color: var(--secondary-active);
+  }
+}
+
 .button:disabled,
 .button:hover:disabled,
 .button:active:disabled {
@@ -56,6 +73,10 @@
 
 .iconSpacer {
   width: 6px;
+}
+
+.iconOnly {
+  padding: 8px;
 }
 
 .smallButton {

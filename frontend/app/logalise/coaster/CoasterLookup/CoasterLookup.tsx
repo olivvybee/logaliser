@@ -19,8 +19,6 @@ export const CoasterLookup = ({
 
   return (
     <div className={styles.coasterLookup}>
-      <h1>Logalise a coaster</h1>
-
       <div className={styles.tabs}>
         <Button
           theme={selectedTab === 'nearby' ? 'primary' : 'secondary'}
