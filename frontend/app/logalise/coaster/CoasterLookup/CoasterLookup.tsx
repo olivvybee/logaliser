@@ -1,6 +1,12 @@
+import { useState } from 'react';
+
 import { Coaster } from '@/lib/logaliser-api/types';
+
 import { NearbyCoasters } from './NearbyCoasters';
 import { CoasterSearch } from './CoasterSearch';
+
+import styles from './CoasterLookup.module.css';
+import { Button } from '@/components/Button';
 
 interface CoasterLookupProps {
   onSelectCoaster: (coaster: Coaster) => void;
@@ -9,11 +15,32 @@ interface CoasterLookupProps {
 export const CoasterLookup = ({
   onSelectCoaster: selectCoaster,
 }: CoasterLookupProps) => {
+  const [selectedTab, setSelectedTab] = useState<'nearby' | 'search'>('nearby');
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className={styles.coasterLookup}>
       <h1>Logalise a coaster</h1>
-      <NearbyCoasters onSelectCoaster={selectCoaster} />
-      <CoasterSearch onSelectCoaster={selectCoaster} />
+
+      <div className={styles.tabs}>
+        <Button
+          theme={selectedTab === 'nearby' ? 'primary' : 'secondary'}
+          onClick={() => setSelectedTab('nearby')}>
+          Nearby
+        </Button>
+
+        <Button
+          theme={selectedTab === 'search' ? 'primary' : 'secondary'}
+          onClick={() => setSelectedTab('search')}>
+          Search
+        </Button>
+      </div>
+
+      {selectedTab === 'nearby' && (
+        <NearbyCoasters onSelectCoaster={selectCoaster} />
+      )}
+      {selectedTab === 'search' && (
+        <CoasterSearch onSelectCoaster={selectCoaster} />
+      )}
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { useGeolocation } from '@/hooks/useGeolocation';
 import { CoasterSelectionButton } from './CoasterSelectionButton';
 
 import styles from './NearbyCoasters.module.css';
+import { Spinner } from '@/components/Spinner';
 
 interface NearbyCoastersProps {
   onSelectCoaster: (coaster: Coaster) => void;
@@ -34,38 +35,51 @@ export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {
     enabled: !!geolocation,
   });
 
-  if (geolocationLoading) {
-    return <div>Loading location...</div>;
+  if (geolocationLoading || coastersLoading) {
+    return (
+      <div className={styles.container}>
+        <Spinner size={48} />
+      </div>
+    );
   }
 
   if (geolocationError) {
-    return <div>Error: {geolocationError.code}</div>;
-  }
-
-  if (coastersLoading) {
-    return <div>Loading coasters...</div>;
+    return (
+      <div className={styles.container}>
+        <span className={styles.message}>
+          Error loading geolocation: {geolocationError.code}
+        </span>
+      </div>
+    );
   }
 
   if (!data || coastersError) {
     return (
-      <div>
-        Error loading coasters: {JSON.stringify(coastersError, null, 2)}
+      <div className={styles.container}>
+        <span className={styles.message}>
+          Error loading coasters: {JSON.stringify(coastersError, null, 2)}
+        </span>
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.message}>No coasters found nearby.</span>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Nearby coasters</h2>
-      <div className={styles.coasterList}>
-        {data.map((coaster) => (
-          <CoasterSelectionButton
-            key={coaster.id}
-            coaster={coaster}
-            onClick={() => onSelectCoaster(coaster)}
-          />
-        ))}
-      </div>
+    <div className={styles.coasterList}>
+      {data.map((coaster) => (
+        <CoasterSelectionButton
+          key={coaster.id}
+          coaster={coaster}
+          onClick={() => onSelectCoaster(coaster)}
+        />
+      ))}
     </div>
   );
 };
