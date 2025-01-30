@@ -1,5 +1,13 @@
 .contentWrapper {
   max-width: 800px;
   margin: 0 auto;
+  padding-top: 16px;
   padding-bottom: calc(88px + 4px + 16px + env(safe-area-inset-bottom));
+}
+
+@media screen and (max-width: 800px) {
+  .contentWrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
