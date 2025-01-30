@@ -1,0 +1,16 @@
+.textField {
+  line-height: 1.5;
+  font-size: 0.8em;
+
+  background: none;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 8px;
+  margin: 0;
+}
+
+.textField:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

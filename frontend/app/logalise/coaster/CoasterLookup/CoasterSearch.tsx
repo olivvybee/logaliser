@@ -13,6 +13,8 @@ import { useQuery } from '@tanstack/react-query';
 import { CoasterSelectionButton } from './CoasterSelectionButton';
 
 import styles from './CoasterSearch.module.css';
+import { TextField } from '@/components/TextField';
+import { Dropdown } from '@/components/Dropdown';
 
 interface CoasterSearchProps {
   onSelectCoaster: (coaster: Coaster) => void;
@@ -42,23 +44,16 @@ export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <select
+      <form onSubmit={onSubmit} className={styles.form}>
+        <TextField value={query} onChange={(value) => setQuery(value)} />
+
+        <Dropdown
           value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          disabled={countriesLoading}>
-          <option value="">---</option>
-          {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => setCountry(value)}
+          options={countries}
+          includeBlankOption={true}
+        />
+
         <Button type="submit">Search</Button>
       </form>
 
