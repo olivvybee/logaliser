@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { ButtonHTMLAttributes } from 'react';
 
 import styles from './Button.module.css';
+import { Spinner } from '../Spinner';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -12,6 +13,7 @@ interface ButtonProps {
   small?: boolean;
   theme?: 'primary' | 'secondary' | 'ghost';
   iconOnly?: boolean;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -23,15 +25,26 @@ export const Button = ({
   small,
   theme = 'primary',
   iconOnly,
-}: ButtonProps) => (
-  <button
-    className={classNames(styles.button, styles[theme], className, {
-      [styles.smallButton]: small,
-      [styles.iconOnly]: iconOnly,
-    })}
-    onClick={onClick}
-    disabled={disabled}
-    type={type}>
-    {children}
-  </button>
-);
+  loading,
+}: ButtonProps) => {
+  const content = loading ? (
+    <div className={styles.loading}>
+      <Spinner size={16} /> {children}
+    </div>
+  ) : (
+    children
+  );
+
+  return (
+    <button
+      className={classNames(styles.button, styles[theme], className, {
+        [styles.smallButton]: small,
+        [styles.iconOnly]: iconOnly,
+      })}
+      onClick={onClick}
+      disabled={disabled || loading}
+      type={type}>
+      {content}
+    </button>
+  );
+};

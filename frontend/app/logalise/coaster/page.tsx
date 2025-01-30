@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
@@ -20,6 +21,8 @@ interface LogaliseCoasterMutationVariables {
 }
 
 const LogaliseCoasterPage = () => {
+  const router = useRouter();
+
   const [selectedCoaster, setSelectedCoaster] = useState<Coaster>();
 
   const {
@@ -69,11 +72,18 @@ const LogaliseCoasterPage = () => {
       <Formik
         initialValues={{ firstRide: false }}
         onSubmit={({ firstRide }) => {
-          createActivity({ coasterId: selectedCoaster.id, firstRide });
-          if (firstRide) {
-            // Disabled until roller-coaster-tracker uses rcdb ids
-            // markRidden(selectedCoaster.id);
-          }
+          createActivity(
+            { coasterId: selectedCoaster.id, firstRide },
+            {
+              onSuccess: () => {
+                if (firstRide) {
+                  // Disabled until roller-coaster-tracker uses rcdb ids
+                  // markRidden(selectedCoaster.id);
+                }
+                router.push('/');
+              },
+            }
+          );
         }}>
         <Form className={styles.form}>
           <label>
@@ -81,7 +91,11 @@ const LogaliseCoasterPage = () => {
             First ride
           </label>
 
-          <Button type="submit">Logalise</Button>
+          <Button
+            type="submit"
+            loading={createActivityPending || markRiddenPending}>
+            Logalise
+          </Button>
         </Form>
       </Formik>
     </>

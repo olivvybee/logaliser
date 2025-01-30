@@ -79,6 +79,15 @@
   padding: 8px;
 }
 
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
 .smallButton {
   font-size: 0.9em;
   padding: 4px 6px;
