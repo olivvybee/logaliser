@@ -29,7 +29,7 @@ export const Button = ({
 }: ButtonProps) => {
   const content = loading ? (
     <div className={styles.loading}>
-      <Spinner size={16} /> {children}
+      <Spinner size={16} /> {!iconOnly && children}
     </div>
   ) : (
     children
