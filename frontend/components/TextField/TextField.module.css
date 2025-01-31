@@ -4,7 +4,7 @@
 
   background: none;
   border: 1px solid var(--primary);
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   color: #ffffff;
   padding: 8px;
   margin: 0;

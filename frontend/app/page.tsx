@@ -1,28 +1,33 @@
+import { ActivityList } from '@/components/ActivityList';
 import { getRecentActivities } from '@/lib/logaliser-api/server/activities';
+
+import styles from './page.module.css';
+import { format, isToday, isYesterday } from 'date-fns';
 
 const Homepage = async () => {
   const recentActivities = await getRecentActivities();
 
   return (
-    <div>
+    <>
       <h1>Recently logalised</h1>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {Object.entries(recentActivities).map(([date, activities]) => (
-          <div key={date}>
-            <h2>{date}</h2>
-            <ul>
-              {activities.map((activity) => (
-                <li key={activity.id}>
-                  {activity.endDate.slice(11, 16)} - {activity.coaster.name} (
-                  {activity.coaster.park.name})
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div className={styles.recentlyLogalised}>
+        {Object.entries(recentActivities).map(([date, activities]) => {
+          const dateHeading = isToday(date)
+            ? 'Today'
+            : isYesterday(date)
+            ? 'Yesterday'
+            : format(date, 'EEEE');
+
+          return (
+            <div key={date}>
+              <h2>{dateHeading}</h2>
+              <ActivityList activities={activities} />
+            </div>
+          );
+        })}
       </div>
-    </div>
+    </>
   );
 };
 

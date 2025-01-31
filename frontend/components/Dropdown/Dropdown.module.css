@@ -8,7 +8,7 @@
     no-repeat right 2px center;
   background-color: var(--secondary);
   border: 1px solid var(--primary);
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   padding: 8px;
   color: #ffffff;
 }

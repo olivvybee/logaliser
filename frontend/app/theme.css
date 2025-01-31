@@ -6,4 +6,8 @@
   --secondary: #171717;
   --secondary-hover: #262626;
   --secondary-active: #121212;
+  --secondary-bright: #525252;
+
+  --border-color: var(--secondary-bright);
+  --border-radius: 6px;
 }
