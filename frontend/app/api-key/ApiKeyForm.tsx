@@ -1,8 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { setCookie } from './setCookie';
 import { useSearchParams } from 'next/navigation';
+
+import { TextField } from '@/components/TextField';
+import { Button } from '@/components/Button';
+
+import { setCookie } from './setCookie';
+
+import styles from './ApiKeyForm.module.css';
 
 export const ApiKeyForm = () => {
   const [value, setValue] = useState('');
@@ -20,17 +26,23 @@ export const ApiKeyForm = () => {
   };
 
   return (
-    <form action={onSave}>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="API key"
-      />
+    <>
+      <h1>Enter API key</h1>
+      <form action={onSave} className={styles.form}>
+        <TextField
+          type="text"
+          value={value}
+          onChange={(value) => setValue(value)}
+          placeholder="API key"
+          autoCapitalize="off"
+          autoCorrect="off"
+          autoComplete="off"
+        />
 
-      {invalid && <div>Nope that's wrong</div>}
+        {invalid && <div>Nope that's wrong</div>}
 
-      <button type="submit">Save</button>
-    </form>
+        <Button type="submit">Save</Button>
+      </form>
+    </>
   );
 };
