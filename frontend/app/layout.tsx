@@ -1,13 +1,20 @@
+import { PropsWithChildren } from 'react';
 import type { Metadata, Viewport } from 'next';
+import { DM_Sans } from 'next/font/google';
+
+import { TabBar } from '@/components/TabBar/TabBar';
+
+import { Providers } from './Providers';
 
 import './globals.css';
 import './theme.css';
 
 import styles from './layout.module.css';
 
-import { Providers } from './Providers';
-import { TabBar } from '@/components/TabBar/TabBar';
-import { PropsWithChildren } from 'react';
+const dmSans = DM_Sans({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--dm-sans',
+});
 
 export const metadata: Metadata = {
   title: 'Logaliser',
@@ -27,7 +34,7 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
+    <html lang="en" className={dmSans.variable}>
       <body>
         <Providers>
           <div className={styles.contentWrapper}>{children}</div>
