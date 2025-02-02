@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
   },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icon.png',
+  },
 };
 
 export const viewport: Viewport = {

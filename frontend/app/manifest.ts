@@ -9,9 +9,9 @@ const generateManifest = (): MetadataRoute.Manifest => ({
   start_url: '/',
   icons: [
     {
-      src: '/favicon.ico',
+      src: '/icon.png',
       sizes: 'any',
-      type: 'image/x-icon',
+      type: 'image/png',
     },
   ],
 });
