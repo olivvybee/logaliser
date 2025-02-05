@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FieldProps } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
@@ -10,6 +10,7 @@ import { Coaster } from '@/lib/logaliser-api/types';
 import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
 import { Button } from '@/components/Button';
+import TextFieldStyles from '@/components/TextField/TextField.module.css';
 
 import { CoasterLookup } from './CoasterLookup';
 
@@ -18,20 +19,28 @@ import styles from './page.module.css';
 interface LogaliseCoasterMutationVariables {
   coasterId: number;
   firstRide: boolean;
+  timestamp?: string;
 }
 
 const LogaliseCoasterPage = () => {
   const router = useRouter();
 
   const [selectedCoaster, setSelectedCoaster] = useState<Coaster>();
+  const [showTimestampField, setShowTimestampField] = useState(false);
+
+  const now = new Date().toISOString().slice(0, 16);
 
   const {
     mutate: createActivity,
     isPending: createActivityPending,
     error: createActivityError,
   } = useMutation({
-    mutationFn: ({ coasterId, firstRide }: LogaliseCoasterMutationVariables) =>
-      createCoasterActivity(coasterId, firstRide),
+    mutationFn: ({
+      coasterId,
+      firstRide,
+      timestamp,
+    }: LogaliseCoasterMutationVariables) =>
+      createCoasterActivity(coasterId, firstRide, timestamp),
   });
 
   const {
@@ -70,10 +79,16 @@ const LogaliseCoasterPage = () => {
       </div>
 
       <Formik
-        initialValues={{ firstRide: false }}
-        onSubmit={({ firstRide }) => {
+        initialValues={{ firstRide: false, timestamp: now }}
+        onSubmit={({ firstRide, timestamp }) => {
           createActivity(
-            { coasterId: selectedCoaster.id, firstRide },
+            {
+              coasterId: selectedCoaster.id,
+              firstRide,
+              timestamp: showTimestampField
+                ? new Date(timestamp).toISOString()
+                : undefined,
+            },
             {
               onSuccess: () => {
                 if (firstRide) {
@@ -90,6 +105,23 @@ const LogaliseCoasterPage = () => {
             <Field name="firstRide" type="checkbox" />
             First ride
           </label>
+
+          <label>
+            <input
+              name="setTimestamp"
+              type="checkbox"
+              onChange={(e) => setShowTimestampField(e.target.checked)}
+            />
+            Set timestamp
+          </label>
+
+          {showTimestampField && (
+            <Field
+              className={TextFieldStyles.textField}
+              name="timestamp"
+              type="datetime-local"
+            />
+          )}
 
           <Button
             type="submit"
