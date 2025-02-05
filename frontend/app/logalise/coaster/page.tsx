@@ -60,6 +60,8 @@ const LogaliseCoasterPage = () => {
     );
   }
 
+  const loading = createActivityPending || markRiddenPending;
+
   return (
     <>
       <h1>Logalise a coaster</h1>
@@ -102,7 +104,7 @@ const LogaliseCoasterPage = () => {
         }}>
         <Form className={styles.form}>
           <label>
-            <Field name="firstRide" type="checkbox" />
+            <Field name="firstRide" type="checkbox" disabled={loading} />
             First ride
           </label>
 
@@ -111,6 +113,7 @@ const LogaliseCoasterPage = () => {
               name="setTimestamp"
               type="checkbox"
               onChange={(e) => setShowTimestampField(e.target.checked)}
+              disabled={loading}
             />
             Set timestamp
           </label>
@@ -120,12 +123,11 @@ const LogaliseCoasterPage = () => {
               className={TextFieldStyles.textField}
               name="timestamp"
               type="datetime-local"
+              disabled={loading}
             />
           )}
 
-          <Button
-            type="submit"
-            loading={createActivityPending || markRiddenPending}>
+          <Button type="submit" loading={loading}>
             Logalise
           </Button>
         </Form>
