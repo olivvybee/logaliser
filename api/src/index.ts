@@ -10,6 +10,7 @@ import { coastersHandler } from './routes/coasters';
 import { activitiesHandler } from './routes/activities';
 import { authMiddleware } from './middleware/authMiddleware';
 import { checkCorsOrigin } from './utils/checkCorsOrigin';
+import { statsHandler } from './routes/stats';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -29,6 +30,7 @@ app.use(authMiddleware);
 app.route('/activities', activitiesHandler);
 app.route('/coasters', coastersHandler);
 app.route('/theme-parks', themeParksHandler);
+app.route('/stats', statsHandler);
 
 app.get('/auth', async (ctx) => {
   return ctx.json({ valid: true });

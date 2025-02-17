@@ -1,8 +1,10 @@
-import { Activity, ActivityType, Coaster } from '@prisma/client';
+import { Activity, Coaster } from '@prisma/client';
 
 export interface CoasterWithPark extends Coaster {
   park: {
+    id: number;
     name: string;
+    country: string;
   };
 }
 

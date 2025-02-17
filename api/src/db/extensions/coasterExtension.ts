@@ -19,7 +19,9 @@ export const extendCoasterActivities: ExtensionFn = async (
     include: {
       park: {
         select: {
+          id: true,
           name: true,
+          country: true,
         },
       },
     },
