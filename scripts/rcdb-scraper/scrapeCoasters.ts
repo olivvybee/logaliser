@@ -52,6 +52,9 @@ const scrapeCoasterPage = async (url: string) => {
     ? $('#feature time[datetime]').prop('datetime')
     : getEarliestOperatedDate(previousStatuses || []);
 
+  const make = $('#feature .scroll:nth-of-type(2) a:nth-of-type(1)').text();
+  const shortMake = getShortManufacturerName(make);
+
   return {
     id: getIdFromUrl(url),
     name: $('#feature h1').text().split(' / ')[0],
@@ -61,7 +64,7 @@ const scrapeCoasterPage = async (url: string) => {
     opened,
     status,
     previousStatuses,
-    make: $('#feature .scroll:nth-of-type(2) a:nth-of-type(1)').text(),
+    make: shortMake,
     model: $('#feature .scroll:nth-of-type(2) a:nth-of-type(2)').text(),
     type: $(
       '#feature ul:nth-of-type(1) > li:nth-of-type(2) a:nth-of-type(1)'
@@ -199,4 +202,45 @@ const getEarliestOperatedDate = (previousStatuses: Status[]) => {
     (a.from || a.during || '') < (b.from || b.during || '') ? -1 : 1
   );
   return operatedStatuses[0].from || operatedStatuses[0].during;
+};
+
+const getShortManufacturerName = (manufacturer: string) => {
+  switch (manufacturer) {
+    case 'Arrow Dynamics':
+      return 'Arrow';
+
+    case 'Bolliger & Mabillard':
+      return 'B&M';
+
+    case 'Custom Coasters International, Inc.':
+      return 'CCI';
+
+    case 'Gerstlauer Amusement Rides GmbH':
+      return 'Gerstlauer';
+
+    case 'Great Coasters International':
+      return 'GCI';
+
+    case 'Intamin Amusement Rides':
+    case 'Intamin AG':
+      return 'Intamin';
+
+    case 'Mack Rides GmbH & Co KG':
+      return 'Mack';
+
+    case 'Maurer Rides GmbH':
+      return 'Maurer';
+
+    case 'Rocky Mountain Construction':
+      return 'RMC';
+
+    case 'Roller Coaster Corporation of America':
+      return 'RCCA';
+
+    case 'S&S Worldwide':
+      return 'S&S';
+
+    default:
+      return manufacturer;
+  }
 };
