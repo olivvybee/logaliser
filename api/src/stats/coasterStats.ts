@@ -1,4 +1,5 @@
 import { CoasterActivity, CoasterWithPark } from '@/db/types';
+import _uniq from 'lodash/uniq';
 import _uniqBy from 'lodash/uniqBy';
 import _groupBy from 'lodash/groupBy';
 import _sumBy from 'lodash/sumBy';
@@ -7,14 +8,32 @@ import _maxBy from 'lodash/maxBy';
 import _countBy from 'lodash/countBy';
 import { minMax } from '@/utils/minMax';
 import { filterAndSum } from '@/utils/filterAndSum';
+import { eachDayOfInterval, eachMonthOfInterval, formatDate } from 'date-fns';
+import { Activity } from '@prisma/client';
+import { getDay, getMonth } from '@/utils/activityDates';
+import { highestSumPerDay } from '@/utils/highestSumPerDay';
 
-export const calculateCoasterStats = (activities: CoasterActivity[]) => {
+export const calculateCoasterStats = (
+  activities: CoasterActivity[],
+  startDate: Date,
+  endDate: Date
+) => {
   const coasters = _uniqBy(activities, (activity) => activity.coaster.id).map(
     (activity) => activity.coaster
   );
   const parks = _uniqBy(coasters, (coaster) => coaster.park.name).map(
     (coaster) => coaster.park
   );
+
+  const allDays = eachDayOfInterval({
+    start: startDate,
+    end: endDate,
+  }).map((date) => formatDate(date, 'yyyy-MM-dd'));
+
+  const allMonths = eachMonthOfInterval({
+    start: startDate,
+    end: endDate,
+  }).map((date) => formatDate(date, 'yyyy-MM'));
 
   return {
     totalCount: activities.length,
@@ -24,11 +43,24 @@ export const calculateCoasterStats = (activities: CoasterActivity[]) => {
       (activity) => activity.coaster.make
     ),
     countByType: _countBy(activities, (activity) => activity.coaster.type),
-    countByPark: _countBy(activities, (activity) => activity.coaster.parkId),
+    countByParkId: _countBy(activities, (activity) => activity.coaster.parkId),
     countByCountry: _countBy(
       activities,
       (activity) => activity.coaster.park.country
     ),
+
+    countByDay: allDays.reduce((processed, day) => {
+      processed[day] = activities.filter(
+        (activity) => getDay(activity) === day
+      ).length;
+      return processed;
+    }, {} as Record<string, number>),
+    countByMonth: allMonths.reduce((processed, month) => {
+      processed[month] = activities.filter(
+        (activity) => getMonth(activity) === month
+      ).length;
+      return processed;
+    }, {} as Record<string, number>),
 
     inversions: totalMinMax(
       activities,
@@ -38,9 +70,13 @@ export const calculateCoasterStats = (activities: CoasterActivity[]) => {
     duration: totalMinMax(activities, coasters, (coaster) => coaster.duration),
     length: totalMinMax(activities, coasters, (coaster) => coaster.length),
     drop: totalMinMax(activities, coasters, (coaster) => coaster.drop),
-    height: minMax(coasters, (coaster) => coaster.height),
-    speed: minMax(coasters, (coaster) => coaster.speed),
-    verticalAngle: minMax(coasters, (coaster) => coaster.verticalAngle),
+    height: totalMinMax(activities, coasters, (coaster) => coaster.height),
+    speed: totalMinMax(activities, coasters, (coaster) => coaster.speed),
+    verticalAngle: totalMinMax(
+      activities,
+      coasters,
+      (coaster) => coaster.verticalAngle
+    ),
 
     coasters,
     parks,
@@ -56,9 +92,13 @@ const totalMinMax = (
     getCoasterProperty(activity.coaster)
   );
   const { min, max } = minMax(coasters, getCoasterProperty);
+  const highestDay = highestSumPerDay(activities, (activity) =>
+    getCoasterProperty(activity.coaster)
+  );
   return {
     total,
     min: { id: min?.id, value: min ? getCoasterProperty(min) : undefined },
     max: { id: max?.id, value: max ? getCoasterProperty(max) : undefined },
+    highestDay,
   };
 };

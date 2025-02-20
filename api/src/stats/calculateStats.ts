@@ -4,10 +4,16 @@ import { calculateCoasterStats } from './coasterStats';
 
 export const calculateStats = (
   activities: ExtendedActivity[],
-  type: ActivityType
+  type: ActivityType,
+  startDate: Date,
+  endDate: Date
 ) => {
   switch (type) {
     case ActivityType.Coaster:
-      return calculateCoasterStats(activities as CoasterActivity[]);
+      return calculateCoasterStats(
+        activities as CoasterActivity[],
+        startDate,
+        endDate
+      );
   }
 };

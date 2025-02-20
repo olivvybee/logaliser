@@ -34,7 +34,12 @@ statsHandler.get('/', zValidator('query', statsSchema), async (ctx) => {
 
   const extendedActivities = await extendActivities(activities);
 
-  const stats = calculateStats(extendedActivities, input.type);
+  const stats = calculateStats(
+    extendedActivities,
+    input.type,
+    startDate,
+    endDate
+  );
 
   return ctx.json(stats);
 });
