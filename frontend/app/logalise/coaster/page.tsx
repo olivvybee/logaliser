@@ -94,8 +94,7 @@ const LogaliseCoasterPage = () => {
             {
               onSuccess: () => {
                 if (firstRide) {
-                  // Disabled until roller-coaster-tracker uses rcdb ids
-                  // markRidden(selectedCoaster.id);
+                  markRidden(selectedCoaster.id);
                 }
                 router.push('/');
               },

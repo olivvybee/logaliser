@@ -15,7 +15,7 @@ export const markCoasterRidden = async (coasterId: number) => {
 
   const url = `${baseUrl}/coasters/markRidden`;
   const data = {
-    coasters: [coasterId.toString()],
+    coasters: [coasterId],
     includeDate: true,
   };
 
