@@ -17,10 +17,10 @@ export const TabBar = () => {
           href="/logalise/coaster">
           <IconPlus size={48} stroke={3} />
         </Link>
-        <span className={classNames(styles.tab, styles.rightTab)}>
+        <Link className={classNames(styles.tab, styles.rightTab)} href="/stats">
           <IconChartBar />
           <span>Stats</span>
-        </span>
+        </Link>
       </div>
     </div>
   );
