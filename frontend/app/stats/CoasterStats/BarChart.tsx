@@ -36,7 +36,7 @@ const theme: VictoryThemeDefinition = {
       },
       labels: {
         fontFamily: 'DM Sans',
-        fontSize: 8,
+        fontSize: 14,
         fill: '#aaa',
         padding: 4,
       },
@@ -49,7 +49,7 @@ const theme: VictoryThemeDefinition = {
       tickLabels: {
         fontFamily: 'DM Sans',
         fill: '#fff',
-        fontSize: 8,
+        fontSize: 14,
       },
     },
   },
@@ -83,13 +83,7 @@ export const BarChart = ({ timespan, counts }: BarChartProps) => {
 
   return (
     <VictoryChart theme={theme} height={200} padding={32}>
-      <VictoryAxis
-        tickFormat={tickFormat}
-        tickCount={tickCount}
-        style={{
-          tickLabels: { fontSize: 10 },
-        }}
-      />
+      <VictoryAxis tickFormat={tickFormat} tickCount={tickCount} />
       <VictoryBar
         data={data}
         barRatio={1}
