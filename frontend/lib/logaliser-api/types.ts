@@ -21,6 +21,12 @@ export interface Coaster {
   };
 }
 
+export interface Park {
+  id: number;
+  name: string;
+  country: string;
+}
+
 export enum ActivityType {
   Coaster = 'Coaster',
 }
@@ -43,3 +49,30 @@ export interface CoasterActivity extends BaseActivity {
 }
 
 export type Activity = CoasterActivity;
+
+interface MinMax {
+  total: number | undefined;
+  min: { id: number | undefined; min: number | undefined };
+  max: { id: number | undefined; max: number | undefined };
+  highestDay: { day: string; value: number } | undefined;
+}
+
+export interface CoasterStats {
+  totalCount: number;
+  countByCoasterId: Record<string, number>;
+  countByManufacturer: Record<string, number>;
+  countByType: Record<string, number>;
+  countByParkId: Record<string, number>;
+  countByCountry: Record<string, number>;
+  countByDay: Record<string, number>;
+  countByMonth: Record<string, number>;
+  inversions: MinMax;
+  duration: MinMax;
+  length: MinMax;
+  drop: MinMax;
+  height: MinMax;
+  speed: MinMax;
+  verticalAngle: MinMax;
+  coasters: Coaster[];
+  parks: Park[];
+}
