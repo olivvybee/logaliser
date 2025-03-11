@@ -1,6 +1,6 @@
 .toggleButton {
   border: 1px solid var(--primary);
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   display: inline-flex;
   flex-direction: row;
   align-items: center;
