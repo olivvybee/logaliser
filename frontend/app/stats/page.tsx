@@ -12,6 +12,7 @@ import styles from './page.module.css';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { formatDate, isFuture, isToday } from 'date-fns';
 import { Button } from '@/components/Button';
+import { CoasterStats } from './CoasterStats/CoasterStats';
 
 const TIMESPAN_OPTIONS = Object.entries(Timespan).map(([label, value]) => ({
   label,
@@ -81,7 +82,7 @@ const StatsPage = () => {
         </div>
       )}
 
-      {!!data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {!!data && <CoasterStats stats={data} timespan={timespan} />}
     </>
   );
 };

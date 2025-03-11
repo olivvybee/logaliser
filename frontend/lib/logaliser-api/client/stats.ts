@@ -1,4 +1,5 @@
 import { makeRequest } from '../makeRequest';
+import { CoasterStats } from '../types';
 import { getApiKey } from './getApiKey';
 
 export const getCoasterStats = async (startDate: Date, endDate: Date) => {
@@ -12,5 +13,5 @@ export const getCoasterStats = async (startDate: Date, endDate: Date) => {
 
   const path = `/stats?${params.toString()}`;
 
-  return makeRequest(path, apiKey);
+  return makeRequest<CoasterStats>(path, apiKey);
 };
