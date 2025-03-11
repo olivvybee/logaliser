@@ -20,8 +20,8 @@ const getBaseDateRange = (timespan: Timespan) => {
   switch (timespan) {
     case Timespan.Week:
       return {
-        startDate: startOfWeek(now),
-        endDate: endOfWeek(now),
+        startDate: startOfWeek(now, { weekStartsOn: 1 }),
+        endDate: endOfWeek(now, { weekStartsOn: 1 }),
       };
 
     case Timespan.Month:
