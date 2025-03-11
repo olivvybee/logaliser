@@ -9,7 +9,6 @@ import _countBy from 'lodash/countBy';
 import { minMax } from '@/utils/minMax';
 import { filterAndSum } from '@/utils/filterAndSum';
 import { eachDayOfInterval, eachMonthOfInterval, formatDate } from 'date-fns';
-import { Activity } from '@prisma/client';
 import { getDay, getMonth } from '@/utils/activityDates';
 import { highestSumPerDay } from '@/utils/highestSumPerDay';
 
@@ -80,6 +79,19 @@ export const calculateCoasterStats = (
 
     coasters,
     parks,
+
+    coastersWithMissingData: coasters
+      .filter((coaster) =>
+        [
+          coaster.duration,
+          coaster.height,
+          coaster.inversions,
+          coaster.length,
+          coaster.make,
+          coaster.speed,
+        ].some((stat) => stat === null)
+      )
+      .map((coaster) => coaster.id),
   };
 };
 
