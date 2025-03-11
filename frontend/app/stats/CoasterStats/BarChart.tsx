@@ -10,8 +10,6 @@ import {
 import _range from 'lodash/range';
 import { Timespan } from '../types';
 
-import styles from './BarChart.module.css';
-
 const MONTHS = [
   'Jan',
   'Feb',
@@ -36,6 +34,12 @@ const theme: VictoryThemeDefinition = {
         fill: 'var(--primary)',
         opacity: 1,
       },
+      labels: {
+        fontFamily: 'DM Sans',
+        fontSize: 8,
+        fill: '#aaa',
+        padding: 4,
+      },
     },
   },
   axis: {
@@ -57,16 +61,12 @@ export interface BarChartProps {
 }
 
 export const BarChart = ({ timespan, counts }: BarChartProps) => {
-  console.log(counts);
-
   const data = Object.entries(counts).map(([label, value]) => {
     return {
       x: label,
       y: value,
     };
   });
-
-  console.log(data);
 
   const tickFormat = (t: string) => {
     switch (timespan) {
@@ -90,7 +90,11 @@ export const BarChart = ({ timespan, counts }: BarChartProps) => {
           tickLabels: { fontSize: 10 },
         }}
       />
-      <VictoryBar data={data} barRatio={1} />
+      <VictoryBar
+        data={data}
+        barRatio={1}
+        labels={({ datum }) => datum.y || ''}
+      />
     </VictoryChart>
   );
 };
