@@ -5,13 +5,15 @@ import { Timespan } from '../types';
 import { BarChart } from './BarChart';
 
 import styles from './CoasterStats.module.css';
+import statStyles from '../Stat/Stat.module.css';
+
 import { Stat } from '../Stat';
 import {
   kmToMiles,
   metersToFeet,
   metersToMiles,
 } from '../utils/convertDistance';
-import { secondsToDuration } from '../utils/convertDuration';
+import { displayDuration, secondsToDuration } from '../utils/convertDuration';
 
 interface CoasterStatsProps {
   stats: Stats;
@@ -34,36 +36,26 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
       <div className={styles.grid}>
         <Stat label="Unique coasters" value={stats.coasters.length} />
         <Stat label="Total rides" value={stats.totalCount} />
-        <Stat
-          label={<span className={styles.inverted}>Total inversions</span>}
-          value={stats.inversions.total}
-        />
-        {stats.length.total && (
+        {stats.inversions.total !== undefined && (
+          <Stat
+            label={<span className={styles.inverted}>Total inversions</span>}
+            value={stats.inversions.total}
+          />
+        )}
+        {stats.length.total !== undefined && (
           <Stat
             label="Total distance"
-            value={<span>{metersToMiles(stats.length.total)} mi</span>}
+            value={metersToMiles(stats.length.total)}
+            unit="mi"
           />
         )}
-        {stats.duration.total && (
+        {stats.duration.total !== undefined && (
           <Stat
             label="Total time"
-            value={secondsToDuration(stats.duration.total)}
+            value={displayDuration(stats.duration.total)}
           />
         )}
-        {stats.height.max && (
-          <Stat
-            label="Tallest coaster"
-            value={<span>{metersToFeet(stats.height.max.value)} ft</span>}
-            extraInfo={getCoasterName(stats.height.max.id)}
-          />
-        )}
-        {stats.speed.max && (
-          <Stat
-            label="Fastest coaster"
-            value={<span>{kmToMiles(stats.speed.max.value)} mph</span>}
-            extraInfo={getCoasterName(stats.speed.max.id)}
-          />
-        )}
+
         {stats.inversions.max && (
           <Stat
             label="Most inverted coaster"
@@ -71,18 +63,36 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             extraInfo={getCoasterName(stats.inversions.max.id)}
           />
         )}
+        {stats.height.max && (
+          <Stat
+            label="Tallest coaster"
+            value={metersToFeet(stats.height.max.value)}
+            unit="ft"
+            extraInfo={getCoasterName(stats.height.max.id)}
+          />
+        )}
+        {stats.speed.max && (
+          <Stat
+            label="Fastest coaster"
+            value={kmToMiles(stats.speed.max.value)}
+            unit="mph"
+            extraInfo={getCoasterName(stats.speed.max.id)}
+          />
+        )}
 
         {stats.length.min && (
           <Stat
             label="Shortest coaster"
-            value={<span>{metersToFeet(stats.length.min.value)} ft</span>}
+            value={metersToFeet(stats.length.min.value)}
+            unit="ft"
             extraInfo={getCoasterName(stats.length.min.id)}
           />
         )}
         {stats.length.max && (
           <Stat
             label="Longest coaster"
-            value={<span>{metersToFeet(stats.length.max.value)} ft</span>}
+            value={metersToFeet(stats.length.max.value)}
+            unit="ft"
             extraInfo={getCoasterName(stats.length.max.id)}
           />
         )}
@@ -90,14 +100,14 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
         {stats.duration.min && (
           <Stat
             label="Shortest duration"
-            value={secondsToDuration(stats.duration.min.value)}
+            value={displayDuration(stats.duration.min.value)}
             extraInfo={getCoasterName(stats.duration.min.id)}
           />
         )}
         {stats.duration.max && (
           <Stat
             label="Longest duration"
-            value={secondsToDuration(stats.duration.max.value)}
+            value={displayDuration(stats.duration.max.value)}
             extraInfo={getCoasterName(stats.duration.max.id)}
           />
         )}
