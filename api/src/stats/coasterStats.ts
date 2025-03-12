@@ -109,8 +109,8 @@ const totalMinMax = (
   );
   return {
     total,
-    min: { id: min?.id, value: min ? getCoasterProperty(min) : undefined },
-    max: { id: max?.id, value: max ? getCoasterProperty(max) : undefined },
+    min: min ? { id: min.id, value: getCoasterProperty(min) } : undefined,
+    max: max ? { id: max.id, value: getCoasterProperty(max) } : undefined,
     highestDay,
   };
 };
