@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
   gap: 16px;
   margin: 32px 0;
 }
@@ -8,16 +8,4 @@
 .inverted {
   display: inline-block;
   transform: scale(-1);
-}
-
-@media screen and (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
 }
