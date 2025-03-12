@@ -52,8 +52,8 @@ export type Activity = CoasterActivity;
 
 interface MinMax {
   total: number | undefined;
-  min: { id: number | undefined; min: number | undefined };
-  max: { id: number | undefined; max: number | undefined };
+  min: { id: number; value: number } | undefined;
+  max: { id: number; value: number } | undefined;
   highestDay: { day: string; value: number } | undefined;
 }
 
