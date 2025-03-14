@@ -41,6 +41,7 @@ const getBaseDateRange = (timespan: Timespan) => {
 export enum ActionType {
   GoBackwards = 'backwards',
   GoForwards = 'forwards',
+  Reset = 'reset',
   SetTimespan = 'set-timespan',
 }
 
@@ -50,7 +51,7 @@ interface BaseAction {
 }
 
 interface MoveAction extends BaseAction {
-  type: ActionType.GoBackwards | ActionType.GoForwards;
+  type: ActionType.GoBackwards | ActionType.GoForwards | ActionType.Reset;
   timespan?: never;
 }
 
@@ -79,6 +80,13 @@ export const reducer = (state: State, action: Action) => {
       timespan: action.timespan,
       startDate,
       endDate,
+    };
+  }
+
+  if (action.type === ActionType.Reset) {
+    return {
+      ...state,
+      ...getBaseDateRange(state.timespan),
     };
   }
 

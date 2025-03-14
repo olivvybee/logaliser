@@ -38,6 +38,10 @@ const StatsPage = () => {
     dispatch({ type: ActionType.GoForwards });
   };
 
+  const reset = () => {
+    dispatch({ type: ActionType.Reset });
+  };
+
   const dateLabel =
     timespan === Timespan.Week
       ? `${formatDate(startDate, 'dd MMM yyyy')} - ${formatDate(
@@ -69,7 +73,9 @@ const StatsPage = () => {
           <Button onClick={goBackwards}>
             <IconChevronLeft />
           </Button>
-          <span>{dateLabel}</span>
+          <span className={styles.selectedRange} onClick={reset}>
+            {dateLabel}
+          </span>
           <Button disabled={dateRangeIncludesNow} onClick={goForwards}>
             <IconChevronRight />
           </Button>
