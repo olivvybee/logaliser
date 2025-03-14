@@ -35,6 +35,10 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
     return park?.name;
   };
 
+  if (stats.totalCount === 0) {
+    return <div className={styles.noStats}>No stats for this time period.</div>;
+  }
+
   return (
     <>
       <BarChart counts={barChartCounts} timespan={timespan} />
