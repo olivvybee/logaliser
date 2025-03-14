@@ -5,15 +5,14 @@ import { Timespan } from '../types';
 import { BarChart } from './BarChart';
 
 import styles from './CoasterStats.module.css';
-import statStyles from '../Stat/Stat.module.css';
 
-import { Stat } from '../Stat';
+import { Stat, displayDuration } from '../StatBox';
 import {
   kmToMiles,
   metersToFeet,
   metersToMiles,
 } from '../utils/convertDistance';
-import { displayDuration, secondsToDuration } from '../utils/convertDuration';
+import { RankingTable } from '../RankingTable';
 
 interface CoasterStatsProps {
   stats: Stats;

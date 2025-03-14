@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import styles from './Stat.module.css';
+import styles from './StatBox.module.css';
 
 export interface StatProps {
   label: ReactNode;
@@ -10,7 +10,7 @@ export interface StatProps {
 }
 
 export const Stat = ({ label, value, unit, extraInfo }: StatProps) => (
-  <div className={styles.stat}>
+  <div className={styles.statBox}>
     <div className={styles.label}>{label}</div>
 
     <div className={styles.valueWrapper}>
