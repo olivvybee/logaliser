@@ -32,6 +32,7 @@ export const RankingTable = ({
       <tbody>
         {entries
           .toSorted((a, b) => b.value - a.value)
+          .slice(0, 10)
           .map((entry, index) => (
             <tr key={entry.label}>
               <td className={styles.rankCell}>{index + 1}</td>
