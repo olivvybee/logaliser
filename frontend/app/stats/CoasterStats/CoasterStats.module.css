@@ -1,8 +1,15 @@
-.grid {
+.statBoxes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
   gap: 16px;
   margin: 32px 0;
+}
+
+.tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+  gap: 32px;
+  margin: 48px 0;
 }
 
 .inverted {

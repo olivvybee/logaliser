@@ -23,16 +23,23 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
   const barChartCounts =
     timespan === Timespan.Year ? stats.countByMonth : stats.countByDay;
 
-  const getCoasterName = (id: number) => {
-    const coaster = stats.coasters.find((coaster) => coaster.id === id);
+  const getCoasterName = (id: number | string) => {
+    const idAsNumber = typeof id === 'string' ? parseInt(id) : id;
+    const coaster = stats.coasters.find((coaster) => coaster.id === idAsNumber);
     return coaster?.name;
+  };
+
+  const getParkName = (id: number | string) => {
+    const idAsNumber = typeof id === 'string' ? parseInt(id) : id;
+    const park = stats.parks.find((park) => park.id === idAsNumber);
+    return park?.name;
   };
 
   return (
     <>
       <BarChart counts={barChartCounts} timespan={timespan} />
 
-      <div className={styles.grid}>
+      <div className={styles.statBoxes}>
         <Stat label="Unique coasters" value={stats.coasters.length} />
         <Stat label="Total rides" value={stats.totalCount} />
         {stats.inversions.total !== undefined && (
@@ -110,6 +117,48 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             extraInfo={getCoasterName(stats.duration.max.id)}
           />
         )}
+      </div>
+
+      <div className={styles.tables}>
+        <RankingTable
+          title="Favourite coasters"
+          labelColumnName="Coaster"
+          valueColumnName="Rides"
+          entries={Object.entries(stats.countByCoasterId).map(
+            ([id, value]) => ({
+              label: getCoasterName(id) || '-',
+              value,
+            })
+          )}
+        />
+        <RankingTable
+          title="Favourite parks"
+          labelColumnName="Park"
+          valueColumnName="Rides"
+          entries={Object.entries(stats.countByParkId).map(([id, value]) => ({
+            label: getParkName(id) || '',
+            value,
+          }))}
+        />
+        <RankingTable
+          title="Favourite manufacturers"
+          labelColumnName="Manufacturer"
+          valueColumnName="Rides"
+          entries={Object.entries(stats.countByManufacturer).map(
+            ([label, value]) => ({ label, value })
+          )}
+        />
+        <RankingTable
+          title="Favourite countries"
+          labelColumnName="Country"
+          valueColumnName="Rides"
+          entries={Object.entries(stats.countByCountry).map(
+            ([label, value]) => ({
+              label,
+              value,
+            })
+          )}
+        />
       </div>
     </>
   );
