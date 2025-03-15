@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { getDB } from '@/db';
 import { getDistance } from '@/utils/distance';
+import { authMiddleware } from '@/middleware/authMiddleware';
 
 export const coastersHandler = new Hono();
 
@@ -125,6 +126,7 @@ const coasterSchema = z.object({
 
 coastersHandler.post(
   '/import',
+  authMiddleware,
   zValidator('json', z.array(coasterSchema)),
   async (ctx) => {
     const db = getDB();

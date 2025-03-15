@@ -5,6 +5,7 @@ import { subSeconds } from 'date-fns';
 
 import { getDB } from '@/db';
 import { ActivityType } from '@prisma/client';
+import { authMiddleware } from '@/middleware/authMiddleware';
 
 export const coasterActivityHandler = new Hono();
 
@@ -16,6 +17,7 @@ const coasterActivitySchema = z.object({
 
 coasterActivityHandler.post(
   '/',
+  authMiddleware,
   zValidator('json', coasterActivitySchema),
   async (ctx) => {
     const { coasterId, timestamp, firstRide } = ctx.req.valid('json');

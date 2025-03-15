@@ -3,6 +3,7 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 
 import { getDB } from '@/db';
+import { authMiddleware } from '@/middleware/authMiddleware';
 
 export const themeParksHandler = new Hono();
 
@@ -55,6 +56,7 @@ export const themeParkSchema = z.object({
 
 themeParksHandler.post(
   '/import',
+  authMiddleware,
   zValidator('json', z.array(themeParkSchema)),
   async (ctx) => {
     const db = getDB();

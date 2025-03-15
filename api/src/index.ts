@@ -25,14 +25,13 @@ app.use(
     origin: CORS_ORIGINS || checkCorsOrigin,
   })
 );
-app.use(authMiddleware);
 
 app.route('/activities', activitiesHandler);
 app.route('/coasters', coastersHandler);
 app.route('/theme-parks', themeParksHandler);
 app.route('/stats', statsHandler);
 
-app.get('/auth', async (ctx) => {
+app.get('/auth', authMiddleware, async (ctx) => {
   return ctx.json({ valid: true });
 });
 

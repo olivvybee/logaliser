@@ -13,15 +13,5 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config: MiddlewareConfig = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api-key
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|api-key).*)',
-  ],
+  matcher: ['/logalise/:path*'],
 };
