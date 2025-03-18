@@ -32,5 +32,12 @@ export const getDetails = (activity: Activity): ActivityDetails => {
         title: activity.coaster.name,
         metadata: activity.coaster.park.name,
       };
+
+    case ActivityType.Hidden:
+      return {
+        timestamp: formatTimestamp(activity.endDate),
+        title: '',
+        metadata: '',
+      };
   }
 };

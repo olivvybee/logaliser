@@ -1,6 +1,10 @@
 'use client';
 
-import { Activity } from '@/lib/logaliser-api/types';
+import {
+  Activity,
+  ActivityType,
+  CoasterActivity,
+} from '@/lib/logaliser-api/types';
 import { IconCopy } from '@tabler/icons-react';
 
 import { RelativeTimestamp } from '../RelativeTimestamp';
@@ -22,7 +26,8 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
     isPending: duplicatePending,
     error: duplicateError,
   } = useMutation({
-    mutationFn: (activity: Activity) => duplicateCoasterActivity(activity),
+    mutationFn: (activity: CoasterActivity) =>
+      duplicateCoasterActivity(activity),
     onSuccess: () => {
       window.location.reload();
     },
@@ -37,7 +42,6 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
         return (
           <li key={activity.id} className={styles.activity}>
             <div className={styles.display}>
-              <Icon />
               <div className={styles.activityDetails}>
                 <span className={styles.title}>{details.title}</span>
                 {details.metadata && (
@@ -50,13 +54,15 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
             </div>
 
             <div className={styles.actions}>
-              <Button
-                theme="ghost"
-                iconOnly={true}
-                onClick={() => duplicateActivity(activity)}
-                loading={duplicatePending}>
-                <IconCopy />
-              </Button>
+              {activity.type === ActivityType.Coaster && (
+                <Button
+                  theme="ghost"
+                  iconOnly={true}
+                  onClick={() => duplicateActivity(activity)}
+                  loading={duplicatePending}>
+                  <IconCopy />
+                </Button>
+              )}
             </div>
           </li>
         );

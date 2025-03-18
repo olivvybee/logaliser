@@ -29,6 +29,7 @@ export interface Park {
 
 export enum ActivityType {
   Coaster = 'Coaster',
+  Hidden = 'Hidden',
 }
 
 interface BaseActivity {
@@ -48,7 +49,11 @@ export interface CoasterActivity extends BaseActivity {
   coaster: Coaster;
 }
 
-export type Activity = CoasterActivity;
+export interface HiddenActivity extends BaseActivity {
+  type: ActivityType.Hidden;
+}
+
+export type Activity = CoasterActivity | HiddenActivity;
 
 interface MinMax {
   total: number | undefined;
