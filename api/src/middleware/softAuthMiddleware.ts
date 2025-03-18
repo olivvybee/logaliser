@@ -10,8 +10,10 @@ export const softAuthMiddleware = createMiddleware<{
     return ctx.json({ error: 'API_KEY environment variable not set' }, 500);
   }
 
+  const expectedHeader = `Bearer ${token}`;
+
   const header = ctx.req.header('Authorization');
-  if (header === token) {
+  if (header === expectedHeader) {
     ctx.set('isAuthenticated', true);
   }
 
