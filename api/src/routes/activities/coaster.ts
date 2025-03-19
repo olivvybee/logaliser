@@ -29,7 +29,9 @@ coasterActivityHandler.post(
     }
 
     const endDate = timestamp ? new Date(timestamp) : new Date();
-    const startDate = subSeconds(endDate, coaster.duration || 0);
+    const startDate = coaster.duration
+      ? subSeconds(endDate, coaster.duration)
+      : undefined;
 
     const activity = await db.activity.create({
       data: {

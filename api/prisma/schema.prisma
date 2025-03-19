@@ -17,7 +17,7 @@ enum ActivityType {
 
 model Activity {
   id        Int          @id @default(autoincrement())
-  startDate DateTime
+  startDate DateTime?
   endDate   DateTime
   type      ActivityType
   item      Int // Technically a foreign key but not mapped, to allow a reference to any table
