@@ -7,14 +7,17 @@ import { getApiKey } from './getApiKey';
 export const createCoasterActivity = async (
   coasterId: number,
   firstRide: boolean,
-  timestamp?: string
+  timestamp: string = new Date().toISOString()
 ) => {
   const apiKey = getApiKey();
+
+  const timezoneOffset = 0 - new Date(timestamp).getTimezoneOffset();
 
   const body = {
     coasterId,
     firstRide,
     timestamp,
+    timezoneOffset,
   };
 
   return makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
