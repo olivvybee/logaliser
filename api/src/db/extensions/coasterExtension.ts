@@ -17,13 +17,7 @@ export const extendCoasterActivities: ExtensionFn = async (
       },
     },
     include: {
-      park: {
-        select: {
-          id: true,
-          name: true,
-          country: true,
-        },
-      },
+      park: true,
     },
   });
 
@@ -36,6 +30,7 @@ export const extendCoasterActivities: ExtensionFn = async (
 
       return {
         ...activity,
+        type: 'Coaster' as const,
         coaster,
       };
     })

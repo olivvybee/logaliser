@@ -1,5 +1,5 @@
 import { makeRequest } from '../makeRequest';
-import { CoasterStats } from '../types';
+import { CoasterStats } from '@logaliser/api';
 import { getApiKey } from './getApiKey';
 
 export const getCoasterStats = async (startDate: Date, endDate: Date) => {

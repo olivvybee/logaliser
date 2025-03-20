@@ -11,16 +11,18 @@ import { filterAndSum } from '@/utils/filterAndSum';
 import { eachDayOfInterval, eachMonthOfInterval, formatDate } from 'date-fns';
 import { getDay, getMonth } from '@/utils/activityDates';
 import { highestSumPerDay } from '@/utils/highestSumPerDay';
+import { CoasterStats } from './types';
+import { TotalMinMax } from '../types';
 
 export const calculateCoasterStats = (
   activities: CoasterActivity[],
   startDate: Date,
   endDate: Date
-) => {
+): CoasterStats => {
   const coasters = _uniqBy(activities, (activity) => activity.coaster.id).map(
     (activity) => activity.coaster
   );
-  const parks = _uniqBy(coasters, (coaster) => coaster.park.name).map(
+  const parks = _uniqBy(coasters, (coaster) => coaster.parkId).map(
     (coaster) => coaster.park
   );
 
@@ -99,18 +101,23 @@ const totalMinMax = (
   activities: CoasterActivity[],
   coasters: CoasterWithPark[],
   getCoasterProperty: (coaster: CoasterWithPark) => number | null | undefined
-) => {
+): TotalMinMax => {
   const total = filterAndSum(activities, (activity) =>
     getCoasterProperty(activity.coaster)
   );
+
   const { min, max } = minMax(coasters, getCoasterProperty);
+  const minValue = min ? getCoasterProperty(min) : undefined;
+  const maxValue = max ? getCoasterProperty(max) : undefined;
+
   const highestDay = highestSumPerDay(activities, (activity) =>
     getCoasterProperty(activity.coaster)
   );
+
   return {
     total,
-    min: min ? { id: min.id, value: getCoasterProperty(min) } : undefined,
-    max: max ? { id: max.id, value: getCoasterProperty(max) } : undefined,
+    min: min && minValue ? { id: min.id, value: minValue } : undefined,
+    max: max && maxValue ? { id: max.id, value: maxValue } : undefined,
     highestDay,
   };
 };

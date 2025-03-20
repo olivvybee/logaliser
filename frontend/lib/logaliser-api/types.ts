@@ -54,30 +54,3 @@ export interface HiddenActivity extends BaseActivity {
 }
 
 export type Activity = CoasterActivity | HiddenActivity;
-
-interface MinMax {
-  total: number | undefined;
-  min: { id: number; value: number } | undefined;
-  max: { id: number; value: number } | undefined;
-  highestDay: { day: string; value: number } | undefined;
-}
-
-export interface CoasterStats {
-  totalCount: number;
-  countByCoasterId: Record<string, number>;
-  countByManufacturer: Record<string, number>;
-  countByType: Record<string, number>;
-  countByParkId: Record<string, number>;
-  countByCountry: Record<string, number>;
-  countByDay: Record<string, number>;
-  countByMonth: Record<string, number>;
-  inversions: MinMax;
-  duration: MinMax;
-  length: MinMax;
-  drop: MinMax;
-  height: MinMax;
-  speed: MinMax;
-  verticalAngle: MinMax;
-  coasters: Coaster[];
-  parks: Park[];
-}

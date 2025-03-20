@@ -4,6 +4,10 @@
     "dev": {
       "persistent": true,
       "cache": false
+    },
+    "tsc": {
+      "persistent": false,
+      "cache": false
     }
   }
 }

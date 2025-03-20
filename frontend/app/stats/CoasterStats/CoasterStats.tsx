@@ -1,6 +1,6 @@
 'use client';
 
-import { CoasterStats as Stats } from '@/lib/logaliser-api/types';
+import { CoasterStats as Stats } from '@logaliser/api';
 import { Timespan } from '../types';
 import { BarChart } from './BarChart';
 

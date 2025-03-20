@@ -57,6 +57,9 @@ importers:
 
   frontend:
     dependencies:
+      '@logaliser/api':
+        specifier: '*'
+        version: link:../api
       '@tabler/icons-react':
         specifier: ^3.29.0
         version: 3.29.0(react@19.0.0)
