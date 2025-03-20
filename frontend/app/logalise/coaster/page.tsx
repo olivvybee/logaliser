@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
-import { Coaster } from '@/lib/logaliser-api/types';
+import { CoasterWithPark } from '@logaliser/api';
 import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
 import { Button } from '@/components/Button';
@@ -25,7 +25,7 @@ interface LogaliseCoasterMutationVariables {
 const LogaliseCoasterPage = () => {
   const router = useRouter();
 
-  const [selectedCoaster, setSelectedCoaster] = useState<Coaster>();
+  const [selectedCoaster, setSelectedCoaster] = useState<CoasterWithPark>();
   const [showTimestampField, setShowTimestampField] = useState(false);
 
   const now = new Date().toISOString().slice(0, 16);

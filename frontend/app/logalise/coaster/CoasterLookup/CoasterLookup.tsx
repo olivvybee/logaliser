@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Coaster } from '@/lib/logaliser-api/types';
+import { CoasterWithPark } from '@logaliser/api';
 
 import { NearbyCoasters } from './NearbyCoasters';
 import { CoasterSearch } from './CoasterSearch';
@@ -9,7 +9,7 @@ import styles from './CoasterLookup.module.css';
 import { Button } from '@/components/Button';
 
 interface CoasterLookupProps {
-  onSelectCoaster: (coaster: Coaster) => void;
+  onSelectCoaster: (coaster: CoasterWithPark) => void;
 }
 
 export const CoasterLookup = ({

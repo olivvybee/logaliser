@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  Activity,
-  ActivityType,
-  CoasterActivity,
-} from '@/lib/logaliser-api/types';
+import { Activity, CoasterActivity } from '@logaliser/api';
 import { IconCopy } from '@tabler/icons-react';
 
 import { RelativeTimestamp } from '../RelativeTimestamp';
@@ -17,7 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import { duplicateCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 
 interface ActivityListProps {
-  activities: Activity[];
+  activities: CoasterActivity[];
 }
 
 export const ActivityList = ({ activities }: ActivityListProps) => {
@@ -54,7 +50,7 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
             </div>
 
             <div className={styles.actions}>
-              {activity.type === ActivityType.Coaster && (
+              {activity.type === 'Coaster' && (
                 <Button
                   theme="ghost"
                   iconOnly={true}

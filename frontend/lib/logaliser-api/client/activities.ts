@@ -1,7 +1,7 @@
 'use client';
 
 import { makeRequest } from '../makeRequest';
-import { Activity } from '../types';
+import { Activity } from '@logaliser/api';
 import { getApiKey } from './getApiKey';
 
 interface GetAllActivitiesResponse {

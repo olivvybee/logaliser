@@ -1,7 +1,7 @@
 'use client';
 
 import { makeRequest } from '../makeRequest';
-import { Coaster, CoasterActivity } from '../types';
+import { CoasterActivity, CoasterWithPark } from '@logaliser/api';
 import { getApiKey } from './getApiKey';
 
 export const createCoasterActivity = async (
@@ -40,7 +40,7 @@ export const getNearbyCoasters = async (
 
   const path = `/coasters/nearby?${params.toString()}`;
 
-  return makeRequest<Coaster[]>(path, apiKey);
+  return makeRequest<CoasterWithPark[]>(path, apiKey);
 };
 
 export const getCountryList = async () => {
@@ -61,5 +61,5 @@ export const searchForCoasters = async (query: string, country?: string) => {
 
   const path = `/coasters/search?${params.toString()}`;
 
-  return makeRequest<Coaster[]>(path, apiKey);
+  return makeRequest<CoasterWithPark[]>(path, apiKey);
 };

@@ -1,10 +1,10 @@
-import { Coaster } from '@/lib/logaliser-api/types';
+import { CoasterWithPark } from '@logaliser/api';
 import { Button } from '@/components/Button';
 
 import styles from './CoasterSelectionButton.module.css';
 
 interface CoasterSelectionButtonProps {
-  coaster: Coaster;
+  coaster: CoasterWithPark;
   onClick: () => void;
 }
 

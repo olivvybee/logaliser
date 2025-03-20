@@ -1,16 +1,16 @@
 import { format, formatDistanceToNowStrict, isToday } from 'date-fns';
 
-import { Activity, ActivityType } from '@/lib/logaliser-api/types';
+import { Activity, ActivityType, CoasterActivity } from '@logaliser/api';
 import { IconRollercoasterFilled } from '@tabler/icons-react';
 
 export const getIcon = (activityType: ActivityType) => {
   switch (activityType) {
-    case ActivityType.Coaster:
+    case 'Coaster':
       return IconRollercoasterFilled;
   }
 };
 
-const formatTimestamp = (date: string) => {
+const formatTimestamp = (date: string | Date) => {
   if (isToday(date)) {
     return formatDistanceToNowStrict(date, { addSuffix: true });
   }
@@ -26,14 +26,14 @@ export interface ActivityDetails {
 
 export const getDetails = (activity: Activity): ActivityDetails => {
   switch (activity.type) {
-    case ActivityType.Coaster:
+    case 'Coaster':
       return {
         timestamp: formatTimestamp(activity.endDate),
-        title: activity.coaster.name,
-        metadata: activity.coaster.park.name,
+        title: (activity as CoasterActivity).coaster.name,
+        metadata: (activity as CoasterActivity).coaster.park.name,
       };
 
-    case ActivityType.Hidden:
+    case 'Hidden':
       return {
         timestamp: formatTimestamp(activity.endDate),
         title: '',

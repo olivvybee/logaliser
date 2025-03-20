@@ -1,7 +1,8 @@
 'use client';
 
 import { getNearbyCoasters } from '@/lib/logaliser-api/client/coasters';
-import { Coaster } from '@/lib/logaliser-api/types';
+import { CoasterWithPark } from '@logaliser/api';
+
 import { useQuery } from '@tanstack/react-query';
 import { useGeolocation } from '@/hooks/useGeolocation';
 
@@ -11,7 +12,7 @@ import styles from './NearbyCoasters.module.css';
 import { Spinner } from '@/components/Spinner';
 
 interface NearbyCoastersProps {
-  onSelectCoaster: (coaster: Coaster) => void;
+  onSelectCoaster: (coaster: CoasterWithPark) => void;
 }
 
 export const NearbyCoasters = ({ onSelectCoaster }: NearbyCoastersProps) => {

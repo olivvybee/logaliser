@@ -1,9 +1,9 @@
+import { CoasterActivity } from '@logaliser/api';
 import { makeRequest } from '../makeRequest';
-import { Activity } from '../types';
 import { getApiKey } from './getApiKey';
 
 type RecentActivitiesResponse = {
-  [date: string]: Activity[];
+  [date: string]: CoasterActivity[];
 };
 
 export const getRecentActivities = async () => {
