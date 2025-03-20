@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "turbo build",
     "dev": "turbo dev --parallel",
     "tsc": "turbo tsc --parallel"
   },
