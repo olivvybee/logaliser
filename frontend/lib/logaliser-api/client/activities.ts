@@ -1,7 +1,7 @@
 'use client';
 
 import { makeRequest } from '../makeRequest';
-import { Activity } from '@logaliser/api';
+import { Activity, CoasterActivity } from '@logaliser/api';
 import { getApiKey } from './getApiKey';
 
 interface GetAllActivitiesResponse {
@@ -20,6 +20,16 @@ export const getAllActivities = (cursor?: number) => {
     `/activities?${params.toString()}`,
     apiKey
   );
+};
+
+interface RecentActivitiesResponse {
+  [date: string]: CoasterActivity[];
+}
+
+export const getRecentActivities = () => {
+  const apiKey = getApiKey();
+
+  return makeRequest<RecentActivitiesResponse>('/activities/recent', apiKey);
 };
 
 export const deleteActivity = (activityId: number) => {
