@@ -1,3 +1,7 @@
+import Cookies from 'js-cookie';
+
+import { LOGALISER_API_KEY_COOKIE_NAME } from '@/constants';
+
 export class RequestError extends Error {
   statusCode: number;
 
@@ -7,14 +11,12 @@ export class RequestError extends Error {
   }
 }
 
-export const makeRequest = async <TData>(
-  path: string,
-  apiKey: string | undefined,
-  body?: unknown
-) => {
+export const makeRequest = async <TData>(path: string, body?: unknown) => {
   const baseUrl = process.env.NEXT_PUBLIC_LOGALISER_API_URL;
   const normalisedPath = path.startsWith('/') ? path : `/${path}`;
   const url = `${baseUrl}${normalisedPath}`;
+
+  const apiKey = Cookies.get(LOGALISER_API_KEY_COOKIE_NAME);
 
   const response = await fetch(url, {
     method: body ? 'POST' : 'GET',

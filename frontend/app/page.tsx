@@ -1,12 +1,13 @@
 'use client';
 
-import { ActivityList } from '@/components/ActivityList';
-
-import styles from './page.module.css';
 import { format, isToday, isYesterday } from 'date-fns';
 import { useQuery } from '@tanstack/react-query';
-import { getRecentActivities } from '@/lib/logaliser-api/client/activities';
+
+import { getRecentActivities } from '@/lib/logaliser-api';
+import { ActivityList } from '@/components/ActivityList';
 import { Spinner } from '@/components/Spinner';
+
+import styles from './page.module.css';
 
 const Homepage = () => {
   const { data, isLoading } = useQuery({

@@ -1,7 +1,10 @@
 'use client';
 
-import { Activity, CoasterActivity } from '@logaliser/api';
 import { IconCopy } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
+
+import { CoasterActivity } from '@logaliser/api';
+import { duplicateCoasterActivity } from '@/lib/logaliser-api';
 
 import { RelativeTimestamp } from '../RelativeTimestamp';
 import { Button } from '../Button';
@@ -9,8 +12,6 @@ import { Button } from '../Button';
 import { getDetails, getIcon } from './utils';
 
 import styles from './ActivityList.module.css';
-import { useMutation } from '@tanstack/react-query';
-import { duplicateCoasterActivity } from '@/lib/logaliser-api/client/coasters';
 
 interface ActivityListProps {
   activities: CoasterActivity[];

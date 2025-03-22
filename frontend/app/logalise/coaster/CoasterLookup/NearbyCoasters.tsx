@@ -1,6 +1,6 @@
 'use client';
 
-import { getNearbyCoasters } from '@/lib/logaliser-api/client/coasters';
+import { getNearbyCoasters } from '@/lib/logaliser-api';
 import { CoasterWithPark } from '@logaliser/api';
 
 import { useQuery } from '@tanstack/react-query';

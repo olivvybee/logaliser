@@ -1,18 +1,20 @@
 'use client';
 
-import { Spinner } from '@/components/Spinner';
-import { ToggleButton } from '@/components/ToggleButton';
-import { getCoasterStats } from '@/lib/logaliser-api/client/stats';
-import { useQuery } from '@tanstack/react-query';
 import { useReducer } from 'react';
-import { Timespan } from './types';
-import { ActionType, initialState, reducer } from './reducer';
-
-import styles from './page.module.css';
+import { useQuery } from '@tanstack/react-query';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { formatDate, isFuture, isToday } from 'date-fns';
+
+import { Spinner } from '@/components/Spinner';
+import { ToggleButton } from '@/components/ToggleButton';
 import { Button } from '@/components/Button';
-import { CoasterStats } from './CoasterStats/CoasterStats';
+import { getCoasterStats } from '@/lib/logaliser-api';
+
+import { Timespan } from './types';
+import { ActionType, initialState, reducer } from './reducer';
+import { CoasterStats } from './CoasterStats';
+
+import styles from './page.module.css';
 
 const TIMESPAN_OPTIONS = Object.entries(Timespan).map(([label, value]) => ({
   label,

@@ -1,16 +1,13 @@
 'use client';
 
-import { makeRequest } from '../makeRequest';
+import { makeRequest } from './makeRequest';
 import { CoasterActivity, CoasterWithPark } from '@logaliser/api';
-import { getApiKey } from './getApiKey';
 
 export const createCoasterActivity = async (
   coasterId: number,
   firstRide: boolean,
   timestamp: string = new Date().toISOString()
 ) => {
-  const apiKey = getApiKey();
-
   const timezoneOffset = 0 - new Date(timestamp).getTimezoneOffset();
 
   const body = {
@@ -20,7 +17,7 @@ export const createCoasterActivity = async (
     timezoneOffset,
   };
 
-  return makeRequest<CoasterActivity>('/activities/coaster', apiKey, body);
+  return makeRequest<CoasterActivity>('/activities/coaster', body);
 };
 
 export const duplicateCoasterActivity = async (activity: CoasterActivity) => {
@@ -31,8 +28,6 @@ export const getNearbyCoasters = async (
   latitude: number,
   longitude: number
 ) => {
-  const apiKey = getApiKey();
-
   const params = new URLSearchParams({
     lat: latitude.toString(),
     lng: longitude.toString(),
@@ -40,18 +35,14 @@ export const getNearbyCoasters = async (
 
   const path = `/coasters/nearby?${params.toString()}`;
 
-  return makeRequest<CoasterWithPark[]>(path, apiKey);
+  return makeRequest<CoasterWithPark[]>(path);
 };
 
 export const getCountryList = async () => {
-  const apiKey = getApiKey();
-
-  return makeRequest<string[]>('/theme-parks/countries', apiKey);
+  return makeRequest<string[]>('/theme-parks/countries');
 };
 
 export const searchForCoasters = async (query: string, country?: string) => {
-  const apiKey = getApiKey();
-
   const params = new URLSearchParams({
     query,
   });
@@ -61,5 +52,5 @@ export const searchForCoasters = async (query: string, country?: string) => {
 
   const path = `/coasters/search?${params.toString()}`;
 
-  return makeRequest<CoasterWithPark[]>(path, apiKey);
+  return makeRequest<CoasterWithPark[]>(path);
 };

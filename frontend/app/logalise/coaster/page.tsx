@@ -1,13 +1,13 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { Formik, Form, Field, FieldProps } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
 import { CoasterWithPark } from '@logaliser/api';
-import { createCoasterActivity } from '@/lib/logaliser-api/client/coasters';
+import { createCoasterActivity } from '@/lib/logaliser-api';
 import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
 import { Button } from '@/components/Button';
 import TextFieldStyles from '@/components/TextField/TextField.module.css';

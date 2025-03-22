@@ -3,10 +3,7 @@
 import { FormEvent, useState } from 'react';
 
 import { Button } from '@/components/Button';
-import {
-  getCountryList,
-  searchForCoasters,
-} from '@/lib/logaliser-api/client/coasters';
+import { getCountryList, searchForCoasters } from '@/lib/logaliser-api';
 import { CoasterWithPark } from '@logaliser/api';
 import { useQuery } from '@tanstack/react-query';
 
