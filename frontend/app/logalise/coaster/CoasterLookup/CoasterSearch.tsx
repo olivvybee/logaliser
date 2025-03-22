@@ -4,7 +4,7 @@ import { FormEvent, useState } from 'react';
 
 import { Button } from '@/components/Button';
 import { getCountryList, searchForCoasters } from '@/lib/logaliser-api';
-import { CoasterWithPark } from '@logaliser/api';
+import { Coaster } from '@logaliser/api';
 import { useQuery } from '@tanstack/react-query';
 
 import { CoasterSelectionButton } from './CoasterSelectionButton';
@@ -14,7 +14,7 @@ import { TextField } from '@/components/TextField';
 import { Dropdown } from '@/components/Dropdown';
 
 interface CoasterSearchProps {
-  onSelectCoaster: (coaster: CoasterWithPark) => void;
+  onSelectCoaster: (coaster: Coaster) => void;
 }
 
 export const CoasterSearch = ({ onSelectCoaster }: CoasterSearchProps) => {
