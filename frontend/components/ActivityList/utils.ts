@@ -1,12 +1,15 @@
 import { format, formatDistanceToNowStrict, isToday } from 'date-fns';
 
 import { Activity, ActivityType, CoasterActivity } from '@logaliser/api';
-import { IconRollercoasterFilled } from '@tabler/icons-react';
+import { IconEyeOff, IconRollercoasterFilled } from '@tabler/icons-react';
 
 export const getIcon = (activityType: ActivityType) => {
   switch (activityType) {
     case 'Coaster':
       return IconRollercoasterFilled;
+
+    case 'Hidden':
+      return IconEyeOff;
   }
 };
 

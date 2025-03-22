@@ -39,6 +39,7 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
         return (
           <li key={activity.id} className={styles.activity}>
             <div className={styles.display}>
+              <Icon />
               <div className={styles.activityDetails}>
                 <span className={styles.title}>{details.title}</span>
                 {details.metadata && (
