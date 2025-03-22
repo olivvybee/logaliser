@@ -17,7 +17,7 @@ export const createCoasterActivity = async (
     timezoneOffset,
   };
 
-  return makeRequest<CoasterActivity>('/activities/coaster', body);
+  return makeRequest<CoasterActivity>('/activities/coaster', { body });
 };
 
 export const duplicateCoasterActivity = async (activity: CoasterActivity) => {

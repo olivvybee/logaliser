@@ -11,12 +11,22 @@ export class RequestError extends Error {
   }
 }
 
-export const makeRequest = async <TData>(path: string, body?: unknown) => {
+interface MakeRequestOptions {
+  body?: unknown;
+  apiKey?: string;
+}
+
+export const makeRequest = async <TData>(
+  path: string,
+  options: MakeRequestOptions = {}
+) => {
   const baseUrl = process.env.NEXT_PUBLIC_LOGALISER_API_URL;
   const normalisedPath = path.startsWith('/') ? path : `/${path}`;
   const url = `${baseUrl}${normalisedPath}`;
 
-  const apiKey = Cookies.get(LOGALISER_API_KEY_COOKIE_NAME);
+  const apiKey = options.apiKey || Cookies.get(LOGALISER_API_KEY_COOKIE_NAME);
+
+  const { body } = options;
 
   const response = await fetch(url, {
     method: body ? 'POST' : 'GET',
