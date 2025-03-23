@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
+import _uniq from 'lodash/uniq';
 
 import { getDB } from '@/db';
 import { getDistance } from '@/utils/distance';
@@ -122,6 +123,25 @@ const coasterSchema = z.object({
   duration: z.number().optional(),
   verticalAngle: z.number().optional(),
   drop: z.number().optional(),
+});
+
+coastersHandler.get('/ridden', async (ctx) => {
+  const db = getDB();
+
+  const parks = await db.themePark.findMany({
+    where: {
+      coasters: {
+        some: {
+          ridden: true,
+        },
+      },
+    },
+    include: {
+      coasters: true,
+    },
+  });
+
+  return ctx.json(parks);
 });
 
 coastersHandler.post(
