@@ -3,8 +3,8 @@ import { hideBin } from 'yargs/helpers';
 import { config as loadEnv } from 'dotenv';
 
 import { Filter } from './urls';
-import { scrapeCoasters } from './scrapeCoasters';
-import { scrapeParks } from './scrapeParks';
+import { scrapeCoasters, scrapeSpecificCoasters } from './scrapeCoasters';
+import { scrapeParks, scrapeSpecificParks } from './scrapeParks';
 
 loadEnv();
 
@@ -40,6 +40,11 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false,
   })
+  .option('ids', {
+    alias: 'i',
+    type: 'array',
+    default: [],
+  })
   .parseSync();
 
 const filter = argv.onlyExisting
@@ -48,10 +53,18 @@ const filter = argv.onlyExisting
   ? Filter.Defunct
   : undefined;
 
-const { limit, forceUpload } = argv;
+const { limit, forceUpload, ids } = argv;
 
 if (argv.entity === 'park') {
-  scrapeParks({ filter, limit, forceUpload });
+  if (ids) {
+    scrapeSpecificParks(ids);
+  } else {
+    scrapeParks({ filter, limit, forceUpload });
+  }
 } else {
-  scrapeCoasters({ filter, limit, forceUpload });
+  if (ids) {
+    scrapeSpecificCoasters(ids);
+  } else {
+    scrapeCoasters({ filter, limit, forceUpload });
+  }
 }

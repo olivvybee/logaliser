@@ -1,7 +1,7 @@
 import { load } from 'cheerio';
 import { fetchUrl } from './fetchUrl';
 import { scrapePaginatedItems } from './pagination';
-import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
+import { buildUrl, Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { getLocation } from './getLocation';
 import { exportHashes, findChangedItems } from './hashing';
 import { uploadData } from './uploadData';
@@ -36,6 +36,21 @@ export const scrapeParks = async ({
   }
 
   exportHashes(hashes, Entity.Park);
+};
+
+export const scrapeSpecificParks = async (ids: Array<string | number>) => {
+  console.log(`Scraping parks with ids ${ids.join(', ')}...`);
+
+  const promises = ids.map(async (id) => {
+    const url = buildUrl(`${id}.htm`);
+    return scrapeParkPage(url);
+  });
+
+  const parks = await Promise.all(promises);
+
+  console.log(`Found data for ${parks.length} parks.`);
+
+  await uploadData(Entity.Park, parks);
 };
 
 const scrapeParkPage = async (url: string) => {

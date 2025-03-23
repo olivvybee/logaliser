@@ -1,7 +1,7 @@
 import { Cheerio, CheerioAPI, load } from 'cheerio';
 import { fetchUrl } from './fetchUrl';
 import { scrapePaginatedItems } from './pagination';
-import { Entity, Filter, getIdFromUrl, getUrl } from './urls';
+import { buildUrl, Entity, Filter, getIdFromUrl, getUrl } from './urls';
 import { toCamelCase } from './toCamelCase';
 import { exportHashes, findChangedItems } from './hashing';
 import { getLocation } from './getLocation';
@@ -39,6 +39,21 @@ export const scrapeCoasters = async ({
   }
 
   exportHashes(hashes, Entity.Coaster);
+};
+
+export const scrapeSpecificCoasters = async (ids: Array<string | number>) => {
+  console.log(`Scraping coasters with ids ${ids.join(', ')}...`);
+
+  const promises = ids.map(async (id) => {
+    const url = buildUrl(`${id}.htm`);
+    return scrapeCoasterPage(url);
+  });
+
+  const coasters = await Promise.all(promises);
+
+  console.log(`Found data for ${coasters.length} coasters.`);
+
+  await uploadData(Entity.Coaster, coasters);
 };
 
 const scrapeCoasterPage = async (url: string) => {
