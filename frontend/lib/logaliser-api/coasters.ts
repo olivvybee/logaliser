@@ -5,14 +5,12 @@ import { CoasterActivity, Coaster } from '@logaliser/api';
 
 export const createCoasterActivity = async (
   coasterId: number,
-  firstRide: boolean,
   timestamp: string = new Date().toISOString()
 ) => {
   const timezoneOffset = 0 - new Date(timestamp).getTimezoneOffset();
 
   const body = {
     coasterId,
-    firstRide,
     timestamp,
     timezoneOffset,
   };
@@ -21,7 +19,7 @@ export const createCoasterActivity = async (
 };
 
 export const duplicateCoasterActivity = async (activity: CoasterActivity) => {
-  return createCoasterActivity(activity.item, false);
+  return createCoasterActivity(activity.item);
 };
 
 export const getNearbyCoasters = async (

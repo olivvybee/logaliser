@@ -8,7 +8,6 @@ import { IconCircleX } from '@tabler/icons-react';
 
 import { Coaster } from '@logaliser/api';
 import { createCoasterActivity } from '@/lib/logaliser-api';
-import { markCoasterRidden } from '@/lib/roller-coaster-tracker/markCoasterRidden';
 import { Button } from '@/components/Button';
 import TextFieldStyles from '@/components/TextField/TextField.module.css';
 
@@ -32,23 +31,11 @@ const LogaliseCoasterPage = () => {
 
   const {
     mutate: createActivity,
-    isPending: createActivityPending,
-    error: createActivityError,
+    isPending: loading,
+    error,
   } = useMutation({
-    mutationFn: ({
-      coasterId,
-      firstRide,
-      timestamp,
-    }: LogaliseCoasterMutationVariables) =>
-      createCoasterActivity(coasterId, firstRide, timestamp),
-  });
-
-  const {
-    mutate: markRidden,
-    isPending: markRiddenPending,
-    error: markRiddenError,
-  } = useMutation({
-    mutationFn: (coasterId: number) => markCoasterRidden(coasterId),
+    mutationFn: ({ coasterId, timestamp }: LogaliseCoasterMutationVariables) =>
+      createCoasterActivity(coasterId, timestamp),
   });
 
   if (!selectedCoaster) {
@@ -59,8 +46,6 @@ const LogaliseCoasterPage = () => {
       </>
     );
   }
-
-  const loading = createActivityPending || markRiddenPending;
 
   return (
     <>
@@ -92,21 +77,11 @@ const LogaliseCoasterPage = () => {
                 : undefined,
             },
             {
-              onSuccess: () => {
-                if (firstRide) {
-                  markRidden(selectedCoaster.id);
-                }
-                router.push('/');
-              },
+              onSuccess: () => router.push('/'),
             }
           );
         }}>
         <Form className={styles.form}>
-          <label>
-            <Field name="firstRide" type="checkbox" disabled={loading} />
-            First ride
-          </label>
-
           <label>
             <input
               name="setTimestamp"
@@ -114,7 +89,7 @@ const LogaliseCoasterPage = () => {
               onChange={(e) => setShowTimestampField(e.target.checked)}
               disabled={loading}
             />
-            Set timestamp
+            Override timestamp
           </label>
 
           {showTimestampField && (
