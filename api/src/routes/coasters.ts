@@ -128,12 +128,18 @@ const coasterSchema = z.object({
 coastersHandler.get('/ridden', async (ctx) => {
   const db = getDB();
 
+  const riddenCoasters = await db.coaster.findMany({
+    where: {
+      ridden: true,
+    },
+  });
+
+  const parkIds = riddenCoasters.map((coaster) => coaster.parkId);
+
   const parks = await db.themePark.findMany({
     where: {
-      coasters: {
-        some: {
-          ridden: true,
-        },
+      id: {
+        in: parkIds,
       },
     },
     include: {
