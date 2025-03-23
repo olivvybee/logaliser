@@ -55,4 +55,7 @@ model Coaster {
 
   park   ThemePark @relation(fields: [parkId], references: [id])
   parkId Int
+
+  ridden     Boolean   @default(false)
+  riddenDate DateTime?
 }

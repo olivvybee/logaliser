@@ -48,6 +48,18 @@ coasterActivityHandler.post(
       },
     });
 
+    if (!coaster.ridden) {
+      await db.coaster.update({
+        where: {
+          id: coasterId,
+        },
+        data: {
+          ridden: true,
+          riddenDate: endDate,
+        },
+      });
+    }
+
     return ctx.json(activity);
   }
 );
