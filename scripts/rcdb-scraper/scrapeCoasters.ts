@@ -86,7 +86,7 @@ const NUMERIC_STATS = [
   'Drop',
 ];
 const TIME_STATS = ['Duration'];
-const IGNORE_STATS = ['Former status'];
+const IGNORE_STATS = ['Former status', 'Name'];
 
 const getStatValue = (key: string, value: Cheerio<any>, $: CheerioAPI) => {
   if (NUMERIC_STATS.includes(key)) {
