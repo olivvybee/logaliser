@@ -2,8 +2,8 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 
-import { getDB } from '@/db';
-import { authMiddleware } from '@/middleware/authMiddleware';
+import { getDB } from '../db';
+import { authMiddleware } from '../middleware/authMiddleware';
 
 export const themeParksHandler = new Hono();
 

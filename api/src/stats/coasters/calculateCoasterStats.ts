@@ -1,4 +1,3 @@
-import { CoasterActivity, CoasterWithPark } from '@/db/types';
 import _uniq from 'lodash/uniq';
 import _uniqBy from 'lodash/uniqBy';
 import _groupBy from 'lodash/groupBy';
@@ -6,13 +5,17 @@ import _sumBy from 'lodash/sumBy';
 import _minBy from 'lodash/minBy';
 import _maxBy from 'lodash/maxBy';
 import _countBy from 'lodash/countBy';
-import { minMax } from '@/utils/minMax';
-import { filterAndSum } from '@/utils/filterAndSum';
 import { eachDayOfInterval, eachMonthOfInterval, formatDate } from 'date-fns';
-import { getDay, getMonth } from '@/utils/activityDates';
-import { highestSumPerDay } from '@/utils/highestSumPerDay';
-import { CoasterStats } from './types';
+
+import { CoasterActivity, CoasterWithPark } from '../../db/types';
+import { minMax } from '../../utils/minMax';
+import { filterAndSum } from '../../utils/filterAndSum';
+import { getDay, getMonth } from '../../utils/activityDates';
+import { highestSumPerDay } from '../../utils/highestSumPerDay';
+
 import { TotalMinMax } from '../types';
+
+import { CoasterStats } from './types';
 
 export const calculateCoasterStats = (
   activities: CoasterActivity[],

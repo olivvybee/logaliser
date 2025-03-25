@@ -1,11 +1,12 @@
-import { getDB } from '@/db';
-import { extendActivities } from '@/db/extendActivities';
-import { calculateStats } from '@/stats/calculateStats';
 import { zValidator } from '@hono/zod-validator';
 import { ActivityType } from '@prisma/client';
 import { endOfDay, startOfDay } from 'date-fns';
 import { Hono } from 'hono';
 import { z } from 'zod';
+
+import { getDB } from '../db';
+import { extendActivities } from '../db/extendActivities';
+import { calculateStats } from '../stats/calculateStats';
 
 export const statsHandler = new Hono();
 

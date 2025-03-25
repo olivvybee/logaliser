@@ -1,15 +1,16 @@
 import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { z } from 'zod';
+
+import { getDB } from '../../db';
+import { authMiddleware } from '../../middleware/authMiddleware';
+import { softAuthMiddleware } from '../../middleware/softAuthMiddleware';
+import { extendActivities } from '../../db/extendActivities';
+import { obfuscateActivities } from '../../db/obfuscateActivities';
 
 import { coasterActivityHandler } from './coaster';
 import { recentActivityHandler } from './recent';
-import { getDB } from '@/db';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { zValidator } from '@hono/zod-validator';
-import { z } from 'zod';
-import { authMiddleware } from '@/middleware/authMiddleware';
-import { softAuthMiddleware } from '@/middleware/softAuthMiddleware';
-import { extendActivities } from '@/db/extendActivities';
-import { obfuscateActivities } from '@/db/obfuscateActivities';
 
 export const activitiesHandler = new Hono();
 

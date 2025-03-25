@@ -3,9 +3,9 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import _uniq from 'lodash/uniq';
 
-import { getDB } from '@/db';
-import { getDistance } from '@/utils/distance';
-import { authMiddleware } from '@/middleware/authMiddleware';
+import { getDB } from '../db';
+import { getDistance } from '../utils/distance';
+import { authMiddleware } from '../middleware/authMiddleware';
 
 export const coastersHandler = new Hono();
 

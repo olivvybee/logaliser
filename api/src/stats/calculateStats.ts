@@ -1,5 +1,7 @@
-import { CoasterActivity, ExtendedActivity } from '@/db/types';
 import { ActivityType } from '@prisma/client';
+
+import { CoasterActivity, ExtendedActivity } from '../db/types';
+
 import { calculateCoasterStats } from './coasters';
 
 export const calculateStats = (

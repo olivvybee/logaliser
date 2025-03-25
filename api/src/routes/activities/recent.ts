@@ -3,8 +3,8 @@ import { sub, startOfDay } from 'date-fns';
 import _groupBy from 'lodash/groupBy';
 import _sortBy from 'lodash/sortBy';
 
-import { getDB } from '@/db';
-import { extendActivities } from '@/db/extendActivities';
+import { getDB } from '../../db';
+import { extendActivities } from '../../db/extendActivities';
 
 export const recentActivityHandler = new Hono();
 

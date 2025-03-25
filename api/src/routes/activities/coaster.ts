@@ -2,10 +2,10 @@ import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { subSeconds } from 'date-fns';
-
-import { getDB } from '@/db';
 import { ActivityType } from '@prisma/client';
-import { authMiddleware } from '@/middleware/authMiddleware';
+
+import { getDB } from '../../db';
+import { authMiddleware } from '../../middleware/authMiddleware';
 
 export const coasterActivityHandler = new Hono();
 
