@@ -38,6 +38,7 @@ coastersHandler.get(
             lte: maxLng,
           },
         },
+        closed: false,
       },
       include: {
         park: {
@@ -88,6 +89,7 @@ coastersHandler.get(
         park: {
           country: { equals: country },
         },
+        closed: false,
       },
       orderBy: {
         name: 'asc',

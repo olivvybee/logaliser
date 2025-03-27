@@ -39,6 +39,7 @@ model Coaster {
   id            Int     @id @unique
   name          String
   opened        String?
+  closed        Boolean @default(false)
   latitude      Float?
   longitude     Float?
   make          String?
