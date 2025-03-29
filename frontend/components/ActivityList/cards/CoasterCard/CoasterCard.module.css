@@ -1,3 +1,30 @@
 .parkName {
   font-size: 0.9rem;
 }
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--border-radius);
+  padding: 2px 4px;
+  font-size: 0.8rem;
+  margin: 2px 0;
+  color: #000000;
+}
+
+.positive {
+  background-color: #caf7a8;
+}
+
+.negative {
+  background-color: #fab5aa;
+}

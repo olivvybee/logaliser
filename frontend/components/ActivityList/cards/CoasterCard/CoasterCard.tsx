@@ -1,5 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { IconCopy, IconRollercoasterFilled } from '@tabler/icons-react';
+import {
+  IconBarrierBlock,
+  IconCopy,
+  IconRollercoasterFilled,
+  IconSparkles,
+  IconTool,
+} from '@tabler/icons-react';
 
 import { CoasterActivity } from '@logaliser/api';
 import { duplicateCoasterActivity } from '@/lib/logaliser-api';
@@ -10,6 +16,7 @@ import { CardComponentProps } from '../../types';
 import { ActivityCard } from '../ActivityCard';
 
 import styles from './CoasterCard.module.css';
+import classNames from 'classnames';
 
 export const CoasterCard = ({
   activity: untypedActivity,
@@ -26,6 +33,19 @@ export const CoasterCard = ({
       },
     });
 
+  const tags = [
+    activity.metadata.firstRide
+      ? { icon: IconSparkles, text: 'First ride', colour: styles.positive }
+      : undefined,
+    activity.metadata.inShowExit
+      ? {
+          icon: IconBarrierBlock,
+          text: 'In-show exit',
+          colour: styles.negative,
+        }
+      : undefined,
+  ].filter((tag) => tag !== undefined);
+
   return (
     <ActivityCard
       title={activity.coaster.name}
@@ -41,7 +61,20 @@ export const CoasterCard = ({
         </Button>
       )}
       renderDetails={() => (
-        <span className={styles.parkName}>{activity.coaster.park.name}</span>
+        <>
+          <span className={styles.parkName}>{activity.coaster.park.name}</span>
+          {!!tags.length && (
+            <div className={styles.tags}>
+              {tags.map((tag) => (
+                <span
+                  className={classNames(styles.tag, tag.colour)}
+                  key={tag.text}>
+                  <tag.icon size={16} /> {tag.text}
+                </span>
+              ))}
+            </div>
+          )}
+        </>
       )}
     />
   );
