@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.list {
+  list-style-type: none;
+}
+
+.entry {
+  margin-bottom: 4px;
+}

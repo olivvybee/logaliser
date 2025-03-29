@@ -20,6 +20,10 @@ export interface CoasterStats {
   speed: TotalMinMax;
   verticalAngle: TotalMinMax;
 
+  newCoasters: {
+    total: number;
+    coasters: number[];
+  };
   inShowExits: {
     total: number;
     countByCoasterId: Record<number, number>;

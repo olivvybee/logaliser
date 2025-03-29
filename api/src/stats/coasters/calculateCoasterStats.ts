@@ -29,6 +29,9 @@ export const calculateCoasterStats = (
     (coaster) => coaster.park
   );
 
+  const firstRides = activities.filter(
+    (activity) => activity.metadata.firstRide
+  );
   const inShowExits = activities.filter(
     (activity) => activity.metadata.inShowExit
   );
@@ -86,6 +89,10 @@ export const calculateCoasterStats = (
       (coaster) => coaster.verticalAngle
     ),
 
+    newCoasters: {
+      total: firstRides.length,
+      coasters: firstRides.map((activity) => activity.coaster.id),
+    },
     inShowExits: {
       total: inShowExits.length,
       countByCoasterId: _countBy(

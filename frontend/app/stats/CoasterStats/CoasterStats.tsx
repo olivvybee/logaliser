@@ -13,6 +13,7 @@ import {
   metersToMiles,
 } from '../utils/convertDistance';
 import { RankingTable } from '../RankingTable';
+import { List } from '../List';
 
 interface CoasterStatsProps {
   stats: Stats;
@@ -52,7 +53,9 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             value={stats.inversions.total}
           />
         )}
-
+        {stats.newCoasters.total && (
+          <Stat label="Newly ridden coasters" value={stats.newCoasters.total} />
+        )}
         {stats.inShowExits.total && (
           <Stat label="In-show exits" value={stats.inShowExits.total} />
         )}
@@ -169,6 +172,14 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
           )}
         />
 
+        {stats.newCoasters.total && (
+          <List
+            title="Newly ridden coasters"
+            entries={stats.newCoasters.coasters.map(
+              (id) => getCoasterName(id) || ''
+            )}
+          />
+        )}
         {stats.inShowExits.total && (
           <RankingTable
             title="Most broken coasters"
