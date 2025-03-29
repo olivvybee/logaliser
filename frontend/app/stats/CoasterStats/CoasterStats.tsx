@@ -52,6 +52,11 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             value={stats.inversions.total}
           />
         )}
+
+        {stats.inShowExits.total && (
+          <Stat label="In-show exits" value={stats.inShowExits.total} />
+        )}
+
         {stats.length.total !== undefined && (
           <Stat
             label="Total distance"
@@ -163,6 +168,20 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             })
           )}
         />
+
+        {stats.inShowExits.total && (
+          <RankingTable
+            title="Most broken coasters"
+            labelColumnName="Coaster"
+            valueColumnName="In&#8209;show exits"
+            entries={Object.entries(stats.inShowExits.countByCoasterId).map(
+              ([id, value]) => ({
+                label: getCoasterName(id) || '-',
+                value,
+              })
+            )}
+          />
+        )}
       </div>
     </>
   );
