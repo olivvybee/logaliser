@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
 import { Coaster } from '@logaliser/api';
@@ -28,6 +28,8 @@ const LogaliseCoasterPage = () => {
   const [showTimestampField, setShowTimestampField] = useState(false);
 
   const now = new Date().toISOString().slice(0, 16);
+
+  const queryClient = useQueryClient();
 
   const {
     mutate: createActivity,
@@ -77,7 +79,12 @@ const LogaliseCoasterPage = () => {
                 : undefined,
             },
             {
-              onSuccess: () => router.push('/'),
+              onSuccess: () => {
+                queryClient.invalidateQueries({
+                  queryKey: ['recentActivities'],
+                });
+                router.push('/');
+              },
             }
           );
         }}>
