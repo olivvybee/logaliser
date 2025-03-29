@@ -53,10 +53,10 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             value={stats.inversions.total}
           />
         )}
-        {stats.newCoasters.total && (
+        {stats.newCoasters.total > 0 && (
           <Stat label="Newly ridden coasters" value={stats.newCoasters.total} />
         )}
-        {stats.inShowExits.total && (
+        {stats.inShowExits.total > 0 && (
           <Stat label="In-show exits" value={stats.inShowExits.total} />
         )}
 
@@ -172,7 +172,7 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
           )}
         />
 
-        {stats.newCoasters.total && (
+        {stats.newCoasters.total > 0 && (
           <List
             title="Newly ridden coasters"
             entries={stats.newCoasters.coasters.map(
@@ -180,7 +180,7 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             )}
           />
         )}
-        {stats.inShowExits.total && (
+        {stats.inShowExits.total > 0 && (
           <RankingTable
             title="Most broken coasters"
             labelColumnName="Coaster"
