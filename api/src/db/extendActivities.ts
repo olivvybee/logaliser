@@ -6,7 +6,6 @@ import { extendCoasterActivities } from './extensions/coasterExtension';
 
 const EXTENSION_MAP: Record<ActivityType, ExtensionFn> = {
   [ActivityType.Coaster]: extendCoasterActivities,
-  [ActivityType.Hidden]: async (activities) => activities,
 };
 
 export const extendActivities = async (activities: Activity[]) => {

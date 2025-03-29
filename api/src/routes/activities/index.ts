@@ -5,9 +5,7 @@ import { z } from 'zod';
 
 import { getDB } from '../../db';
 import { authMiddleware } from '../../middleware/authMiddleware';
-import { softAuthMiddleware } from '../../middleware/softAuthMiddleware';
 import { extendActivities } from '../../db/extendActivities';
-import { obfuscateActivities } from '../../db/obfuscateActivities';
 
 import { coasterActivityHandler } from './coaster';
 import { recentActivityHandler } from './recent';
@@ -21,10 +19,8 @@ const ACTIVITIES_PER_PAGE = 25;
 
 activitiesHandler.get(
   '/',
-  softAuthMiddleware,
   zValidator('query', z.object({ cursor: z.coerce.number().optional() })),
   async (ctx) => {
-    const isAuthenticated = ctx.get('isAuthenticated');
     const { cursor } = ctx.req.valid('query');
     const db = getDB();
 
@@ -43,10 +39,7 @@ activitiesHandler.get(
 
     const nextCursor = activities.at(-1)?.id;
 
-    const obfuscatedActivities = isAuthenticated
-      ? activities
-      : obfuscateActivities(activities);
-    const extendedActivities = await extendActivities(obfuscatedActivities);
+    const extendedActivities = await extendActivities(activities);
 
     return ctx.json({
       activities: extendedActivities,
