@@ -1,0 +1,34 @@
+.activityCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.title {
+  font-weight: bold;
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+}

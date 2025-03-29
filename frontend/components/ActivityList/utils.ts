@@ -2,6 +2,17 @@ import { format, formatDistanceToNowStrict, isToday } from 'date-fns';
 
 import { Activity, ActivityType, CoasterActivity } from '@logaliser/api';
 import { IconRollercoasterFilled } from '@tabler/icons-react';
+import { CoasterCard } from './cards/CoasterCard';
+import { CardComponentProps } from './types';
+
+export const getCardComponent = (
+  activityType: ActivityType
+): React.ComponentType<CardComponentProps> => {
+  switch (activityType) {
+    case 'Coaster':
+      return CoasterCard;
+  }
+};
 
 export const getIcon = (activityType: ActivityType) => {
   switch (activityType) {
