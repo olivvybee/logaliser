@@ -7,6 +7,10 @@ export interface CoasterWithPark extends Coaster {
 export interface CoasterActivity extends Activity {
   type: 'Coaster';
   coaster: CoasterWithPark;
+  metadata: {
+    firstRide: boolean;
+    inShowExit: boolean;
+  };
 }
 
 export type ExtendedActivity = Activity | CoasterActivity;

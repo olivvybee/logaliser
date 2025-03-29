@@ -29,6 +29,10 @@ export const calculateCoasterStats = (
     (coaster) => coaster.park
   );
 
+  const inShowExits = activities.filter(
+    (activity) => activity.metadata.inShowExit
+  );
+
   const allDays = eachDayOfInterval({
     start: startDate,
     end: endDate,
@@ -81,6 +85,14 @@ export const calculateCoasterStats = (
       coasters,
       (coaster) => coaster.verticalAngle
     ),
+
+    inShowExits: {
+      total: inShowExits.length,
+      countByCoasterId: _countBy(
+        inShowExits,
+        (activity) => activity.coaster.id
+      ),
+    },
 
     coasters,
     parks,

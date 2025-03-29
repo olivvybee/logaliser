@@ -13,6 +13,7 @@ const coasterActivitySchema = z.object({
   coasterId: z.number().int(),
   timestamp: z.string().datetime({ local: true, offset: true }).optional(),
   timezoneOffset: z.number().int().optional(),
+  inShowExit: z.boolean().optional().default(false),
 });
 
 coasterActivityHandler.post(
@@ -20,7 +21,8 @@ coasterActivityHandler.post(
   authMiddleware,
   zValidator('json', coasterActivitySchema),
   async (ctx) => {
-    const { coasterId, timestamp, timezoneOffset } = ctx.req.valid('json');
+    const { coasterId, timestamp, timezoneOffset, inShowExit } =
+      ctx.req.valid('json');
     const db = getDB();
 
     const coaster = await db.coaster.findUnique({ where: { id: coasterId } });
@@ -42,6 +44,7 @@ coasterActivityHandler.post(
         timezoneOffset,
         metadata: {
           firstRide: !coaster.ridden,
+          inShowExit,
         },
       },
     });

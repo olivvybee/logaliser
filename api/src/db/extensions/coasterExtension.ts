@@ -1,4 +1,4 @@
-import { Activity } from '@prisma/client';
+import { Activity, Prisma } from '@prisma/client';
 import _uniq from 'lodash/uniq';
 
 import { getDB } from '../getDB';
@@ -28,10 +28,16 @@ export const extendCoasterActivities: ExtensionFn = async (
         return undefined;
       }
 
+      const metadata = activity.metadata as Prisma.JsonObject;
+
       return {
         ...activity,
         type: 'Coaster' as const,
         coaster,
+        metadata: {
+          firstRide: !!metadata.firstRide,
+          inShowExit: !!metadata.inShowExit,
+        },
       };
     })
     .filter((coaster) => coaster !== undefined);
