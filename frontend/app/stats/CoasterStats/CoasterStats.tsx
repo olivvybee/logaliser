@@ -46,6 +46,7 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
 
       <div className={styles.statBoxes}>
         <Stat label="Unique coasters" value={stats.coasters.length} />
+        <Stat label="Parks visited" value={stats.parks.length} />
         <Stat label="Total rides" value={stats.totalCount} />
         {stats.inversions.total !== undefined && (
           <Stat
