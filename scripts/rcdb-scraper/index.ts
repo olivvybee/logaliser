@@ -56,13 +56,13 @@ const filter = argv.onlyExisting
 const { limit, forceUpload, ids } = argv;
 
 if (argv.entity === 'park') {
-  if (ids) {
+  if (ids.length) {
     scrapeSpecificParks(ids);
   } else {
     scrapeParks({ filter, limit, forceUpload });
   }
 } else {
-  if (ids) {
+  if (ids.length) {
     scrapeSpecificCoasters(ids);
   } else {
     scrapeCoasters({ filter, limit, forceUpload });
