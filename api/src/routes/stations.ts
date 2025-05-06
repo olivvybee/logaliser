@@ -33,3 +33,41 @@ stationsHandler.post(
     return ctx.json(result);
   }
 );
+
+const searchSchema = z.object({
+  query: z.string(),
+  country: z.string().optional(),
+});
+
+stationsHandler.get(
+  '/search',
+  zValidator('query', searchSchema),
+  async (ctx) => {
+    const db = getDB();
+    const { query, country } = ctx.req.valid('query');
+
+    const stations = await db.station.findMany({
+      where: {
+        name: { contains: query },
+        country: { equals: country },
+      },
+      orderBy: { name: 'asc' },
+    });
+
+    return ctx.json(stations);
+  }
+);
+
+stationsHandler.get('/countries', async (ctx) => {
+  const db = getDB();
+
+  const countryObjects = await db.station.findMany({
+    distinct: ['country'],
+    select: { country: true },
+    orderBy: { country: 'asc' },
+  });
+
+  const countries = countryObjects.map((obj) => obj.country);
+
+  return ctx.json(countries);
+});
