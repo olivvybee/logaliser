@@ -11,6 +11,7 @@ import { activitiesHandler } from './routes/activities';
 import { authMiddleware } from './middleware/authMiddleware';
 import { checkCorsOrigin } from './utils/checkCorsOrigin';
 import { statsHandler } from './routes/stats';
+import { stationsHandler } from './routes/stations';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -29,6 +30,7 @@ app.use(
 app.route('/activities', activitiesHandler);
 app.route('/coasters', coastersHandler);
 app.route('/theme-parks', themeParksHandler);
+app.route('/stations', stationsHandler);
 app.route('/stats', statsHandler);
 
 app.get('/auth', authMiddleware, async (ctx) => {
