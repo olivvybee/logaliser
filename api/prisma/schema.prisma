@@ -59,3 +59,11 @@ model Coaster {
   ridden     Boolean   @default(false)
   riddenDate DateTime?
 }
+
+model Station {
+  id        Int    @id @default(autoincrement())
+  name      String
+  country   String
+  latitude  Float?
+  longitude Float?
+}
