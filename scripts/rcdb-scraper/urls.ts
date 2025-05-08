@@ -15,6 +15,11 @@ export const getUrl = (entity: Entity, filter?: Filter) => {
   const searchParams = new URLSearchParams();
   searchParams.set('ot', entity.toString());
 
+  if (entity === Entity.Coaster) {
+    searchParams.append('st', '93');
+    searchParams.append('st', '311');
+  }
+
   if (filter) {
     searchParams.set(filter.toString(), 'on');
   }
