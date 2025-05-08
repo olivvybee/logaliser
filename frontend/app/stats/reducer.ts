@@ -103,7 +103,7 @@ export const reducer = (state: State, action: Action) => {
         return {
           ...state,
           startDate: subMonths(state.startDate, 1),
-          endDate: subMonths(state.endDate, 1),
+          endDate: endOfMonth(subMonths(state.endDate, 1)),
         };
 
       case Timespan.Year:
@@ -128,7 +128,7 @@ export const reducer = (state: State, action: Action) => {
         return {
           ...state,
           startDate: addMonths(state.startDate, 1),
-          endDate: addMonths(state.endDate, 1),
+          endDate: endOfMonth(addMonths(state.endDate, 1)),
         };
 
       case Timespan.Year:
