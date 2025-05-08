@@ -1,7 +1,6 @@
 import {
   startOfWeek,
   endOfWeek,
-  startOfMonth,
   endOfMonth,
   startOfYear,
   endOfYear,
@@ -11,6 +10,7 @@ import {
   addWeeks,
   addMonths,
   addYears,
+  setDate,
 } from 'date-fns';
 import { Timespan } from './types';
 
@@ -26,7 +26,7 @@ const getBaseDateRange = (timespan: Timespan) => {
 
     case Timespan.Month:
       return {
-        startDate: startOfMonth(now),
+        startDate: setDate(now, 1),
         endDate: endOfMonth(now),
       };
 
