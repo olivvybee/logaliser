@@ -10,6 +10,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Activity {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
+  timezone  String?
+
+  coasterActivity CoasterActivity?
+}
+
+model CoasterActivity {
+  id Int @id @default(autoincrement())
+
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int      @unique
+
+  coaster   Coaster @relation(fields: [coasterId], references: [id])
+  coasterId Int
+
+  firstRide  Boolean @default(false)
+  inShowExit Boolean @default(false)
+}
+
 model NewActivity {
   id        Int      @id @default(autoincrement())
   timestamp DateTime
@@ -66,6 +87,7 @@ model Coaster {
   ridden     Boolean   @default(false)
   riddenDate DateTime?
 
+  activities    CoasterActivity[]
   newActivities NewCoasterActivity[]
 }
 
