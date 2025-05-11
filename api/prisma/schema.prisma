@@ -10,31 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum ActivityType {
-  Coaster
-}
-
-model Activity {
-  id             Int          @id @default(autoincrement())
-  startDate      DateTime?
-  endDate        DateTime
-  timezoneOffset Int?
-  type           ActivityType
-  item           Int // Technically a foreign key but not mapped, to allow a reference to any table
-  metadata       Json?
-}
-
-model CoasterActivity {
-  id             Int      @id @default(autoincrement())
-  date           DateTime
-  timezoneOffset Int?
-  firstRide      Boolean  @default(false)
-  inShowExit     Boolean  @default(false)
-
-  coaster   Coaster @relation(fields: [coasterId], references: [id])
-  coasterId Int
-}
-
 model NewActivity {
   id        Int      @id @default(autoincrement())
   timestamp DateTime
@@ -91,7 +66,6 @@ model Coaster {
   ridden     Boolean   @default(false)
   riddenDate DateTime?
 
-  activities    CoasterActivity[]
   newActivities NewCoasterActivity[]
 }
 
