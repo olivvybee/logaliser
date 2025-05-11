@@ -1,6 +1,8 @@
 import { type Activity as DBActivity } from '@prisma/client';
 import * as DBTypes from './src/db/types';
 
+export { type Station } from '@prisma/client';
+
 type AsResponse<TActivity extends DBActivity> = Omit<TActivity, 'timestamp'> & {
   timestamp: string;
 };

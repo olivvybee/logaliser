@@ -1,22 +1,22 @@
 {
-  "name": "@logaliser/rcdb-scraper",
+  "name": "@logaliser/station-importer",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "scrape:coasters": "tsx ./index.ts -e coaster --only-existing",
-    "scrape:coasters:defunct": "tsx ./index.ts -e coaster --only-defunct",
-    "scrape:parks": "tsx ./index.ts -e park --only-existing",
-    "scrape:parks:defunct": "tsx ./index.ts -e park --only-defunct"
+    "start": "tsx ./index.ts"
   },
   "dependencies": {
-    "cheerio": "^1.0.0",
+    "@logaliser/api": "*",
     "cli-progress": "^3.12.0",
+    "decompress": "^4.2.1",
     "dotenv": "^16.4.7",
+    "fast-xml-parser": "^5.0.9",
     "tsx": "^4.19.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
+    "@types/decompress": "^4.2.7",
     "@types/node": "^20.17.10",
     "@types/yargs": "^17.0.33"
   },

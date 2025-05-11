@@ -8,8 +8,10 @@ export const stationsHandler = new Hono();
 
 export const stationSchema = z.object({
   id: z.number().int().optional(),
+  nationalId: z.number().int().optional(),
   name: z.string(),
   country: z.string(),
+  code: z.string().optional(),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
 });
@@ -71,3 +73,45 @@ stationsHandler.get('/countries', async (ctx) => {
 
   return ctx.json(countries);
 });
+
+stationsHandler.post(
+  '/import',
+  authMiddleware,
+  zValidator('json', z.array(stationSchema)),
+  async (ctx) => {
+    const db = getDB();
+    const input = ctx.req.valid('json');
+
+    const successfulUpdates = [];
+    const failedUpdates = [];
+
+    for (let station of input) {
+      try {
+        const result = station.nationalId
+          ? await db.station.upsert({
+              where: {
+                nationalId: station.nationalId,
+              },
+              update: {
+                ...station,
+              },
+              create: {
+                ...station,
+              },
+            })
+          : await db.station.create({
+              data: {
+                ...station,
+              },
+            });
+
+        successfulUpdates.push(result);
+      } catch (err) {
+        const error = err as Error;
+        failedUpdates.push({ data: station, error });
+      }
+    }
+
+    return ctx.json({ successfulUpdates, failedUpdates });
+  }
+);
