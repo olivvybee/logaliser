@@ -70,9 +70,10 @@ model Coaster {
 }
 
 model Station {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   name      String
   country   String
+  code      String?
   latitude  Float?
   longitude Float?
 }
