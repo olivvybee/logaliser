@@ -35,6 +35,27 @@ model CoasterActivity {
   coasterId Int
 }
 
+model NewActivity {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
+  timezone  String?
+
+  coasterActivity NewCoasterActivity?
+}
+
+model NewCoasterActivity {
+  id Int @id @default(autoincrement())
+
+  activity   NewActivity @relation(fields: [activityId], references: [id])
+  activityId Int         @unique
+
+  coaster   Coaster @relation(fields: [coasterId], references: [id])
+  coasterId Int
+
+  firstRide  Boolean @default(false)
+  inShowExit Boolean @default(false)
+}
+
 model ThemePark {
   id        Int    @id @unique
   name      String
@@ -70,7 +91,8 @@ model Coaster {
   ridden     Boolean   @default(false)
   riddenDate DateTime?
 
-  activities CoasterActivity[]
+  activities    CoasterActivity[]
+  newActivities NewCoasterActivity[]
 }
 
 model Station {
