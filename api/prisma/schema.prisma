@@ -71,7 +71,7 @@ model Coaster {
 
 model Station {
   id         Int     @id @default(autoincrement())
-  nationalId Int?
+  nationalId Int?    @unique
   name       String
   country    String
   code       String?
