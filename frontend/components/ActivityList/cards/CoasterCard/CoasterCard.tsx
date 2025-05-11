@@ -4,7 +4,6 @@ import {
   IconCopy,
   IconRollercoasterFilled,
   IconSparkles,
-  IconTool,
 } from '@tabler/icons-react';
 
 import { CoasterActivity } from '@logaliser/api';
@@ -34,10 +33,10 @@ export const CoasterCard = ({
     });
 
   const tags = [
-    activity.metadata.firstRide
+    activity.coasterActivity.firstRide
       ? { icon: IconSparkles, text: 'First ride', colour: styles.positive }
       : undefined,
-    activity.metadata.inShowExit
+    activity.coasterActivity.inShowExit
       ? {
           icon: IconBarrierBlock,
           text: 'In-show exit',
@@ -48,9 +47,9 @@ export const CoasterCard = ({
 
   return (
     <ActivityCard
-      title={activity.coaster.name}
+      title={activity.coasterActivity.coaster.name}
       icon={IconRollercoasterFilled}
-      date={activity.endDate}
+      date={activity.timestamp}
       renderActions={() => (
         <Button
           theme="ghost"
@@ -62,7 +61,9 @@ export const CoasterCard = ({
       )}
       renderDetails={() => (
         <>
-          <span className={styles.parkName}>{activity.coaster.park.name}</span>
+          <span className={styles.parkName}>
+            {activity.coasterActivity.coaster.park.name}
+          </span>
           {!!tags.length && (
             <div className={styles.tags}>
               {tags.map((tag) => (

@@ -1,5 +1,5 @@
-import { Activity } from '@logaliser/api';
+import { AnyActivity } from '@logaliser/api';
 
 export interface CardComponentProps {
-  activity: Activity;
+  activity: AnyActivity;
 }

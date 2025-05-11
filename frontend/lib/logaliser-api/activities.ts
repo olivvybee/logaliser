@@ -1,10 +1,10 @@
 'use client';
 
 import { makeRequest } from './makeRequest';
-import { Activity, CoasterActivity } from '@logaliser/api';
+import { AnyActivity } from '@logaliser/api';
 
 interface GetAllActivitiesResponse {
-  activities: Activity[];
+  activities: AnyActivity[];
   nextCursor?: number;
 }
 
@@ -19,7 +19,7 @@ export const getAllActivities = (cursor?: number) => {
 };
 
 interface RecentActivitiesResponse {
-  [date: string]: CoasterActivity[];
+  [date: string]: AnyActivity[];
 }
 
 export const getRecentActivities = () => {

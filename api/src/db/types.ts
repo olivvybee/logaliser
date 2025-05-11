@@ -1,5 +1,10 @@
 import { Activity, Coaster, CoasterActivity, ThemePark } from '@prisma/client';
 
+export enum ActivityType {
+  Coaster = 'coaster',
+  Unknown = 'unknown',
+}
+
 export interface CoasterWithPark extends Coaster {
   park: ThemePark;
 }

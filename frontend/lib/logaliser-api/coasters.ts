@@ -7,19 +7,19 @@ export const createCoasterActivity = async (
   coasterId: number,
   timestamp: string = new Date().toISOString()
 ) => {
-  const timezoneOffset = 0 - new Date(timestamp).getTimezoneOffset();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const body = {
     coasterId,
     timestamp,
-    timezoneOffset,
+    timezone,
   };
 
   return makeRequest<CoasterActivity>('/activities/coaster', { body });
 };
 
 export const duplicateCoasterActivity = async (activity: CoasterActivity) => {
-  return createCoasterActivity(activity.item);
+  return createCoasterActivity(activity.coasterActivity.coasterId);
 };
 
 export const getNearbyCoasters = async (
