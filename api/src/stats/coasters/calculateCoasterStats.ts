@@ -7,33 +7,34 @@ import _maxBy from 'lodash/maxBy';
 import _countBy from 'lodash/countBy';
 import { eachDayOfInterval, eachMonthOfInterval, formatDate } from 'date-fns';
 
-import { CoasterActivity, CoasterWithPark } from '../../db/types';
 import { minMax } from '../../utils/minMax';
 import { filterAndSum } from '../../utils/filterAndSum';
 import { getDay, getMonth } from '../../utils/activityDates';
 import { highestSumPerDay } from '../../utils/highestSumPerDay';
+import { ConcreteCoasterActivity, CoasterWithPark } from '../../db/types';
 
 import { TotalMinMax } from '../types';
 
 import { CoasterStats } from './types';
 
 export const calculateCoasterStats = (
-  activities: CoasterActivity[],
+  activities: ConcreteCoasterActivity[],
   startDate: Date,
   endDate: Date
 ): CoasterStats => {
-  const coasters = _uniqBy(activities, (activity) => activity.coaster.id).map(
-    (activity) => activity.coaster
-  );
+  const coasters = _uniqBy(
+    activities,
+    (activity) => activity.coasterActivity.coaster.id
+  ).map((activity) => activity.coasterActivity.coaster);
   const parks = _uniqBy(coasters, (coaster) => coaster.parkId).map(
     (coaster) => coaster.park
   );
 
   const firstRides = activities.filter(
-    (activity) => activity.metadata.firstRide
+    (activity) => activity.coasterActivity.firstRide
   );
   const inShowExits = activities.filter(
-    (activity) => activity.metadata.inShowExit
+    (activity) => activity.coasterActivity.inShowExit
   );
 
   const allDays = eachDayOfInterval({
@@ -48,16 +49,25 @@ export const calculateCoasterStats = (
 
   return {
     totalCount: activities.length,
-    countByCoasterId: _countBy(activities, (activity) => activity.coaster.id),
+    countByCoasterId: _countBy(
+      activities,
+      (activity) => activity.coasterActivity.coaster.id
+    ),
     countByManufacturer: _countBy(
       activities,
-      (activity) => activity.coaster.make
+      (activity) => activity.coasterActivity.coaster.make
     ),
-    countByType: _countBy(activities, (activity) => activity.coaster.type),
-    countByParkId: _countBy(activities, (activity) => activity.coaster.parkId),
+    countByType: _countBy(
+      activities,
+      (activity) => activity.coasterActivity.coaster.type
+    ),
+    countByParkId: _countBy(
+      activities,
+      (activity) => activity.coasterActivity.coaster.parkId
+    ),
     countByCountry: _countBy(
       activities,
-      (activity) => activity.coaster.park.country
+      (activity) => activity.coasterActivity.coaster.park.country
     ),
 
     countByDay: allDays.reduce((processed, day) => {
@@ -91,13 +101,15 @@ export const calculateCoasterStats = (
 
     newCoasters: {
       total: firstRides.length,
-      coasters: firstRides.map((activity) => activity.coaster.id),
+      coasters: firstRides.map(
+        (activity) => activity.coasterActivity.coaster.id
+      ),
     },
     inShowExits: {
       total: inShowExits.length,
       countByCoasterId: _countBy(
         inShowExits,
-        (activity) => activity.coaster.id
+        (activity) => activity.coasterActivity.coaster.id
       ),
     },
 
@@ -120,12 +132,12 @@ export const calculateCoasterStats = (
 };
 
 const totalMinMax = (
-  activities: CoasterActivity[],
+  activities: ConcreteCoasterActivity[],
   coasters: CoasterWithPark[],
   getCoasterProperty: (coaster: CoasterWithPark) => number | null | undefined
 ): TotalMinMax => {
   const total = filterAndSum(activities, (activity) =>
-    getCoasterProperty(activity.coaster)
+    getCoasterProperty(activity.coasterActivity.coaster)
   );
 
   const { min, max } = minMax(coasters, getCoasterProperty);
@@ -133,7 +145,7 @@ const totalMinMax = (
   const maxValue = max ? getCoasterProperty(max) : undefined;
 
   const highestDay = highestSumPerDay(activities, (activity) =>
-    getCoasterProperty(activity.coaster)
+    getCoasterProperty(activity.coasterActivity.coaster)
   );
 
   return {

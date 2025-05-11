@@ -4,7 +4,6 @@ import _groupBy from 'lodash/groupBy';
 import _sortBy from 'lodash/sortBy';
 
 import { getDB } from '../../db';
-import { extendActivities } from '../../db/extendActivities';
 
 export const recentActivityHandler = new Hono();
 
@@ -16,19 +15,17 @@ recentActivityHandler.get('/', async (ctx) => {
 
   const recentActivities = await db.activity.findMany({
     where: {
-      endDate: {
+      timestamp: {
         gte: sevenDaysAgo,
       },
     },
   });
 
-  const extendedActivities = await extendActivities(recentActivities);
-
-  const sortedActivities = _sortBy(extendedActivities, ['endDate', 'asc']);
+  const sortedActivities = _sortBy(recentActivities, ['endDate', 'asc']);
   sortedActivities.reverse();
 
   const activitiesByDay = _groupBy(sortedActivities, (activity) =>
-    activity.endDate.toISOString().slice(0, 10)
+    activity.timestamp.toISOString().slice(0, 10)
   );
 
   return ctx.json(activitiesByDay);

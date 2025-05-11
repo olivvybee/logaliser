@@ -5,7 +5,6 @@ import { z } from 'zod';
 
 import { getDB } from '../../db';
 import { authMiddleware } from '../../middleware/authMiddleware';
-import { extendActivities } from '../../db/extendActivities';
 
 import { coasterActivityHandler } from './coaster';
 import { recentActivityHandler } from './recent';
@@ -39,10 +38,8 @@ activitiesHandler.get(
 
     const nextCursor = activities.at(-1)?.id;
 
-    const extendedActivities = await extendActivities(activities);
-
     return ctx.json({
-      activities: extendedActivities,
+      activities,
       nextCursor,
     });
   }

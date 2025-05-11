@@ -1,20 +1,17 @@
-import { Activity, Coaster, ThemePark } from '@prisma/client';
+import { Activity, Coaster, CoasterActivity, ThemePark } from '@prisma/client';
 
 export interface CoasterWithPark extends Coaster {
   park: ThemePark;
 }
 
-export interface CoasterActivity extends Activity {
-  type: 'Coaster';
+export interface CoasterActivityData extends CoasterActivity {
   coaster: CoasterWithPark;
-  metadata: {
-    firstRide: boolean;
-    inShowExit: boolean;
-  };
 }
 
-export type ExtendedActivity = Activity | CoasterActivity;
+export interface AnyActivity extends Activity {
+  coasterActivity?: CoasterActivityData;
+}
 
-export type ExtensionFn = (
-  activities: Activity[]
-) => Promise<ExtendedActivity[]>;
+export interface ConcreteCoasterActivity extends AnyActivity {
+  coasterActivity: CoasterActivityData;
+}
