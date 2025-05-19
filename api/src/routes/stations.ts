@@ -3,6 +3,9 @@ import { z } from 'zod';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { zValidator } from '@hono/zod-validator';
 import { getDB } from '../db';
+import { locationSchema } from '../schemas/locationSchema';
+import { getNearbyLatLong } from '../utils/nearbyLatLong';
+import { getDistance } from '../utils/distance';
 
 export const stationsHandler = new Hono();
 
@@ -40,6 +43,50 @@ const searchSchema = z.object({
   query: z.string(),
   country: z.string().optional(),
 });
+
+stationsHandler.get(
+  '/nearby',
+  zValidator('query', locationSchema),
+  async (ctx) => {
+    const db = getDB();
+    const { lat, lng } = ctx.req.valid('query');
+
+    const nearbyLatLong = getNearbyLatLong(lat, lng);
+
+    const stations = await db.station.findMany({
+      where: {
+        latitude: {
+          gte: nearbyLatLong.latitude.min,
+          lte: nearbyLatLong.latitude.max,
+        },
+        longitude: {
+          gte: nearbyLatLong.longitude.min,
+          lte: nearbyLatLong.longitude.max,
+        },
+      },
+    });
+
+    const stationsWithDistance = stations.map((station) => ({
+      ...station,
+      distance:
+        station.latitude && station.longitude
+          ? getDistance(lat, lng, station.latitude, station.longitude)
+          : undefined,
+    }));
+
+    const sortedStations = stationsWithDistance.toSorted((a, b) => {
+      if (!b.distance) {
+        return -1;
+      }
+      if (!a.distance) {
+        return 1;
+      }
+      return a.distance - b.distance;
+    });
+
+    return ctx.json(sortedStations);
+  }
+);
 
 stationsHandler.get(
   '/search',

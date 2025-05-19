@@ -6,36 +6,30 @@ import _uniq from 'lodash/uniq';
 import { getDB } from '../db';
 import { getDistance } from '../utils/distance';
 import { authMiddleware } from '../middleware/authMiddleware';
+import { locationSchema } from '../schemas/locationSchema';
+import { getNearbyLatLong } from '../utils/nearbyLatLong';
 
 export const coastersHandler = new Hono();
 
-const latLongSchema = z.object({
-  lat: z.coerce.number(),
-  lng: z.coerce.number(),
-});
-
 coastersHandler.get(
   '/nearby',
-  zValidator('query', latLongSchema),
+  zValidator('query', locationSchema),
   async (ctx) => {
     const db = getDB();
     const { lat, lng } = ctx.req.valid('query');
 
-    const minLat = lat - 0.25;
-    const maxLat = lat + 0.25;
-    const minLng = lng - 0.25;
-    const maxLng = lng + 0.25;
+    const nearbyLatLong = getNearbyLatLong(lat, lng);
 
     const coasters = await db.coaster.findMany({
       where: {
         park: {
           latitude: {
-            gte: minLat,
-            lte: maxLat,
+            gte: nearbyLatLong.latitude.min,
+            lte: nearbyLatLong.latitude.max,
           },
           longitude: {
-            gte: minLng,
-            lte: maxLng,
+            gte: nearbyLatLong.longitude.min,
+            lte: nearbyLatLong.longitude.max,
           },
         },
         closed: false,
