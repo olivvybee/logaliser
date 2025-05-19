@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { sub, startOfDay } from 'date-fns';
 import _groupBy from 'lodash/groupBy';
-import _sortBy from 'lodash/sortBy';
+import _orderBy from 'lodash/orderBy';
 
 import { getDB } from '../../db';
 
@@ -21,8 +21,7 @@ recentActivityHandler.get('/', async (ctx) => {
     },
   });
 
-  const sortedActivities = _sortBy(recentActivities, ['endDate', 'asc']);
-  sortedActivities.reverse();
+  const sortedActivities = _orderBy(recentActivities, ['timestamp'], ['desc']);
 
   const activitiesByDay = _groupBy(sortedActivities, (activity) =>
     activity.timestamp.toISOString().slice(0, 10)
