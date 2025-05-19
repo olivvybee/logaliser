@@ -16,6 +16,7 @@ model Activity {
   timezone  String?
 
   coasterActivity CoasterActivity?
+  trainActivity   TrainActivity?
 }
 
 model CoasterActivity {
@@ -29,6 +30,19 @@ model CoasterActivity {
 
   firstRide  Boolean @default(false)
   inShowExit Boolean @default(false)
+}
+
+model TrainActivity {
+  id Int @id @default(autoincrement())
+
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int      @unique
+
+  origin          Station @relation("origin", fields: [originStationId], references: [id])
+  originStationId Int
+
+  destination          Station @relation("destination", fields: [destinationStationId], references: [id])
+  destinationStationId Int
 }
 
 model ThemePark {
@@ -77,4 +91,7 @@ model Station {
   code       String?
   latitude   Float?
   longitude  Float?
+
+  originActivities      TrainActivity[] @relation("origin")
+  destinationActivities TrainActivity[] @relation("destination")
 }
