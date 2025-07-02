@@ -10,7 +10,7 @@ export const TabBar = () => {
       <div className={styles.tabs}>
         <Link className={classNames(styles.tab, styles.leftTab)} href="/">
           <IconHistory />
-          <span>Recent</span>
+          <span>History</span>
         </Link>
         <Link
           className={classNames(styles.tab, styles.logaliseButton)}
