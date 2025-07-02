@@ -6,5 +6,9 @@ export const getActivityType = (activity: AnyActivity): ActivityType => {
     return ActivityType.Coaster;
   }
 
+  if (activity.trainActivity) {
+    return ActivityType.Train;
+  }
+
   return ActivityType.Unknown;
 };

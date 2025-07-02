@@ -13,5 +13,6 @@ export * from './src/stats/types';
 
 export type AnyActivity = AsResponse<DBTypes.AnyActivity>;
 export type CoasterActivity = AsResponse<DBTypes.ConcreteCoasterActivity>;
+export type TrainActivity = AsResponse<DBTypes.ConcreteTrainActivity>;
 
 export * from './src/db/getActivityType';

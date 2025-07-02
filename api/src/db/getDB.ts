@@ -11,6 +11,9 @@ export const getDB = () => {
               coasterActivity: {
                 include: { coaster: { include: { park: true } } },
               },
+              trainActivity: {
+                include: { origin: true, destination: true },
+              },
             },
           });
         },
