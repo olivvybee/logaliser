@@ -38,11 +38,13 @@ model TrainActivity {
   activity   Activity @relation(fields: [activityId], references: [id])
   activityId Int      @unique
 
-  origin          Station @relation("origin", fields: [originStationId], references: [id])
+  origin          Station  @relation("origin", fields: [originStationId], references: [id])
   originStationId Int
+  departureTime   DateTime
 
-  destination          Station @relation("destination", fields: [destinationStationId], references: [id])
-  destinationStationId Int
+  destination          Station?  @relation("destination", fields: [destinationStationId], references: [id])
+  destinationStationId Int?
+  arrivalTime          DateTime?
 }
 
 model ThemePark {

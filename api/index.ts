@@ -3,9 +3,10 @@ import * as DBTypes from './src/db/types';
 
 export { type Station } from '@prisma/client';
 
-type AsResponse<TActivity extends DBActivity> = Omit<TActivity, 'timestamp'> & {
-  timestamp: string;
-};
+export type AsResponse<TActivity extends DBActivity> = DBTypes.DateToString<
+  TActivity,
+  'timestamp'
+>;
 
 export { ActivityType } from './src/db/types';
 export type { CoasterWithPark as Coaster } from './src/db/types';

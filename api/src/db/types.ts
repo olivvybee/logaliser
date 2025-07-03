@@ -7,6 +7,13 @@ import {
   TrainActivity,
 } from '@prisma/client';
 
+export type DateToString<T, KFields extends keyof T = never> = Omit<
+  T,
+  KFields
+> & {
+  [K in KFields]: string;
+};
+
 export enum ActivityType {
   Coaster = 'coaster',
   Train = 'train',
@@ -30,7 +37,8 @@ export interface ConcreteCoasterActivity extends AnyActivity {
   coasterActivity: CoasterActivityData;
 }
 
-export interface TrainActivityData extends TrainActivity {
+export interface TrainActivityData
+  extends DateToString<TrainActivity, 'departureTime' | 'arrivalTime'> {
   origin: Station;
   destination: Station;
 }
