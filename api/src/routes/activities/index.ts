@@ -8,10 +8,12 @@ import { authMiddleware } from '../../middleware/authMiddleware';
 
 import { coasterActivityHandler } from './coaster';
 import { recentActivityHandler } from './recent';
+import { trainActivityHandler } from './station';
 
 export const activitiesHandler = new Hono();
 
 activitiesHandler.route('/coaster', coasterActivityHandler);
+activitiesHandler.route('/train', trainActivityHandler);
 activitiesHandler.route('/recent', recentActivityHandler);
 
 const ACTIVITIES_PER_PAGE = 25;
