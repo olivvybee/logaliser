@@ -29,7 +29,7 @@ activitiesHandler.get(
       take: ACTIVITIES_PER_PAGE,
       skip: cursor ? 1 : 0,
       orderBy: {
-        id: 'desc',
+        timestamp: 'desc',
       },
       cursor: cursor
         ? {
