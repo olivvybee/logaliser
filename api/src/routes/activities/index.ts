@@ -28,14 +28,8 @@ activitiesHandler.get(
     const activities = await db.activity.findMany({
       take: ACTIVITIES_PER_PAGE,
       skip: cursor ? 1 : 0,
-      orderBy: {
-        timestamp: 'desc',
-      },
-      cursor: cursor
-        ? {
-            id: cursor,
-          }
-        : undefined,
+      orderBy: [{ timestamp: 'desc' }, { id: 'desc' }],
+      cursor: cursor ? { id: cursor } : undefined,
     });
 
     const nextCursor = activities.at(-1)?.id;
