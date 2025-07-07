@@ -18,21 +18,23 @@ export const ActivityCard = ({
 }: ActivityCardProps) => {
   return (
     <div className={styles.activityCard}>
-      <div className={styles.wrapper}>
-        <Icon />
+      <div className={styles.content}>
+        <div className={styles.wrapper}>
+          <Icon />
 
-        <div className={styles.data}>
-          <span className={styles.title}>{title}</span>
+          <div className={styles.data}>
+            <span className={styles.title}>{title}</span>
 
-          {renderDetails()}
+            {renderDetails()}
 
-          <span className={styles.timestamp}>
-            <RelativeTimestamp date={date} />
-          </span>
+            <span className={styles.timestamp}>
+              <RelativeTimestamp date={date} />
+            </span>
+          </div>
         </div>
-      </div>
 
-      {renderActions()}
+        {renderActions()}
+      </div>
     </div>
   );
 };
