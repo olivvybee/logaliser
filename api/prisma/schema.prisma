@@ -22,7 +22,7 @@ model Activity {
 model CoasterActivity {
   id Int @id @default(autoincrement())
 
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
   activityId Int      @unique
 
   coaster   Coaster @relation(fields: [coasterId], references: [id])
@@ -35,7 +35,7 @@ model CoasterActivity {
 model TrainActivity {
   id Int @id @default(autoincrement())
 
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
   activityId Int      @unique
 
   origin            Station  @relation("origin", fields: [originStationId], references: [id])
