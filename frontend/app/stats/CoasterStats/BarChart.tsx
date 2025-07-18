@@ -70,7 +70,6 @@ export const BarChart = ({ timespan, counts }: BarChartProps) => {
 
   const tickFormat = (t: string) => {
     switch (timespan) {
-      case Timespan.Week:
       case Timespan.Month:
         return parseInt(t.slice(8));
 
