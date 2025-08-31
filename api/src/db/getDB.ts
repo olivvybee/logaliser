@@ -14,6 +14,9 @@ export const getDB = () => {
               trainActivity: {
                 include: { origin: true, destination: true },
               },
+              crossStitchActivity: {
+                include: { crossStitch: true },
+              },
             },
           });
         },

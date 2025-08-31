@@ -10,5 +10,9 @@ export const getActivityType = (activity: AnyActivity): ActivityType => {
     return ActivityType.Train;
   }
 
+  if (activity.crossStitchActivity) {
+    return ActivityType.CrossStitch;
+  }
+
   return ActivityType.Unknown;
 };

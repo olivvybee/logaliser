@@ -15,8 +15,9 @@ model Activity {
   timestamp DateTime
   timezone  String?
 
-  coasterActivity CoasterActivity?
-  trainActivity   TrainActivity?
+  coasterActivity     CoasterActivity?
+  trainActivity       TrainActivity?
+  crossStitchActivity CrossStitchActivity?
 }
 
 model CoasterActivity {
@@ -47,6 +48,20 @@ model TrainActivity {
   destinationStationId Int?
   arrivalTime          DateTime?
   arrivalTimezone      String?
+}
+
+model CrossStitchActivity {
+  id Int @id @default(autoincrement())
+
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  activityId Int      @unique
+
+  crossStitch   CrossStitch @relation(fields: [crossStitchId], references: [id])
+  crossStitchId Int
+
+  stitches Int
+  newStart Boolean
+  finish   Boolean
 }
 
 model ThemePark {
@@ -98,4 +113,12 @@ model Station {
 
   originActivities      TrainActivity[] @relation("origin")
   destinationActivities TrainActivity[] @relation("destination")
+}
+
+model CrossStitch {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  stitchCount         Int?
+  completed           Boolean
+  CrossStitchActivity CrossStitchActivity[]
 }

@@ -2,6 +2,8 @@ import {
   Activity,
   Coaster,
   CoasterActivity,
+  CrossStitch,
+  CrossStitchActivity,
   Station,
   ThemePark,
   TrainActivity,
@@ -17,6 +19,7 @@ export type DateToString<T, KFields extends keyof T = never> = Omit<
 export enum ActivityType {
   Coaster = 'coaster',
   Train = 'train',
+  CrossStitch = 'cross-stitch',
   Unknown = 'unknown',
 }
 
@@ -31,6 +34,7 @@ export interface CoasterActivityData extends CoasterActivity {
 export interface AnyActivity extends Activity {
   coasterActivity?: CoasterActivityData;
   trainActivity?: TrainActivityData;
+  crossStitchActivity?: CrossStitchActivityData;
 }
 
 export interface ConcreteCoasterActivity extends AnyActivity {
@@ -45,4 +49,12 @@ export interface TrainActivityData
 
 export interface ConcreteTrainActivity extends AnyActivity {
   trainActivity: TrainActivityData;
+}
+
+export interface CrossStitchActivityData extends CrossStitchActivity {
+  crossStitch: CrossStitch;
+}
+
+export interface ConcreteCrossStitchActivity extends AnyActivity {
+  crossStitchActivity: CrossStitchActivityData;
 }
