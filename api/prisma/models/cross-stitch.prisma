@@ -1,0 +1,21 @@
+model CrossStitch {
+    id                  Int                   @id @default(autoincrement())
+    name                String
+    stitchCount         Int?
+    completed           Boolean
+    CrossStitchActivity CrossStitchActivity[]
+}
+
+model CrossStitchActivity {
+    id Int @id @default(autoincrement())
+
+    activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+    activityId Int      @unique
+
+    crossStitch   CrossStitch @relation(fields: [crossStitchId], references: [id])
+    crossStitchId Int
+
+    stitches Int
+    newStart Boolean
+    finish   Boolean
+}

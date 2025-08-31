@@ -1,0 +1,50 @@
+model ThemePark {
+    id        Int    @id @unique
+    name      String
+    country   String
+    latitude  Float?
+    longitude Float?
+
+    coasters Coaster[]
+}
+
+model Coaster {
+    id            Int     @id @unique
+    name          String
+    opened        String?
+    closed        Boolean @default(false)
+    latitude      Float?
+    longitude     Float?
+    make          String?
+    model         String?
+    type          String?
+    design        String?
+    length        Float?
+    height        Float?
+    drop          Float?
+    speed         Float?
+    verticalAngle Float?
+    inversions    Int?
+    duration      Int?
+
+    park   ThemePark @relation(fields: [parkId], references: [id])
+    parkId Int
+
+    ridden     Boolean   @default(false)
+    riddenDate DateTime?
+
+    activities CoasterActivity[]
+}
+
+model CoasterActivity {
+    id Int @id @default(autoincrement())
+
+    activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+    activityId Int      @unique
+
+    coaster   Coaster @relation(fields: [coasterId], references: [id])
+    coasterId Int
+
+    firstRide  Boolean @default(false)
+    inShowExit Boolean @default(false)
+}

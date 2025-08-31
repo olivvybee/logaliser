@@ -1,0 +1,29 @@
+model TrainActivity {
+    id Int @id @default(autoincrement())
+
+    activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+    activityId Int      @unique
+
+    origin            Station  @relation("origin", fields: [originStationId], references: [id])
+    originStationId   Int
+    departureTime     DateTime
+    departureTimezone String?
+
+    destination          Station?  @relation("destination", fields: [destinationStationId], references: [id])
+    destinationStationId Int?
+    arrivalTime          DateTime?
+    arrivalTimezone      String?
+}
+
+model Station {
+    id         Int     @id @default(autoincrement())
+    nationalId Int?    @unique
+    name       String
+    country    String
+    code       String?
+    latitude   Float?
+    longitude  Float?
+
+    originActivities      TrainActivity[] @relation("origin")
+    destinationActivities TrainActivity[] @relation("destination")
+}
