@@ -18,7 +18,7 @@ crossStitchHandler.get('/active', async (ctx) => {
 
   const crossStitches = await db.crossStitch.findMany({
     where: {
-      completed: false,
+      endDate: null,
     },
   });
 
@@ -29,7 +29,8 @@ const crossStitchSchema = z.object({
   name: z.string(),
   pattern: z.string().optional(),
   stitchCount: z.number().int().optional(),
-  completed: z.boolean().optional(),
+  startDate: z.iso.datetime().optional(),
+  endDate: z.iso.datetime().optional(),
 });
 
 crossStitchHandler.post(
@@ -40,10 +41,7 @@ crossStitchHandler.post(
     const input = ctx.req.valid('json');
 
     const crossStitch = await db.crossStitch.create({
-      data: {
-        completed: false,
-        ...input,
-      },
+      data: input,
     });
 
     return ctx.json(crossStitch);
