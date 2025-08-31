@@ -1,9 +1,11 @@
 model CrossStitch {
-    id                  Int                   @id @default(autoincrement())
-    name                String
-    stitchCount         Int?
-    completed           Boolean
-    CrossStitchActivity CrossStitchActivity[]
+    id          Int     @id @default(autoincrement())
+    name        String
+    pattern     String?
+    stitchCount Int?
+    completed   Boolean
+
+    activities CrossStitchActivity[]
 }
 
 model CrossStitchActivity {
