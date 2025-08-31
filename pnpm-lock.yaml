@@ -15,11 +15,11 @@ importers:
   api:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.13.7
-        version: 1.13.7(hono@4.6.16)
+        specifier: ^1.19.1
+        version: 1.19.1(hono@4.9.5)
       '@hono/zod-validator':
-        specifier: ^0.4.2
-        version: 0.4.2(hono@4.6.16)(zod@3.24.1)
+        specifier: ^0.7.2
+        version: 0.7.2(hono@4.9.5)(zod@4.1.5)
       '@prisma/client':
         specifier: 6.15.0
         version: 6.15.0(prisma@6.15.0)(typescript@5.7.2)
@@ -30,14 +30,14 @@ importers:
         specifier: ^16.4.7
         version: 16.4.7
       hono:
-        specifier: ^4.6.16
-        version: 4.6.16
+        specifier: ^4.9.5
+        version: 4.9.5
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
       zod:
-        specifier: ^3.24.1
-        version: 3.24.1
+        specifier: ^4.1.5
+        version: 4.1.5
     devDependencies:
       '@types/lodash':
         specifier: ^4.17.15
@@ -383,23 +383,23 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@hono/node-server@1.13.7(hono@4.6.16):
-    resolution: {integrity: sha512-kTfUMsoloVKtRA2fLiGSd9qBddmru9KadNyhJCwgKBxTiNkaAJEwkVN9KV/rS4HtmmNRtUh6P+YpmjRMl0d9vQ==}
+  /@hono/node-server@1.19.1(hono@4.9.5):
+    resolution: {integrity: sha512-h44e5s+ByUriaRIbeS/C74O8v90m0A95luyYQGMF7KEn96KkYMXO7bZAwombzTpjQTU4e0TkU8U1WBIXlwuwtA==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
     dependencies:
-      hono: 4.6.16
+      hono: 4.9.5
     dev: false
 
-  /@hono/zod-validator@0.4.2(hono@4.6.16)(zod@3.24.1):
-    resolution: {integrity: sha512-1rrlBg+EpDPhzOV4hT9pxr5+xDVmKuz6YJl+la7VCwK6ass5ldyKm5fD+umJdV2zhHD6jROoCCv8NbTwyfhT0g==}
+  /@hono/zod-validator@0.7.2(hono@4.9.5)(zod@4.1.5):
+    resolution: {integrity: sha512-ub5eL/NeZ4eLZawu78JpW/J+dugDAYhwqUIdp9KYScI6PZECij4Hx4UsrthlEUutqDDhPwRI0MscUfNkvn/mqQ==}
     peerDependencies:
       hono: '>=3.9.0'
-      zod: ^3.19.1
+      zod: ^3.25.0 || ^4.0.0
     dependencies:
-      hono: 4.6.16
-      zod: 3.24.1
+      hono: 4.9.5
+      zod: 4.1.5
     dev: false
 
   /@img/sharp-darwin-arm64@0.33.5:
@@ -1444,8 +1444,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /hono@4.6.16:
-    resolution: {integrity: sha512-iE6xOPwDYlfnZFwk6BfIMMIH4WZm3pPhz6rc1uJM/OPew0pjG5K6p8WTLaMBY1/szF/T0TaEjprMpwn16BA0NQ==}
+  /hono@4.9.5:
+    resolution: {integrity: sha512-aLAVl5/67ifNnoFVxnhR89dpmSLsgwBprw/PT671ASwUpJqmd7Ne8KPTQo37DbRZfgpHaHeZ4bPVUvbOkeedMw==}
     engines: {node: '>=16.9.0'}
     dev: false
 
@@ -2465,6 +2465,6 @@ packages:
       fd-slicer: 1.1.0
     dev: false
 
-  /zod@3.24.1:
-    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+  /zod@4.1.5:
+    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
     dev: false
