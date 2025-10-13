@@ -9,7 +9,7 @@ export const coasterActivityHandler = new Hono();
 
 const coasterActivitySchema = z.object({
   coasterId: z.number().int(),
-  timestamp: z.string().datetime({ local: true, offset: true }).optional(),
+  timestamp: z.iso.datetime({ local: true, offset: true }).optional(),
   timezone: z.string().optional(),
   inShowExit: z.boolean().optional().default(false),
 });

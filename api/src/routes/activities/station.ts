@@ -8,7 +8,7 @@ export const trainActivityHandler = new Hono();
 
 const startTrainActivitySchema = z.object({
   origin: z.number().int(),
-  departureTime: z.string().datetime({ local: true, offset: true }).optional(),
+  departureTime: z.iso.datetime({ local: true, offset: true }).optional(),
   timezone: z.string().optional(),
 });
 
@@ -57,7 +57,7 @@ trainActivityHandler.post(
 const completeTrainActivitySchema = z.object({
   id: z.number().int(),
   destination: z.number().int(),
-  arrivalTime: z.string().datetime({ local: true, offset: true }).optional(),
+  arrivalTime: z.iso.datetime({ local: true, offset: true }).optional(),
   timezone: z.string().optional(),
 });
 

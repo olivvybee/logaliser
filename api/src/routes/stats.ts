@@ -10,8 +10,8 @@ import { ConcreteCoasterActivity } from '../db/types';
 export const statsHandler = new Hono();
 
 const statsSchema = z.object({
-  startDate: z.string().date(),
-  endDate: z.string().date(),
+  startDate: z.iso.date(),
+  endDate: z.iso.date(),
 });
 
 statsHandler.get('/coaster', zValidator('query', statsSchema), async (ctx) => {
