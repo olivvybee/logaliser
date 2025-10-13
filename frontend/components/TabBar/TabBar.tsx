@@ -14,7 +14,7 @@ export const TabBar = () => {
         </Link>
         <Link
           className={classNames(styles.tab, styles.logaliseButton)}
-          href="/logalise/coaster">
+          href="/logalise">
           <IconPlus size={48} stroke={3} />
         </Link>
         <Link className={classNames(styles.tab, styles.rightTab)} href="/stats">
