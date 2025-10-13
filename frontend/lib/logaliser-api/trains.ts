@@ -16,6 +16,23 @@ export const startTrainActivity = async (
   return makeRequest<TrainActivity>('/activities/train/start', { body });
 };
 
+export const completeTrainActivity = async (
+  activityId: number,
+  stationId: number,
+  timestamp: string = new Date().toISOString()
+) => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const body = {
+    id: activityId,
+    destination: stationId,
+    arrivalTime: timestamp,
+    timezone,
+  };
+
+  return makeRequest<TrainActivity>('/activities/train/complete', { body });
+};
+
 export const getNearbyStations = async (
   latitude: number,
   longitude: number

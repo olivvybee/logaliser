@@ -1,8 +1,11 @@
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { IconCheck, IconFlagCheck, IconTrack } from '@tabler/icons-react';
 import { TrainActivity } from '@logaliser/api';
 import { CardComponentProps } from '../../types';
 import { ActivityCard } from '../ActivityCard';
-import { IconTrack } from '@tabler/icons-react';
-import { format } from 'date-fns';
+import buttonStyles from '@/components/Button/Button.module.css';
+import classNames from 'classnames';
 
 export const TrainCard = ({
   activity: untypedActivity,
@@ -25,12 +28,22 @@ export const TrainCard = ({
     ? `${departureTime}–${arrivalTime}`
     : undefined;
 
+  const isIncomplete = !activity.trainActivity.arrivalTime;
+
   return (
     <ActivityCard
       title={title}
       icon={IconTrack}
       date={date}
-      renderActions={() => null}
+      renderActions={() =>
+        isIncomplete ? (
+          <Link
+            href={`/logalise/train/complete/${activity.trainActivity.id}`}
+            className={classNames(buttonStyles.button, buttonStyles.ghost)}>
+            <IconFlagCheck />
+          </Link>
+        ) : null
+      }
       renderDetails={() => <span>{timeDetails}</span>}
     />
   );
