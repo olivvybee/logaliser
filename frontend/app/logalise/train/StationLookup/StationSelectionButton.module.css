@@ -1,0 +1,15 @@
+.stationSelectionButton {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stationName {
+  font-weight: bold;
+}
+
+.stationCode {
+  font-size: 0.8rem;
+}

@@ -1,0 +1,31 @@
+.selectedStation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.stationDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stationName {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.stationCode {
+  font-size: 1.1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
