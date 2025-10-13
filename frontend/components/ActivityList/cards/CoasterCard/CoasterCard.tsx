@@ -28,7 +28,7 @@ export const CoasterCard = ({
     useMutation({
       mutationFn: () => duplicateCoasterActivity(activity),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['recentActivities'] });
+        queryClient.invalidateQueries({ queryKey: ['allActivities'] });
       },
     });
 

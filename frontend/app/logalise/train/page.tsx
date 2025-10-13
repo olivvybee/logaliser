@@ -65,9 +65,7 @@ const LogaliseTrainPage = () => {
             },
             {
               onSuccess: () => {
-                queryClient.invalidateQueries({
-                  queryKey: ['recentActivities'],
-                });
+                queryClient.invalidateQueries({ queryKey: ['allActivities'] });
                 router.push('/');
               },
             }
