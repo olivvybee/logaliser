@@ -95,8 +95,8 @@ const StatsPage = () => {
   const canGoBackwards = isAfter(startDate, MIN_DATE);
 
   const setTimespan = (newTimespan: Timespan) => {
-    const [year] = params.date as string[];
     const thisYear = new Date().getFullYear().toString();
+    const [year] = params.date || [thisYear];
 
     if (newTimespan === Timespan.Year) {
       router.replace(`/stats/${year}`);
