@@ -1,15 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Station } from '@logaliser/api';
-import { startTrainActivity } from '@/lib/logaliser-api/trains';
-import { StationLookup } from './StationLookup';
-import styles from './page.module.css';
-import { IconCircleX } from '@tabler/icons-react';
-import { Button } from '@/components/Button';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
+import { IconCircleX } from '@tabler/icons-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { Station } from '@logaliser/api';
+import {
+  getCountryList,
+  getNearbyStations,
+  searchForStations,
+  startTrainActivity,
+} from '@/lib/logaliser-api/trains';
+import { Button } from '@/components/Button';
+import { EntityChooser } from '@/components/EntityChooser';
+
+import styles from './page.module.css';
 
 interface StartTrainActivityMutationVariables {
   stationId: number;
@@ -31,7 +38,15 @@ const LogaliseTrainPage = () => {
     return (
       <>
         <h1>Logalise a train</h1>
-        <StationLookup onSelectStation={setSelectedStation} />
+        <EntityChooser
+          key="station"
+          onSelect={setSelectedStation}
+          nearbyQueryFn={getNearbyStations}
+          searchQueryFn={searchForStations}
+          countriesQueryFn={getCountryList}
+          getName={(station) => station.name}
+          getDetails={(station) => station.code || undefined}
+        />
       </>
     );
   }

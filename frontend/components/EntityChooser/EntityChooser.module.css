@@ -1,0 +1,49 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.entityList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.entitySelectionButton {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.entityName {
+  font-weight: bold;
+}
+
+.entityDetails {
+  font-size: 0.8rem;
+}
+
+.searchForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}

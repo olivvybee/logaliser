@@ -46,3 +46,20 @@ export const getNearbyStations = async (
 
   return makeRequest<Station[]>(path);
 };
+
+export const getCountryList = async () => {
+  return makeRequest<string[]>('/stations/countries');
+};
+
+export const searchForStations = async (query: string, country?: string) => {
+  const params = new URLSearchParams({
+    query,
+  });
+  if (country) {
+    params.set('country', country);
+  }
+
+  const path = `/stations/search?${params.toString()}`;
+
+  return makeRequest<Station[]>(path);
+};

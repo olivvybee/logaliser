@@ -7,11 +7,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
 import { Coaster } from '@logaliser/api';
-import { createCoasterActivity } from '@/lib/logaliser-api';
+import {
+  createCoasterActivity,
+  getCountryList,
+  getNearbyCoasters,
+  searchForCoasters,
+} from '@/lib/logaliser-api';
 import { Button } from '@/components/Button';
 import TextFieldStyles from '@/components/TextField/TextField.module.css';
-
-import { CoasterLookup } from './CoasterLookup';
+import { EntityChooser } from '@/components/EntityChooser';
 
 import styles from './page.module.css';
 
@@ -44,7 +48,15 @@ const LogaliseCoasterPage = () => {
     return (
       <>
         <h1>Logalise a coaster</h1>
-        <CoasterLookup onSelectCoaster={setSelectedCoaster} />
+        <EntityChooser
+          key="coaster"
+          onSelect={setSelectedCoaster}
+          nearbyQueryFn={getNearbyCoasters}
+          searchQueryFn={searchForCoasters}
+          countriesQueryFn={getCountryList}
+          getName={(coaster) => coaster.name}
+          getDetails={(coaster) => coaster.park.name}
+        />
       </>
     );
   }
