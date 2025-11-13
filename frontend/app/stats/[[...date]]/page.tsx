@@ -47,8 +47,8 @@ const parseDates = (date: string[]) => {
   if (!monthStr) {
     return {
       timespan: Timespan.Year,
-      startDate: new Date(Date.UTC(year, 0, 1)),
-      endDate: new Date(Date.UTC(year, 11, 31)),
+      startDate: new Date(year, 0, 1),
+      endDate: new Date(year, 11, 31),
       nextUrl: `${year + 1}`,
       previousUrl: `${year - 1}`,
     };
@@ -60,7 +60,7 @@ const parseDates = (date: string[]) => {
     return undefined;
   }
 
-  const startDate = new Date(Date.UTC(year, month - 1));
+  const startDate = new Date(year, month - 1);
   const endDate = endOfMonth(startDate);
 
   const previousMonth = subMonths(startDate, 1);
