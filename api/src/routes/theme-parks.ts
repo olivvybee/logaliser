@@ -50,8 +50,8 @@ export const themeParkSchema = z.object({
   id: z.number().int(),
   name: z.string(),
   country: z.string(),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  latitude: z.number().optional().nullable(),
+  longitude: z.number().optional().nullable(),
 });
 
 themeParksHandler.post(

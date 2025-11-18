@@ -11,12 +11,12 @@ export const stationsHandler = new Hono();
 
 export const stationSchema = z.object({
   id: z.number().int().optional(),
-  nationalId: z.number().int().optional(),
+  nationalId: z.number().int().optional().nullable(),
   name: z.string(),
   country: z.string(),
-  code: z.string().optional(),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  code: z.string().optional().nullable(),
+  latitude: z.number().optional().nullable(),
+  longitude: z.number().optional().nullable(),
 });
 
 stationsHandler.post(
