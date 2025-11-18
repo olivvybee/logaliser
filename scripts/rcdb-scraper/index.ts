@@ -45,6 +45,11 @@ const argv = yargs(hideBin(process.argv))
     type: 'array',
     default: [],
   })
+  .option('print', {
+    alias: 'p',
+    type: 'boolean',
+    default: false,
+  })
   .parseSync();
 
 const filter = argv.onlyExisting
@@ -63,7 +68,7 @@ if (argv.entity === 'park') {
   }
 } else {
   if (ids.length) {
-    scrapeSpecificCoasters(ids);
+    scrapeSpecificCoasters(ids, argv.print);
   } else {
     scrapeCoasters({ filter, limit, forceUpload });
   }

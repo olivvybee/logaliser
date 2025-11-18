@@ -38,7 +38,10 @@ export const scrapeParks = async ({
   exportHashes(hashes, Entity.Park);
 };
 
-export const scrapeSpecificParks = async (ids: Array<string | number>) => {
+export const scrapeSpecificParks = async (
+  ids: Array<string | number>,
+  printOnly?: boolean
+) => {
   console.log(`Scraping parks with ids ${ids.join(', ')}...`);
 
   const promises = ids.map(async (id) => {
@@ -50,7 +53,11 @@ export const scrapeSpecificParks = async (ids: Array<string | number>) => {
 
   console.log(`Found data for ${parks.length} parks.`);
 
-  await uploadData(Entity.Park, parks);
+  if (printOnly) {
+    console.log(JSON.stringify(parks, null, 2));
+  } else {
+    await uploadData(Entity.Park, parks);
+  }
 };
 
 const scrapeParkPage = async (url: string) => {

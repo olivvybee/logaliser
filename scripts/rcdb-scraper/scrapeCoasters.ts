@@ -41,7 +41,10 @@ export const scrapeCoasters = async ({
   exportHashes(hashes, Entity.Coaster);
 };
 
-export const scrapeSpecificCoasters = async (ids: Array<string | number>) => {
+export const scrapeSpecificCoasters = async (
+  ids: Array<string | number>,
+  printOnly?: boolean
+) => {
   console.log(`Scraping coasters with ids ${ids.join(', ')}...`);
 
   const promises = ids.map(async (id) => {
@@ -53,7 +56,11 @@ export const scrapeSpecificCoasters = async (ids: Array<string | number>) => {
 
   console.log(`Found data for ${coasters.length} coasters.`);
 
-  await uploadData(Entity.Coaster, coasters);
+  if (printOnly) {
+    console.log(JSON.stringify(coasters, null, 2));
+  } else {
+    await uploadData(Entity.Coaster, coasters);
+  }
 };
 
 const scrapeCoasterPage = async (url: string) => {
