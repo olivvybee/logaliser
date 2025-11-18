@@ -141,7 +141,7 @@ const getCoasterStats = ($: CheerioAPI) =>
   $('table.stat-tbl tr')
     .map((_, element) => {
       const key = $(element).find('th').text();
-      const valueElement = $(element).find('td');
+      const valueElement = $(element).find('td').first();
 
       return {
         key,
