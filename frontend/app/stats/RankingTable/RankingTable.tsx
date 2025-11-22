@@ -31,6 +31,7 @@ export const RankingTable = ({
       </thead>
       <tbody>
         {entries
+          .filter((entry) => !!entry.label)
           .toSorted((a, b) => b.value - a.value)
           .slice(0, 10)
           .map((entry, index) => (
