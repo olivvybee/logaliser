@@ -8,6 +8,7 @@ import { getDistance } from '../utils/distance';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { locationSchema } from '../schemas/locationSchema';
 import { getNearbyLatLong } from '../utils/nearbyLatLong';
+import { removeEmpty } from '../utils/removeEmpty';
 
 export const coastersHandler = new Hono();
 
@@ -158,13 +159,15 @@ coastersHandler.post(
     const failedUpdates = [];
 
     for (let coaster of input) {
+      const coasterWithoutEmptyFields = removeEmpty(coaster);
+
       try {
         const result = await db.coaster.upsert({
           where: {
             id: coaster.id,
           },
           update: {
-            ...coaster,
+            ...coasterWithoutEmptyFields,
           },
           create: {
             ...coaster,
