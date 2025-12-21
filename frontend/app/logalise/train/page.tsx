@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Form, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { IconCircleX } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -15,24 +15,29 @@ import {
 } from '@/lib/logaliser-api/trains';
 import { Button } from '@/components/Button';
 import { EntityChooser } from '@/components/EntityChooser';
+import TextFieldStyles from '@/components/TextField/TextField.module.css';
 
 import styles from './page.module.css';
 
 interface StartTrainActivityMutationVariables {
   stationId: number;
+  timestamp?: string;
 }
 
 const LogaliseTrainPage = () => {
   const router = useRouter();
 
   const [selectedStation, setSelectedStation] = useState<Station>();
+  const [showTimestampField, setShowTimestampField] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { mutate: createActivity, isPending: loading } = useMutation({
-    mutationFn: ({ stationId }: StartTrainActivityMutationVariables) =>
-      startTrainActivity(stationId),
+    mutationFn: ({ stationId, timestamp }: StartTrainActivityMutationVariables) =>
+      startTrainActivity(stationId, timestamp),
   });
+
+  const now = new Date().toISOString().slice(0, 16)
 
   if (!selectedStation) {
     return (
@@ -72,11 +77,14 @@ const LogaliseTrainPage = () => {
       </div>
 
       <Formik
-        initialValues={{}}
-        onSubmit={({}) => {
+        initialValues={{ timestamp: now }}
+        onSubmit={({ timestamp }) => {
           createActivity(
             {
               stationId: selectedStation.id,
+              timestamp: showTimestampField
+                ? new Date(timestamp).toISOString()
+                : undefined
             },
             {
               onSuccess: () => {
@@ -87,6 +95,25 @@ const LogaliseTrainPage = () => {
           );
         }}>
         <Form className={styles.form}>
+          <label>
+            <input
+              name="setTimestamp"
+              type="checkbox"
+              onChange={(e) => setShowTimestampField(e.target.checked)}
+              disabled={loading}
+            />
+            Override timestamp
+          </label>
+
+          {showTimestampField && (
+            <Field
+              className={TextFieldStyles.textField}
+              name="timestamp"
+              type="datetime-local"
+              disabled={loading}
+            />
+          )}
+
           <Button type="submit" loading={loading}>
             Logalise
           </Button>
