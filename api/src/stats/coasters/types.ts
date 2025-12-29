@@ -11,6 +11,7 @@ export interface CoasterStats {
 
   countByDay: Record<string, number>;
   countByMonth: Record<number, number>;
+  daysInParks: number;
 
   inversions: TotalMinMax;
   duration: TotalMinMax;

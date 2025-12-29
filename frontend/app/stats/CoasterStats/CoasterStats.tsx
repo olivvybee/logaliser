@@ -61,6 +61,8 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
           <Stat label="In-show exits" value={stats.inShowExits.total} />
         )}
 
+        <Stat label="Days in parks" value={stats.daysInParks} />
+
         {stats.length.total !== undefined && (
           <Stat
             label="Total distance"
