@@ -8,6 +8,9 @@
       "persistent": true,
       "cache": false
     },
-    "tsc": {}
+    "tsc": {},
+    "prettier": {
+      "cache": false
+    }
   }
 }

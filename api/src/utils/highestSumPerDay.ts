@@ -13,22 +13,25 @@ export const highestSumPerDay = <T extends Activity>(
     return undefined;
   }
 
-  const sumPerDay = activities.reduce((processed, activity) => {
-    const value = getProperty(activity);
-    if (!value) {
+  const sumPerDay = activities.reduce(
+    (processed, activity) => {
+      const value = getProperty(activity);
+      if (!value) {
+        return processed;
+      }
+
+      const day = getDay(activity);
+
+      if (processed[day]) {
+        processed[day] += value;
+      } else {
+        processed[day] = value;
+      }
+
       return processed;
-    }
-
-    const day = getDay(activity);
-
-    if (processed[day]) {
-      processed[day] += value;
-    } else {
-      processed[day] = value;
-    }
-
-    return processed;
-  }, {} as Record<string, number>);
+    },
+    {} as Record<string, number>
+  );
 
   const highestDay = _maxBy(Object.entries(sumPerDay), ([day, value]) => value);
 

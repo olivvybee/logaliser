@@ -10,7 +10,8 @@
     "typegen:prisma": "prisma generate --no-hints",
     "migrate:dev": "prisma migrate dev",
     "migrate:prod": "prisma migrate deploy",
-    "migrate:data:move-new-activities": "tsx ./prisma/data-migrations/move-new-activities.ts"
+    "migrate:data:move-new-activities": "tsx ./prisma/data-migrations/move-new-activities.ts",
+    "prettier": "prettier --check ."
   },
   "dependencies": {
     "@hono/node-server": "^1.19.1",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/lodash": "^4.17.15",
     "@types/node": "^20.17.10",
+    "prettier": "^3.7.4",
     "prisma": "^6.15.0",
     "tsx": "^4.19.2",
     "typescript": "^5"

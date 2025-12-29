@@ -5,7 +5,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev --parallel",
-    "tsc": "turbo tsc --parallel"
+    "tsc": "turbo tsc --parallel",
+    "prettier": "turbo prettier --parallel"
   },
   "packageManager": "pnpm@8.15.7",
   "devDependencies": {

@@ -33,11 +33,14 @@ const LogaliseTrainPage = () => {
   const queryClient = useQueryClient();
 
   const { mutate: createActivity, isPending: loading } = useMutation({
-    mutationFn: ({ stationId, timestamp }: StartTrainActivityMutationVariables) =>
+    mutationFn: ({
+      stationId,
+      timestamp,
+    }: StartTrainActivityMutationVariables) =>
       startTrainActivity(stationId, timestamp),
   });
 
-  const now = new Date().toISOString().slice(0, 16)
+  const now = new Date().toISOString().slice(0, 16);
 
   if (!selectedStation) {
     return (
@@ -84,7 +87,7 @@ const LogaliseTrainPage = () => {
               stationId: selectedStation.id,
               timestamp: showTimestampField
                 ? new Date(timestamp).toISOString()
-                : undefined
+                : undefined,
             },
             {
               onSuccess: () => {

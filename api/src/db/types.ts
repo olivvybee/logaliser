@@ -41,8 +41,10 @@ export interface ConcreteCoasterActivity extends AnyActivity {
   coasterActivity: CoasterActivityData;
 }
 
-export interface TrainActivityData
-  extends DateToString<TrainActivity, 'departureTime' | 'arrivalTime'> {
+export interface TrainActivityData extends DateToString<
+  TrainActivity,
+  'departureTime' | 'arrivalTime'
+> {
   origin: Station;
   destination: Station;
 }

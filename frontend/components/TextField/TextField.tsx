@@ -3,11 +3,10 @@ import classNames from 'classnames';
 
 import styles from './TextField.module.css';
 
-interface TextFieldProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'onChange' | 'onKeyPress'
-  > {
+interface TextFieldProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'onKeyPress'
+> {
   value?: string;
   onChange?: (newValue: string) => void;
   onBlur?: () => void;

@@ -41,7 +41,7 @@ const CompleteTrainActivityPage = () => {
     mutationFn: ({
       activityId,
       stationId,
-      timestamp
+      timestamp,
     }: CompleteTrainActivityMutationVariables) =>
       completeTrainActivity(activityId, stationId, timestamp),
   });
@@ -92,7 +92,7 @@ const CompleteTrainActivityPage = () => {
               stationId: selectedStation.id,
               timestamp: showTimestampField
                 ? new Date(timestamp).toISOString()
-                : undefined
+                : undefined,
             },
             {
               onSuccess: () => {

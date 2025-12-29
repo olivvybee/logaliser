@@ -41,8 +41,8 @@ const Homepage = () => {
             const dateHeading = isToday(date)
               ? 'Today'
               : isYesterday(date)
-              ? 'Yesterday'
-              : format(date, 'd LLL yyyy');
+                ? 'Yesterday'
+                : format(date, 'd LLL yyyy');
 
             return (
               <div key={date}>

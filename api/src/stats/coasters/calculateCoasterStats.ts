@@ -70,18 +70,24 @@ export const calculateCoasterStats = (
       (activity) => activity.coasterActivity.coaster.park.country
     ),
 
-    countByDay: allDays.reduce((processed, day) => {
-      processed[day] = activities.filter(
-        (activity) => getDay(activity) === day
-      ).length;
-      return processed;
-    }, {} as Record<string, number>),
-    countByMonth: allMonths.reduce((processed, month) => {
-      processed[month] = activities.filter(
-        (activity) => getMonth(activity) === month
-      ).length;
-      return processed;
-    }, {} as Record<string, number>),
+    countByDay: allDays.reduce(
+      (processed, day) => {
+        processed[day] = activities.filter(
+          (activity) => getDay(activity) === day
+        ).length;
+        return processed;
+      },
+      {} as Record<string, number>
+    ),
+    countByMonth: allMonths.reduce(
+      (processed, month) => {
+        processed[month] = activities.filter(
+          (activity) => getMonth(activity) === month
+        ).length;
+        return processed;
+      },
+      {} as Record<string, number>
+    ),
 
     inversions: totalMinMax(
       activities,
