@@ -21,6 +21,15 @@ export interface CoasterStats {
   speed: TotalMinMax;
   verticalAngle: TotalMinMax;
 
+  oldestCoaster: {
+    id: number;
+    opened: string;
+  } | null;
+  newestCoaster: {
+    id: number;
+    opened: string;
+  } | null;
+
   newCoasters: {
     total: number;
     coasters: number[];

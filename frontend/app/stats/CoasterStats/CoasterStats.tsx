@@ -132,6 +132,21 @@ export const CoasterStats = ({ stats, timespan }: CoasterStatsProps) => {
             extraInfo={getCoasterName(stats.duration.max.id)}
           />
         )}
+
+        {stats.oldestCoaster && (
+          <Stat
+            label="Oldest coaster"
+            value={stats.oldestCoaster.opened.slice(0, 4)}
+            extraInfo={getCoasterName(stats.oldestCoaster.id)}
+          />
+        )}
+        {stats.newestCoaster && (
+          <Stat
+            label="Newest coaster"
+            value={stats.newestCoaster.opened.slice(0, 4)}
+            extraInfo={getCoasterName(stats.newestCoaster.id)}
+          />
+        )}
       </div>
 
       <div className={styles.tables}>

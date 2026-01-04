@@ -1,5 +1,6 @@
 import _uniq from 'lodash/uniq';
 import _uniqBy from 'lodash/uniqBy';
+import _sortBy from 'lodash/sortBy';
 import _groupBy from 'lodash/groupBy';
 import _sumBy from 'lodash/sumBy';
 import _minBy from 'lodash/minBy';
@@ -29,6 +30,13 @@ export const calculateCoasterStats = (
   const parks = _uniqBy(coasters, (coaster) => coaster.parkId).map(
     (coaster) => coaster.park
   );
+
+  const coastersByOpenDate = _sortBy(
+    coasters.filter((coaster) => coaster.opened),
+    (coaster) => coaster.opened
+  );
+  const oldestCoaster = coastersByOpenDate.at(0);
+  const newestCoaster = coastersByOpenDate.at(-1);
 
   const firstRides = activities.filter(
     (activity) => activity.coasterActivity.firstRide
@@ -111,6 +119,19 @@ export const calculateCoasterStats = (
       coasters,
       (coaster) => coaster.verticalAngle
     ),
+
+    oldestCoaster: oldestCoaster
+      ? {
+          id: oldestCoaster.id,
+          opened: oldestCoaster.opened || '',
+        }
+      : null,
+    newestCoaster: newestCoaster
+      ? {
+          id: newestCoaster.id,
+          opened: newestCoaster.opened || '',
+        }
+      : null,
 
     newCoasters: {
       total: firstRides.length,
