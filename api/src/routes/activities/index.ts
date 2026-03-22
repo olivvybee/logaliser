@@ -41,6 +41,21 @@ activitiesHandler.get(
   }
 );
 
+activitiesHandler.get(
+  '/:id',
+  zValidator('param', z.object({ id: z.coerce.number() })),
+  async (ctx) => {
+    const id = parseInt(ctx.req.param('id'));
+    const db = getDB();
+
+    const activity = await db.activity.findUnique({
+      where: { id },
+    });
+
+    return ctx.json(activity);
+  }
+);
+
 activitiesHandler.post(
   '/delete/:id',
   authMiddleware,
