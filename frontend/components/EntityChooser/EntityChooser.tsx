@@ -1,17 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { act, useState } from 'react';
 
 import styles from './EntityChooser.module.css';
 import { Button } from '../Button';
 import { NearbyTab } from './NearbyTab';
 import { SearchTab } from './SearchTab';
 import { Entity } from './EntityChooser.types';
+import { ActivityType } from '@logaliser/api';
 
 interface EntityChooserProps<TEntity extends Entity> {
-  key: string;
+  activityType: ActivityType;
   onSelect: (entity: TEntity) => void;
-  nearbyQueryFn: (latitude: number, longitude: number) => Promise<TEntity[]>;
   searchQueryFn: (query: string, country?: string) => Promise<TEntity[]>;
   countriesQueryFn: () => Promise<string[]>;
   getName: (entity: TEntity) => string;
@@ -19,9 +19,8 @@ interface EntityChooserProps<TEntity extends Entity> {
 }
 
 export const EntityChooser = <TEntity extends Entity>({
-  key,
+  activityType,
   onSelect,
-  nearbyQueryFn,
   searchQueryFn,
   countriesQueryFn,
   getName,
@@ -47,16 +46,15 @@ export const EntityChooser = <TEntity extends Entity>({
 
       {selectedTab === 'nearby' && (
         <NearbyTab
-          key={key}
+          activityType={activityType}
           onSelect={onSelect}
-          queryFn={nearbyQueryFn}
           getName={getName}
           getDetails={getDetails}
         />
       )}
       {selectedTab === 'search' && (
         <SearchTab
-          key={key}
+          key={activityType}
           onSelect={onSelect}
           queryFn={searchQueryFn}
           countriesQueryFn={countriesQueryFn}

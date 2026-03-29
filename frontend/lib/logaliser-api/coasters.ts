@@ -22,20 +22,6 @@ export const duplicateCoasterActivity = async (activity: CoasterActivity) => {
   return createCoasterActivity(activity.coasterActivity.coasterId);
 };
 
-export const getNearbyCoasters = async (
-  latitude: number,
-  longitude: number
-) => {
-  const params = new URLSearchParams({
-    lat: latitude.toString(),
-    lng: longitude.toString(),
-  });
-
-  const path = `/coasters/nearby?${params.toString()}`;
-
-  return makeRequest<Coaster[]>(path);
-};
-
 export const getCountryList = async () => {
   return makeRequest<string[]>('/theme-parks/countries');
 };

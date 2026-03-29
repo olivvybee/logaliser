@@ -6,11 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
-import { Coaster } from '@logaliser/api';
+import { ActivityType, Coaster } from '@logaliser/api';
 import {
   createCoasterActivity,
   getCountryList,
-  getNearbyCoasters,
   searchForCoasters,
 } from '@/lib/logaliser-api';
 import { Button } from '@/components/Button';
@@ -49,9 +48,8 @@ const LogaliseCoasterPage = () => {
       <>
         <h1>Logalise a coaster</h1>
         <EntityChooser
-          key="coaster"
+          activityType={ActivityType.Coaster}
           onSelect={setSelectedCoaster}
-          nearbyQueryFn={getNearbyCoasters}
           searchQueryFn={searchForCoasters}
           countriesQueryFn={getCountryList}
           getName={(coaster) => coaster.name}

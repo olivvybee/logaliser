@@ -6,12 +6,11 @@ import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconCircleX } from '@tabler/icons-react';
 
-import { Station } from '@logaliser/api';
+import { ActivityType, Station } from '@logaliser/api';
 import { Button } from '@/components/Button';
 import {
   completeTrainActivity,
   getCountryList,
-  getNearbyStations,
   searchForStations,
 } from '@/lib/logaliser-api/trains';
 import { EntityChooser } from '@/components/EntityChooser';
@@ -51,9 +50,8 @@ const CompleteTrainActivityPage = () => {
       <>
         <h1>Complete train activity</h1>
         <EntityChooser
-          key="station"
+          activityType={ActivityType.Train}
           onSelect={setSelectedStation}
-          nearbyQueryFn={getNearbyStations}
           searchQueryFn={searchForStations}
           countriesQueryFn={getCountryList}
           getName={(station) => station.name}

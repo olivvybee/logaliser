@@ -4,18 +4,18 @@ import { Spinner } from '../Spinner';
 import { Entity } from './EntityChooser.types';
 import { Button } from '../Button';
 import styles from './EntityChooser.module.css';
+import { ActivityType } from '@logaliser/api';
+import { searchNearby } from '@/lib/logaliser-api/search';
 
 interface NearbyTabProps<TEntity extends Entity> {
-  key: string;
-  queryFn: (latitude: number, longitude: number) => Promise<TEntity[]>;
+  activityType: ActivityType;
   onSelect: (entity: TEntity) => void;
   getName: (entity: TEntity) => string;
   getDetails: (entity: TEntity) => string | undefined;
 }
 
 export const NearbyTab = <TEntity extends Entity>({
-  key,
-  queryFn,
+  activityType,
   onSelect,
   getName,
   getDetails,
@@ -31,9 +31,13 @@ export const NearbyTab = <TEntity extends Entity>({
     isLoading: queryLoading,
     error: queryError,
   } = useQuery({
-    queryKey: ['nearby-entities', key],
+    queryKey: ['nearby-entities', activityType],
     queryFn: () =>
-      queryFn(geolocation?.latitude || -1, geolocation?.longitude || -1),
+      searchNearby<TEntity>(
+        activityType,
+        geolocation?.latitude || -1,
+        geolocation?.longitude || -1
+      ),
     enabled: !!geolocation,
   });
 

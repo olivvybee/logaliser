@@ -33,20 +33,6 @@ export const completeTrainActivity = async (
   return makeRequest<TrainActivity>('/activities/train/complete', { body });
 };
 
-export const getNearbyStations = async (
-  latitude: number,
-  longitude: number
-) => {
-  const params = new URLSearchParams({
-    lat: latitude.toString(),
-    lng: longitude.toString(),
-  });
-
-  const path = `/stations/nearby?${params.toString()}`;
-
-  return makeRequest<Station[]>(path);
-};
-
 export const getCountryList = async () => {
   return makeRequest<string[]>('/stations/countries');
 };
