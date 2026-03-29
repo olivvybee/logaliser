@@ -13,6 +13,7 @@ import { checkCorsOrigin } from './utils/checkCorsOrigin';
 import { statsHandler } from './routes/stats';
 import { stationsHandler } from './routes/stations';
 import { crossStitchHandler } from './routes/crossStitch';
+import { searchHandler } from './routes/search';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -34,6 +35,7 @@ app.route('/theme-parks', themeParksHandler);
 app.route('/stations', stationsHandler);
 app.route('/cross-stitch', crossStitchHandler);
 app.route('/stats', statsHandler);
+app.route('/search', searchHandler);
 
 app.get('/auth', authMiddleware, async (ctx) => {
   return ctx.json({ valid: true });
