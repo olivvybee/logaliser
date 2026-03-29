@@ -4,7 +4,9 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { z } from 'zod';
 
 import { getDB } from '../../db';
+import { ActivityType } from '../../db/types';
 import { authMiddleware } from '../../middleware/authMiddleware';
+import { toSentenceCase } from '../../utils/convertCase';
 
 import { coasterActivityHandler } from './coaster';
 import { recentActivityHandler } from './recent';
@@ -40,6 +42,17 @@ activitiesHandler.get(
     });
   }
 );
+
+activitiesHandler.get('/types', async (ctx) => {
+  return ctx.json(
+    Object.entries(ActivityType)
+      .map(([key, value]) => ({
+        name: toSentenceCase(key),
+        value,
+      }))
+      .filter((type) => type.value !== ActivityType.Unknown)
+  );
+});
 
 activitiesHandler.get(
   '/:id',
