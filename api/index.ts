@@ -1,7 +1,7 @@
-import { type Activity as DBActivity } from '@prisma/client';
+import { type Activity as DBActivity } from './src/__generated__/prisma/client';
 import * as DBTypes from './src/db/types';
 
-export { type Station } from '@prisma/client';
+export { type Station } from './src/__generated__/prisma/client';
 
 export type AsResponse<TActivity extends DBActivity> = DBTypes.DateToString<
   TActivity,

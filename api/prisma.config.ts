@@ -1,9 +1,15 @@
 import path from 'path';
-import type { PrismaConfig } from 'prisma';
+import { defineConfig, env } from 'prisma/config';
 import { config as loadEnv } from 'dotenv';
 
 loadEnv();
 
-export default {
+export default defineConfig({
   schema: path.join('prisma'),
-} satisfies PrismaConfig;
+  migrations: {
+    path: 'prisma/migrations',
+  },
+  datasource: {
+    url: env('DATABASE_URL'),
+  },
+});

@@ -1,7 +1,12 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../__generated__/prisma/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
 export const getDB = () => {
-  return new PrismaClient().$extends({
+  const adapter = new PrismaBetterSqlite3({
+    url: process.env.DATABASE_URL,
+  });
+
+  return new PrismaClient({ adapter }).$extends({
     query: {
       activity: {
         $allOperations: ({ model, query, args }) => {

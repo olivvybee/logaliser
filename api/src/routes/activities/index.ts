@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Prisma } from '../../__generated__/prisma/client';
 import { z } from 'zod';
 
 import { getDB } from '../../db';
@@ -80,7 +80,7 @@ activitiesHandler.post(
     try {
       await db.activity.delete({ where: { id } });
     } catch (err) {
-      const typedError = err as PrismaClientKnownRequestError;
+      const typedError = err as Prisma.PrismaClientKnownRequestError;
       if (typedError.code === 'P2025') {
         return ctx.notFound();
       } else {

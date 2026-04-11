@@ -1,4 +1,4 @@
-import { Coaster, ThemePark } from '@prisma/client';
+import { Coaster, ThemePark } from '../../__generated__/prisma/client';
 import { TotalMinMax } from '../types';
 
 export interface CoasterStats {

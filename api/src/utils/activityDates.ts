@@ -1,4 +1,4 @@
-import { Activity } from '@prisma/client';
+import { Activity } from '../__generated__/prisma/client';
 import { formatDate } from 'date-fns';
 
 export const getDay = (activity: Activity) =>

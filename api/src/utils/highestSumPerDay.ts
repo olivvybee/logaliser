@@ -1,4 +1,4 @@
-import { Activity } from '@prisma/client';
+import { Activity } from '../__generated__/prisma/client';
 import _maxBy from 'lodash/maxBy';
 import { isPropertyDefined } from './isPropertyDefined';
 import { getDay } from './activityDates';

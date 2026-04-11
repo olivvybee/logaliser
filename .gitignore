@@ -4,3 +4,4 @@ hashes-*.json
 .env
 .DS_Store
 *.log
+__generated__

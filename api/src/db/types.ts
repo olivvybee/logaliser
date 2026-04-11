@@ -7,7 +7,7 @@ import {
   Station,
   ThemePark,
   TrainActivity,
-} from '@prisma/client';
+} from '../__generated__/prisma/client';
 
 export type DateToString<T, KFields extends keyof T = never> = Omit<
   T,
