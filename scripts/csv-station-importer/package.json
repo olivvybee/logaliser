@@ -1,0 +1,21 @@
+{
+  "name": "@logaliser/csv-station-importer",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx ./index.ts"
+  },
+  "dependencies": {
+    "@logaliser/api": "*",
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/yargs": "^17.0.33"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

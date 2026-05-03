@@ -134,25 +134,42 @@ stationsHandler.post(
 
     for (let station of input) {
       try {
-        const result = station.nationalId
-          ? await db.station.upsert({
-              where: {
-                nationalId: station.nationalId,
-              },
-              update: {
-                ...station,
-              },
-              create: {
-                ...station,
-              },
-            })
-          : await db.station.create({
-              data: {
-                ...station,
-              },
-            });
+        const existingStationByName = await db.station.findFirst({
+          where: {
+            name: { equals: station.name },
+          },
+        });
 
-        successfulUpdates.push(result);
+        if (existingStationByName) {
+          const result = await db.station.update({
+            where: {
+              id: existingStationByName.id,
+            },
+            data: {
+              ...station,
+            },
+          });
+          successfulUpdates.push(result);
+        } else {
+          const result = station.nationalId
+            ? await db.station.upsert({
+                where: {
+                  nationalId: station.nationalId,
+                },
+                update: {
+                  ...station,
+                },
+                create: {
+                  ...station,
+                },
+              })
+            : await db.station.create({
+                data: {
+                  ...station,
+                },
+              });
+          successfulUpdates.push(result);
+        }
       } catch (err) {
         const error = err as Error;
         failedUpdates.push({ data: station, error });
