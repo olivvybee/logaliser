@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { getDB } from '../db';
 import { authMiddleware } from '../middleware/authMiddleware';
+import { updatePark } from '../dataSources/rcdb/updatePark';
 
 export const themeParksHandler = new Hono();
 
@@ -87,5 +88,19 @@ themeParksHandler.post(
     }
 
     return ctx.json({ successfulUpdates, failedUpdates });
+  }
+);
+
+const updateSchema = z.object({
+  id: z.coerce.number().int(),
+});
+
+themeParksHandler.get(
+  '/update',
+  zValidator('query', updateSchema),
+  async (ctx) => {
+    const input = ctx.req.valid('query');
+    const park = await updatePark(input.id);
+    return ctx.json(park);
   }
 );
