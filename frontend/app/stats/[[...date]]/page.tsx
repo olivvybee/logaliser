@@ -60,7 +60,7 @@ const parseDates = (date: string[]) => {
     return undefined;
   }
 
-  const startDate = new Date(year, month - 1);
+  const startDate = new Date(Date.UTC(year, month - 1));
   const endDate = endOfMonth(startDate);
 
   const previousMonth = subMonths(startDate, 1);
