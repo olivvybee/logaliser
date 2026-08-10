@@ -13,5 +13,5 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config: MiddlewareConfig = {
-  matcher: ['/logalise/:path*'],
+  matcher: ['/logalise/:path*', '/settings'],
 };
