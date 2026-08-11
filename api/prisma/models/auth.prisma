@@ -1,0 +1,6 @@
+model OauthToken {
+  id           String    @id
+  accessToken  String?
+  refreshToken String?
+  expiresAt    DateTime?
+}
