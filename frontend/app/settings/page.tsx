@@ -16,7 +16,7 @@ const SettingsPage = async () => {
       <h2>Connected services</h2>
 
       <div className={styles.connectedServiceContainer}>
-        <span className={styles.connectedServiceName}>Traewelling</span>
+        <span className={styles.connectedServiceName}>Träwelling</span>
 
         {traewellingStatus.connected ? (
           <div className={styles.connectedServiceStatus}>
