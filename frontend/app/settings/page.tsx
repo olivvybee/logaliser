@@ -21,7 +21,11 @@ const SettingsPage = async () => {
         {traewellingStatus.connected ? (
           <div className={styles.connectedServiceStatus}>
             <IconCheck color="var(--success)" />
-            <span>Connected</span>
+            {traewellingStatus.user.username ? (
+              <span>{traewellingStatus.user.username}</span>
+            ) : (
+              <span>Connected</span>
+            )}
           </div>
         ) : (
           <a

@@ -6,6 +6,8 @@ import { config as loadEnv } from 'dotenv';
 import { getDB } from '../../db';
 import { OauthTokenType } from './auth.types';
 import { OauthToken } from '../../__generated__/prisma/client';
+import { USER_AGENT } from '../../utils/userAgent';
+import { getUser } from '../../apis/traewelling/getUser';
 
 loadEnv();
 
@@ -19,8 +21,7 @@ const OAUTH_CONFIG: ModuleOptions = {
   },
   http: {
     headers: {
-      'User-Agent':
-        'logaliser/1.0 (https://github.com/olivvybee/logaliser; logaliser.beehive.gay)',
+      'User-Agent': USER_AGENT,
     },
   },
 };
@@ -41,6 +42,10 @@ traewellingHandler.get(
       },
     });
 
+    const user = existingToken?.accessToken
+      ? await getUser(existingToken.accessToken)
+      : null;
+
     const client = new AuthorizationCode(OAUTH_CONFIG);
     const authUrl = client.authorizeURL({
       redirect_uri: ctx.req.valid('query').redirectUri,
@@ -49,6 +54,7 @@ traewellingHandler.get(
 
     return ctx.json({
       connected: !!existingToken,
+      user,
       authUrl,
     });
   }
