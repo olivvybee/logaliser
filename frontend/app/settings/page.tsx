@@ -1,13 +1,31 @@
-import { generateTraewellingAuthUrl } from './generateTraewellingAuthUrl';
+import classNames from 'classnames';
 
-const SettingsPage = () => {
-  const traewellingAuthUrl = generateTraewellingAuthUrl();
+import { getTraewellingAuthStatus } from '@/lib/logaliser-api';
+import buttonStyles from '@/components/Button/Button.module.css';
+
+import styles from './page.module.css';
+
+const SettingsPage = async () => {
+  const traewellingStatus = await getTraewellingAuthStatus();
 
   return (
     <>
       <h1>Settings</h1>
 
-      <a href={traewellingAuthUrl}>Authorise</a>
+      <h2>Connected services</h2>
+
+      <div className={styles.connectedServiceContainer}>
+        <span className={styles.connectedServiceName}>Traewelling</span>
+        <a
+          className={classNames(
+            buttonStyles.button,
+            buttonStyles.smallButton,
+            styles.connectedServiceLink
+          )}
+          href={traewellingStatus.authUrl}>
+          Connect
+        </a>
+      </div>
     </>
   );
 };
