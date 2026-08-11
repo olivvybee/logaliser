@@ -8,12 +8,12 @@ import { config as loadEnv } from 'dotenv';
 import { themeParksHandler } from './routes/theme-parks';
 import { coastersHandler } from './routes/coasters';
 import { activitiesHandler } from './routes/activities';
-import { authMiddleware } from './middleware/authMiddleware';
 import { checkCorsOrigin } from './utils/checkCorsOrigin';
 import { statsHandler } from './routes/stats';
 import { stationsHandler } from './routes/stations';
 import { crossStitchHandler } from './routes/crossStitch';
 import { searchHandler } from './routes/search';
+import { authHandler } from './routes/auth';
 
 loadEnv();
 const PORT = Number(process.env.PORT) || 3000;
@@ -36,10 +36,7 @@ app.route('/stations', stationsHandler);
 app.route('/cross-stitch', crossStitchHandler);
 app.route('/stats', statsHandler);
 app.route('/search', searchHandler);
-
-app.get('/auth', authMiddleware, async (ctx) => {
-  return ctx.json({ valid: true });
-});
+app.route('/auth', authHandler);
 
 serve(
   {
