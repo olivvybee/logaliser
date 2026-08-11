@@ -8,6 +8,8 @@
   --secondary-active: #121212;
   --secondary-bright: #525252;
 
+  --success: #34d399;
+
   --border-color: var(--secondary-bright);
   --border-radius: 6px;
 }

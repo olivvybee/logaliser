@@ -4,6 +4,7 @@ import { getTraewellingAuthStatus } from '@/lib/logaliser-api';
 import buttonStyles from '@/components/Button/Button.module.css';
 
 import styles from './page.module.css';
+import { IconCheck } from '@tabler/icons-react';
 
 const SettingsPage = async () => {
   const traewellingStatus = await getTraewellingAuthStatus();
@@ -16,15 +17,23 @@ const SettingsPage = async () => {
 
       <div className={styles.connectedServiceContainer}>
         <span className={styles.connectedServiceName}>Traewelling</span>
-        <a
-          className={classNames(
-            buttonStyles.button,
-            buttonStyles.smallButton,
-            styles.connectedServiceLink
-          )}
-          href={traewellingStatus.authUrl}>
-          Connect
-        </a>
+
+        {traewellingStatus.connected ? (
+          <div className={styles.connectedServiceStatus}>
+            <IconCheck color="var(--success)" />
+            <span>Connected</span>
+          </div>
+        ) : (
+          <a
+            className={classNames(
+              buttonStyles.button,
+              buttonStyles.smallButton,
+              styles.connectedServiceLink
+            )}
+            href={traewellingStatus.authUrl}>
+            Connect
+          </a>
+        )}
       </div>
     </>
   );

@@ -14,6 +14,7 @@ export const checkApiKey = async (apiKey: string) => {
 };
 
 interface TraewellingAuthStatusResponse {
+  connected: boolean;
   authUrl: string;
 }
 

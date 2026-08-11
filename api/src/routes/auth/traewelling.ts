@@ -33,6 +33,14 @@ traewellingHandler.get(
   '/status',
   zValidator('query', z.object({ redirectUri: z.string() })),
   async (ctx) => {
+    const db = getDB();
+
+    const existingToken = await db.oauthToken.findUnique({
+      where: {
+        id: OauthTokenType.Traewelling,
+      },
+    });
+
     const client = new AuthorizationCode(OAUTH_CONFIG);
     const authUrl = client.authorizeURL({
       redirect_uri: ctx.req.valid('query').redirectUri,
@@ -40,6 +48,7 @@ traewellingHandler.get(
     });
 
     return ctx.json({
+      connected: !!existingToken,
       authUrl,
     });
   }
