@@ -3,11 +3,13 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import { AuthorizationCode, ModuleOptions } from 'simple-oauth2';
 import { config as loadEnv } from 'dotenv';
+
 import { getDB } from '../../db';
-import { OauthTokenType } from './auth.types';
 import { OauthToken } from '../../__generated__/prisma/client';
-import { USER_AGENT } from '../../utils/userAgent';
-import { getUser } from '../../apis/traewelling/getUser';
+import { USER_AGENT } from '../../apis/apis.constants';
+
+import { OauthTokenType } from './auth.types';
+import { TraewellingClient } from '../../apis/traewelling/client';
 
 loadEnv();
 
@@ -43,7 +45,7 @@ traewellingHandler.get(
     });
 
     const user = existingToken?.accessToken
-      ? await getUser(existingToken.accessToken)
+      ? await new TraewellingClient(existingToken.accessToken).user()
       : null;
 
     const client = new AuthorizationCode(OAUTH_CONFIG);
