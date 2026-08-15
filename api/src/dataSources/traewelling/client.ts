@@ -30,4 +30,11 @@ export class TraewellingClient extends HttpClient {
   public async user(): Promise<TraewellingUser> {
     return this.get<TraewellingUser>('/auth/user');
   }
+
+  public async nearestStation(latitude: number, longitude: number) {
+    return this.get<string>('/trains/station/nearby', {
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
+    });
+  }
 }
