@@ -1,20 +1,21 @@
+import { OauthToken } from '../../__generated__/prisma/client';
 import { HttpClient } from '../httpClient';
 import { TraewellingUser } from './entities/User';
 
 const BASE_URL = 'https://traewelling.de/api/v1';
 
 export class TraewellingClient extends HttpClient {
-  private token: string | undefined;
+  private accessToken: string | null;
 
-  constructor(accessToken: string) {
+  constructor(token: OauthToken) {
     super(BASE_URL);
-    this.token = accessToken;
+    this.accessToken = token.accessToken;
   }
 
   protected get headers(): HeadersInit {
     return {
       ...HttpClient.defaultHeaders,
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.accessToken}`,
     };
   }
 

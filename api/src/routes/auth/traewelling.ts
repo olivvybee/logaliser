@@ -20,9 +20,7 @@ traewellingHandler.get(
   async (ctx) => {
     const token = await getTraewellingToken();
 
-    const user = token?.accessToken
-      ? await new TraewellingClient(token.accessToken).user()
-      : null;
+    const user = token ? await new TraewellingClient(token).user() : null;
 
     const authUrl = getAuthUrl(ctx.req.valid('query').redirectUri);
 
