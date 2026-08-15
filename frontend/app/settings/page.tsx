@@ -34,7 +34,8 @@ const SettingsPage = async () => {
               buttonStyles.smallButton,
               styles.connectedServiceLink
             )}
-            href={traewellingStatus.authUrl}>
+            href={traewellingStatus.authUrl}
+            target="_blank">
             Connect
           </a>
         )}
