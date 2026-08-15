@@ -6,12 +6,12 @@ import { getDB } from '../../db';
 import { OauthToken } from '../../__generated__/prisma/client';
 
 import { OauthTokenType } from './auth.types';
-import { TraewellingClient } from '../../apis/traewelling/client';
+import { TraewellingClient } from '../../dataSources/traewelling/client';
 import {
   getAuthUrl,
   getTokenFromCode,
   refreshToken,
-} from '../../apis/traewelling/auth';
+} from '../../dataSources/traewelling/auth';
 import { AccessToken } from 'simple-oauth2';
 
 export const traewellingHandler = new Hono();

@@ -1,4 +1,4 @@
-import { USER_AGENT } from './apis.constants';
+import { USER_AGENT } from '../dataSources/dataSources.constants';
 import { RequestError } from './apis.types';
 
 export class HttpClient {

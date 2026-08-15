@@ -1,6 +1,6 @@
 import { AuthorizationCode, ModuleOptions, Token } from 'simple-oauth2';
 import { config as loadEnv } from 'dotenv';
-import { USER_AGENT } from '../apis.constants';
+import { USER_AGENT } from '../dataSources.constants';
 
 loadEnv();
 
