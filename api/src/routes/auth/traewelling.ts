@@ -1,34 +1,13 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
-import { AuthorizationCode, ModuleOptions } from 'simple-oauth2';
-import { config as loadEnv } from 'dotenv';
 
 import { getDB } from '../../db';
 import { OauthToken } from '../../__generated__/prisma/client';
-import { USER_AGENT } from '../../apis/apis.constants';
 
 import { OauthTokenType } from './auth.types';
 import { TraewellingClient } from '../../apis/traewelling/client';
-
-loadEnv();
-
-const OAUTH_CONFIG: ModuleOptions = {
-  auth: {
-    tokenHost: 'https://traewelling.de',
-  },
-  client: {
-    id: process.env.TRAEWELLING_CLIENT_ID || '',
-    secret: process.env.TRAEWELLING_CLIENT_SECRET || '',
-  },
-  http: {
-    headers: {
-      'User-Agent': USER_AGENT,
-    },
-  },
-};
-
-const SCOPES = ['read-search', 'write-statuses'];
+import { getAuthUrl, getTokenFromCode } from '../../apis/traewelling/auth';
 
 export const traewellingHandler = new Hono();
 
@@ -48,11 +27,7 @@ traewellingHandler.get(
       ? await new TraewellingClient(existingToken.accessToken).user()
       : null;
 
-    const client = new AuthorizationCode(OAUTH_CONFIG);
-    const authUrl = client.authorizeURL({
-      redirect_uri: ctx.req.valid('query').redirectUri,
-      scope: SCOPES,
-    });
+    const authUrl = getAuthUrl(ctx.req.valid('query').redirectUri);
 
     return ctx.json({
       connected: !!existingToken,
@@ -70,17 +45,8 @@ traewellingHandler.post(
 
     const { code, redirectUri } = ctx.req.valid('json');
 
-    const client = new AuthorizationCode(OAUTH_CONFIG);
-
     try {
-      const token = await client.getToken(
-        {
-          code,
-          redirect_uri: redirectUri,
-          scope: SCOPES,
-        },
-        { json: true }
-      );
+      const token = await getTokenFromCode(code, redirectUri);
 
       const tokenData: OauthToken = {
         id: OauthTokenType.Traewelling,
@@ -89,7 +55,7 @@ traewellingHandler.post(
         expiresAt: token.token.expires_at as Date,
       };
 
-      const authToken = await db.oauthToken.upsert({
+      const savedToken = await db.oauthToken.upsert({
         where: {
           id: OauthTokenType.Traewelling,
         },
@@ -98,11 +64,12 @@ traewellingHandler.post(
       });
 
       return ctx.json({
-        authToken,
+        savedToken,
       });
     } catch (err) {
       const error = err as Error;
-      return ctx.json({ error: error.message }, 500);
+      console.error(error);
+      return ctx.json({ error: error.name, message: error.message }, 500);
     }
   }
 );
