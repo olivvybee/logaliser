@@ -1,5 +1,5 @@
-import { USER_AGENT } from '../dataSources/dataSources.constants';
-import { RequestError } from './apis.types';
+import { USER_AGENT } from './dataSources.constants';
+import { RequestError } from './dataSources.types';
 
 export class HttpClient {
   private baseUrl: string;
