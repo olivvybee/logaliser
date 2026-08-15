@@ -1,4 +1,3 @@
-import { RequestError } from '../../apis/apis.types';
 import { HttpClient } from '../httpClient';
 import { TraewellingUser } from './entities/User';
 

@@ -6,3 +6,7 @@ export class RequestError extends Error {
     this.statusCode = statusCode;
   }
 }
+
+export enum OauthTokenType {
+  Traewelling = 'traewelling',
+}

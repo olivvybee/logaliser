@@ -1,6 +1,9 @@
 import { AuthorizationCode, ModuleOptions, Token } from 'simple-oauth2';
 import { config as loadEnv } from 'dotenv';
 import { USER_AGENT } from '../dataSources.constants';
+import { getDB } from '../../db';
+import { OauthTokenType } from '../dataSources.types';
+import { createDBTokenData } from '../utils';
 
 loadEnv();
 
@@ -53,4 +56,41 @@ export const refreshToken = async (oldToken: Token) => {
   const refreshedToken = await token.refresh({ scope: SCOPES });
 
   return { token: refreshedToken, refreshed: true };
+};
+
+export const getTraewellingToken = async () => {
+  const db = getDB();
+
+  const existingToken = await db.oauthToken.findUnique({
+    where: {
+      id: OauthTokenType.Traewelling,
+    },
+  });
+
+  if (!existingToken) {
+    return null;
+  }
+
+  const { token, refreshed } = await refreshToken({
+    access_token: existingToken.accessToken,
+    refresh_token: existingToken.refreshToken,
+    expires_at: existingToken.expiresAt,
+  });
+
+  if (!refreshed) {
+    return existingToken;
+  }
+
+  const newTokenData = createDBTokenData(OauthTokenType.Traewelling, token);
+
+  const newToken = await db.oauthToken.update({
+    where: {
+      id: OauthTokenType.Traewelling,
+    },
+    data: {
+      ...newTokenData,
+    },
+  });
+
+  return newToken;
 };
