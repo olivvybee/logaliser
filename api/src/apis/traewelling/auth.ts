@@ -1,4 +1,4 @@
-import { AuthorizationCode, ModuleOptions } from 'simple-oauth2';
+import { AuthorizationCode, ModuleOptions, Token } from 'simple-oauth2';
 import { config as loadEnv } from 'dotenv';
 import { USER_AGENT } from '../apis.constants';
 
@@ -39,4 +39,18 @@ export const getTokenFromCode = async (code: string, redirectUri: string) => {
     },
     { json: true }
   );
+};
+
+export const refreshToken = async (oldToken: Token) => {
+  const client = new AuthorizationCode(OAUTH_CONFIG);
+
+  const token = client.createToken(oldToken);
+
+  if (!token.expired()) {
+    return { token, refreshed: false };
+  }
+
+  const refreshedToken = await token.refresh({ scope: SCOPES });
+
+  return { token: refreshedToken, refreshed: true };
 };

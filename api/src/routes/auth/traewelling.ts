@@ -7,9 +7,58 @@ import { OauthToken } from '../../__generated__/prisma/client';
 
 import { OauthTokenType } from './auth.types';
 import { TraewellingClient } from '../../apis/traewelling/client';
-import { getAuthUrl, getTokenFromCode } from '../../apis/traewelling/auth';
+import {
+  getAuthUrl,
+  getTokenFromCode,
+  refreshToken,
+} from '../../apis/traewelling/auth';
+import { AccessToken } from 'simple-oauth2';
 
 export const traewellingHandler = new Hono();
+
+const createDBTokenData = (token: AccessToken): OauthToken => ({
+  id: OauthTokenType.Traewelling,
+  accessToken: token.token.access_token as string,
+  refreshToken: token.token.refresh_token as string,
+  expiresAt: token.token.expires_at as Date,
+});
+
+const getAndRefreshToken = async () => {
+  const db = getDB();
+
+  const existingToken = await db.oauthToken.findUnique({
+    where: {
+      id: OauthTokenType.Traewelling,
+    },
+  });
+
+  if (!existingToken) {
+    return null;
+  }
+
+  const { token, refreshed } = await refreshToken({
+    access_token: existingToken.accessToken,
+    refresh_token: existingToken.refreshToken,
+    expires_at: existingToken.expiresAt,
+  });
+
+  if (!refreshed) {
+    return existingToken;
+  }
+
+  const newTokenData = createDBTokenData(token);
+
+  const newToken = await db.oauthToken.update({
+    where: {
+      id: OauthTokenType.Traewelling,
+    },
+    data: {
+      ...newTokenData,
+    },
+  });
+
+  return newToken;
+};
 
 traewellingHandler.get(
   '/status',
@@ -17,20 +66,16 @@ traewellingHandler.get(
   async (ctx) => {
     const db = getDB();
 
-    const existingToken = await db.oauthToken.findUnique({
-      where: {
-        id: OauthTokenType.Traewelling,
-      },
-    });
+    const token = await getAndRefreshToken();
 
-    const user = existingToken?.accessToken
-      ? await new TraewellingClient(existingToken.accessToken).user()
+    const user = token?.accessToken
+      ? await new TraewellingClient(token.accessToken).user()
       : null;
 
     const authUrl = getAuthUrl(ctx.req.valid('query').redirectUri);
 
     return ctx.json({
-      connected: !!existingToken,
+      connected: !!token,
       user,
       authUrl,
     });
@@ -47,13 +92,7 @@ traewellingHandler.post(
 
     try {
       const token = await getTokenFromCode(code, redirectUri);
-
-      const tokenData: OauthToken = {
-        id: OauthTokenType.Traewelling,
-        accessToken: token.token.access_token as string,
-        refreshToken: token.token.refresh_token as string,
-        expiresAt: token.token.expires_at as Date,
-      };
+      const tokenData = createDBTokenData(token);
 
       const savedToken = await db.oauthToken.upsert({
         where: {
