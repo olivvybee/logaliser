@@ -1,10 +1,14 @@
-export const getNearbyLatLong = (latitude: number, longitude: number) => ({
+export const getNearbyLatLong = (
+  latitude: number,
+  longitude: number,
+  threshold = 0.25
+) => ({
   latitude: {
-    min: latitude - 0.25,
-    max: latitude + 0.25,
+    min: latitude - threshold,
+    max: latitude + threshold,
   },
   longitude: {
-    min: longitude - 0.25,
-    max: longitude + 0.25,
+    min: longitude - threshold,
+    max: longitude + threshold,
   },
 });
