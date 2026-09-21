@@ -5,7 +5,8 @@ import { HttpClient } from '../httpClient';
 import { TRAIN_MODES } from './constants';
 import { GeocodeData } from './entities/GeocodeData';
 import { LocationType } from './entities/Location';
-import { Stop, TransportMode } from './entities/Stop';
+import { Stop } from './entities/Stop';
+import { Departure } from './entities/Departure';
 
 const BASE_URL = 'https://api.transitous.org/api';
 
@@ -50,5 +51,15 @@ export class TransitousClient extends HttpClient {
     }));
 
     return sortBy(stationsWithDistance, 'distance');
+  };
+
+  public trainDepartures = async (stopId: string) => {
+    const result = await this.get<Departure[]>('/v6/stoptimes', {
+      stopId,
+      modes: TRAIN_MODES.join(','),
+      n: '20',
+    });
+
+    return result;
   };
 }

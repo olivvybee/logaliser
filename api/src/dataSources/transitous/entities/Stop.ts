@@ -39,3 +39,12 @@ export interface Stop {
   modes?: TransportMode[];
   stopCode?: string;
 }
+
+export interface StopDeparture extends Stop {
+  departure?: string;
+  scheduledDeparture?: string;
+  arrival?: string;
+  scheduledArrival?: string;
+  track?: string;
+  scheduledTrack?: string;
+}
